@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Rehber{% endblock %}
+{% block title %}Kaynaklar{% endblock %}
 {% block content %}
 <div class="container mt-4">
-  <h4 class="mb-4"><i class="bi bi-book me-2 text-primary"></i>Bilgi Rehberi</h4>
+  <h4 class="mb-4"><i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>Kaynaklar</h4>
   {% for kategori_ad, sayfalar in kategoriler.items %}
   <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">{{ kategori_ad }}</h6>
   <div class="row g-3">

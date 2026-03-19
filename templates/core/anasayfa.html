@@ -9,7 +9,7 @@
     <p class="mb-4">Mainz ve çevresinde yeni bir başlangıç yapıyorsanız doğru yerdesiniz.<br>
     Resmi işlemler, günlük yaşam, forum ve çok daha fazlası.</p>
     <a href="{% url 'rehber:liste' %}" class="btn btn-light btn-lg me-2">
-      <i class="bi bi-book me-1"></i>Rehbere Bak
+      <i class="bi bi-journal-bookmark-fill me-1"></i>Kaynaklara Bak
     </a>
     {% if not user.is_authenticated %}
     <a href="{% url 'account_signup' %}" class="btn btn-accent btn-lg">
