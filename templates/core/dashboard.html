@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard — Mainzer-Binger{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <!-- Hoş geldin başlığı -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="mb-0">Hoş geldin, <span class="text-primary">{{ user.username }}</span>!</h4>
+      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Mainz &bull; {{ user.date_joined|date:"d.m.Y" }}'den beri üyesin</small>
+    </div>
+    <a href="{% url 'accounts:profil' %}" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-person-gear me-1"></i>Profil
+    </a>
+  </div>
+
+  <!-- Widget satırı -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="widget-card">
+        <span class="widget-icon"><i class="bi bi-megaphone"></i></span>
+        <div class="widget-title">Duyurular</div>
+        <div class="widget-value">{{ son_duyurular.count }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="widget-card">
+        <span class="widget-icon"><i class="bi bi-calendar3"></i></span>
+        <div class="widget-title">Yaklaşan Gün</div>
+        <div class="widget-value">{{ yaklasan.count }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="widget-card">
+        <span class="widget-icon"><i class="bi bi-grid"></i></span>
+        <div class="widget-title">İlanlarım</div>
+        <div class="widget-value">{{ benim_ilanim.count }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <a href="{% url 'forum:liste' %}" class="widget-card text-decoration-none">
+        <span class="widget-icon"><i class="bi bi-chat-dots"></i></span>
+        <div class="widget-title">Forum</div>
+        <div class="widget-value"><i class="bi bi-arrow-right-circle"></i></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Son duyurular -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <span><i class="bi bi-megaphone me-2"></i>Son Duyurular</span>
+          <a href="{% url 'duyurular:liste' %}" class="btn btn-sm btn-outline-primary">Tümü</a>
+        </div>
+        <div class="card-body p-0">
+          {% for d in son_duyurular %}
+          <a href="{% url 'duyurular:detay' d.pk %}" class="d-flex p-3 border-bottom text-decoration-none text-dark">
+            <div class="flex-grow-1">
+              <div class="fw-semibold small">{{ d.baslik }}</div>
+              <small class="text-muted">{{ d.get_kategori_display }} &bull; {{ d.olusturulma|date:"d.m.Y" }}</small>
+            </div>
+          </a>
+          {% empty %}
+          <p class="text-muted p-3 mb-0 small">Duyuru bulunamadı.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Yaklaşan günler -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <span><i class="bi bi-calendar3 me-2"></i>Yaklaşan Günler</span>
+          <a href="{% url 'takvim:takvim' %}" class="btn btn-sm btn-outline-primary">Takvim</a>
+        </div>
+        <div class="card-body p-0">
+          {% for e in yaklasan %}
+          <div class="d-flex align-items-center p-3 border-bottom">
+            <div class="me-3 text-center" style="min-width:44px">
+              <div class="fw-bold text-primary">{{ e.tarih|date:"d" }}</div>
+              <div class="text-muted" style="font-size:0.72rem">{{ e.tarih|date:"M" }}</div>
+            </div>
+            <div>
+              <div class="small fw-semibold">{{ e.baslik }}</div>
+              <small class="text-muted">{{ e.get_tur_display }}</small>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-muted p-3 mb-0 small">Yaklaşan etkinlik yok.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- İlanlarım -->
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <span><i class="bi bi-grid me-2"></i>İlanlarım</span>
+          <a href="{% url 'ilan:ver' %}" class="btn btn-sm btn-accent">
+            <i class="bi bi-plus me-1"></i>İlan Ver
+          </a>
+        </div>
+        <div class="card-body p-0">
+          {% for i in benim_ilanim %}
+          <div class="d-flex align-items-center p-3 border-bottom">
+            <div class="flex-grow-1">
+              <div class="small fw-semibold">{{ i.baslik }}</div>
+              <small class="text-muted">{{ i.get_kategori_display }}{% if i.fiyat %} &bull; {{ i.fiyat }} €{% endif %}</small>
+            </div>
+            <span class="badge {% if i.onaylandi %}bg-success{% else %}bg-warning text-dark{% endif %}">
+              {% if i.onaylandi %}Yayında{% else %}İncelemede{% endif %}
+            </span>
+          </div>
+          {% empty %}
+          <p class="text-muted p-3 mb-0 small">Henüz ilan vermemişsiniz.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

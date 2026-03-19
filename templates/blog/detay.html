@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ yazi.baslik }}{% endblock %}
+{% block content %}
+<div class="container mt-4" style="max-width:760px">
+  <a href="{% url 'blog:liste' %}" class="btn btn-sm btn-outline-secondary mb-3">
+    <i class="bi bi-arrow-left me-1"></i>Blog
+  </a>
+  <div class="card">
+    <div class="card-body p-4">
+      <h4>{{ yazi.baslik }}</h4>
+      <small class="text-muted">{{ yazi.yazar.username }} &bull; {{ yazi.olusturulma|date:"d.m.Y" }}</small>
+      <hr>
+      <div>{{ yazi.icerik|linebreaks }}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

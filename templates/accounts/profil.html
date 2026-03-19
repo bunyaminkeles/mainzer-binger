@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Profilim{% endblock %}
+{% block content %}
+<div class="container mt-4" style="max-width:560px">
+  <h4 class="mb-4"><i class="bi bi-person-gear me-2 text-primary"></i>Profilim</h4>
+  <div class="card">
+    <div class="card-body p-4">
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Şehir</label>
+          <input type="text" name="sehir" class="form-control" value="{{ profil.sehir }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Biyografi <span class="text-muted fw-normal">— opsiyonel</span></label>
+          <textarea name="biyografi" class="form-control" rows="4">{{ profil.biyografi }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-check2 me-2"></i>Kaydet
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

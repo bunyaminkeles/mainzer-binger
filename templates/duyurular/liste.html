@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Duyurular{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h4 class="mb-3"><i class="bi bi-megaphone me-2 text-primary"></i>Duyurular</h4>
+  <div class="row g-3">
+    {% for d in duyurular %}
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <span class="badge-duyuru mb-2 d-inline-block">{{ d.get_kategori_display }}</span>
+          <h6 class="card-title"><a href="{% url 'duyurular:detay' d.pk %}" class="text-dark text-decoration-none">{{ d.baslik }}</a></h6>
+          <p class="card-text text-muted small">{{ d.icerik|truncatechars:120 }}</p>
+          <small class="text-muted">{{ d.olusturulma|date:"d.m.Y" }}</small>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12"><p class="text-muted">Henüz duyuru yok.</p></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

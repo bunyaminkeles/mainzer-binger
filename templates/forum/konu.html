@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ konu.baslik }}{% endblock %}
+{% block content %}
+<div class="container mt-4" style="max-width:800px">
+  <a href="{% url 'forum:liste' %}" class="btn btn-sm btn-outline-secondary mb-3">
+    <i class="bi bi-arrow-left me-1"></i>Forum
+  </a>
+  <div class="card mb-3">
+    <div class="card-body p-4">
+      <h5>{{ konu.baslik }}</h5>
+      <small class="text-muted">{{ konu.yazar.username }} &bull; {{ konu.olusturulma|date:"d.m.Y H:i" }}</small>
+      <hr>
+      <div>{{ konu.icerik|linebreaks }}</div>
+    </div>
+  </div>
+  {% for y in yorumlar %}
+  <div class="card mb-2">
+    <div class="card-body py-3 px-4">
+      <small class="text-muted fw-semibold">{{ y.yazar.username }} &bull; {{ y.olusturulma|date:"d.m.Y H:i" }}</small>
+      <div class="mt-1">{{ y.icerik|linebreaks }}</div>
+    </div>
+  </div>
+  {% endfor %}
+  {% if user.is_authenticated and not konu.kapali %}
+  <div class="card mt-3">
+    <div class="card-body p-4">
+      <form method="post" action="{% url 'forum:yorum_ekle' konu.pk %}">
+        {% csrf_token %}
+        <textarea name="icerik" class="form-control mb-2" rows="3" placeholder="Yanıtınızı yazın..." required></textarea>
+        <button type="submit" class="btn btn-primary btn-sm">
+          <i class="bi bi-send me-1"></i>Gönder
+        </button>
+      </form>
+    </div>
+  </div>
+  {% elif not user.is_authenticated %}
+  <div class="alert alert-light mt-3">
+    <a href="{% url 'account_login' %}">Giriş yapın</a> ve tartışmaya katılın.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

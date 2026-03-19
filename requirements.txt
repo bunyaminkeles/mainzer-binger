@@ -1,0 +1,10 @@
+Django>=4.2,<7.0
+gunicorn>=22.0,<26.0
+dj-database-url
+psycopg2-binary
+whitenoise
+django-crispy-forms
+crispy-bootstrap5
+django-allauth
+python-decouple
+Pillow

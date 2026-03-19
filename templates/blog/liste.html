@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Blog{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h4 class="mb-4"><i class="bi bi-pencil-square me-2 text-primary"></i>Blog</h4>
+  <div class="row g-3">
+    {% for y in yazilar %}
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="card-title"><a href="{% url 'blog:detay' y.slug %}" class="text-dark text-decoration-none">{{ y.baslik }}</a></h6>
+          <p class="small text-muted">{{ y.ozet|default:y.icerik|truncatechars:120 }}</p>
+          <small class="text-muted">{{ y.yazar.username }} &bull; {{ y.olusturulma|date:"d.m.Y" }}</small>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">Henüz yazı yok.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
