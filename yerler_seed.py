@@ -20,7 +20,7 @@ YERLER = [
         'kategori': 'gezi',
         'adres': 'Domstraße 3',
         'sehir': 'Mainz',
-        'website': 'https://www.mainz.de/microsite/dom/index.php',
+        'website': 'https://bistummainz.de/mainzer-dom/start/index.html',
         'maps_url': 'https://maps.google.com/?q=Mainzer+Dom',
         'kapak_resmi': wiki_img('Mainz_Dom_BW_2012-08-18_16-18-12.JPG'),
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Mainzer_Dom',
