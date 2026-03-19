@@ -15,7 +15,7 @@
       <span class="badge bg-success">✓ {{ dogru }}</span>
       <span class="badge bg-danger">✗ {{ yanlis }}</span>
       <span class="text-muted small">{{ gorulmus }} / {{ toplam }}</span>
-      <a href="?sifirla=1" class="btn btn-outline-secondary btn-sm" onclick="return confirm('İlerlemeyi sıfırla?')">
+      <a href="{% url 'almanca:quiz' slug %}?sifirla=1" class="btn btn-outline-secondary btn-sm" onclick="return confirm('İlerlemeyi sıfırla?')">
         <i class="bi bi-arrow-counterclockwise"></i>
       </a>
     </div>
@@ -64,7 +64,7 @@
 
   <!-- Sonraki soru düğmesi -->
   <div class="text-end d-none" id="sonraki-alan">
-    <a href="{% url 'almanca:quiz' thema %}" class="btn btn-primary px-4">
+    <a href="{% url 'almanca:quiz' slug %}" class="btn btn-primary px-4">
       Sonraki Soru <i class="bi bi-arrow-right ms-1"></i>
     </a>
   </div>
@@ -72,7 +72,7 @@
 </div>
 
 <script>
-const CEVAPLA_URL = "{% url 'almanca:cevapla' thema %}";
+const CEVAPLA_URL = "{% url 'almanca:cevapla' slug %}";
 const CSRF = "{{ csrf_token }}";
 
 document.querySelectorAll('.secim-btn').forEach(btn => {

@@ -11,39 +11,22 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).parent / 'data'
 
-KONULAR = {
-    '1-zu_infinitiv.json':          'zu + Infinitiv',
-    '2-satzbau.json':               'Satzbau',
-    '3-wechselprap.json':           'Wechselpräpositionen',
-    '4-reflexive_verben.json':      'Reflexive Verben',
-    '5-relativpronomen.json':       'Relativpronomen',
-    '6-verben_prap.json':           'Verben mit Präpositionen',
-    '7-pronominaladverbien.json':   'Pronominaladverbien',
-    '8-adjektivdeklination.json':   'Adjektivdeklination',
-    '9-n_deklination.json':         'N-Deklination',
-    '10-modalverben.json':          'Modalverben',
-    '11-konnektoren_kausativ.json': 'Konnektoren',
-    '12-Dativ-Akkusativ-Genitiv.json': 'Dativ / Akkusativ / Genitiv',
-    '13-Zweiteilige Konnektoren.json': 'Zweiteilige Konnektoren',
-    '14_dtz_lesen.json':            'DTZ Lesen',
-}
-
-# Türkçe konu adları (navbar için)
-KONU_TR = {
-    'zu + Infinitiv':               'zu + Mastar',
-    'Satzbau':                      'Cümle Yapısı',
-    'Wechselpräpositionen':         'Değişken Edatlar',
-    'Reflexive Verben':             'Dönüşlü Fiiller',
-    'Relativpronomen':              'İlgi Zamirleri',
-    'Verben mit Präpositionen':     'Edatlı Fiiller',
-    'Pronominaladverbien':          'Pronominaladverb',
-    'Adjektivdeklination':          'Sıfat Çekimi',
-    'N-Deklination':                'N-Çekimi',
-    'Modalverben':                  'Modal Fiiller',
-    'Konnektoren':                  'Bağlaçlar',
-    'Dativ / Akkusativ / Genitiv':  'Dativ / Akkusativ / Genitiv',
-    'Zweiteilige Konnektoren':      'İkili Bağlaçlar',
-    'DTZ Lesen':                    'DTZ Okuma',
+# slug → (dosya adı, thema, türkçe ad)
+KONULAR: dict[str, tuple[str, str, str]] = {
+    'zu-infinitiv':          ('1-zu_infinitiv.json',              'zu + Infinitiv',               'zu + Mastar'),
+    'satzbau':               ('2-satzbau.json',                   'Satzbau',                      'Cümle Yapısı'),
+    'wechselpraep':          ('3-wechselprap.json',               'Wechselpräpositionen',         'Değişken Edatlar'),
+    'reflexive-verben':      ('4-reflexive_verben.json',          'Reflexive Verben',             'Dönüşlü Fiiller'),
+    'relativpronomen':       ('5-relativpronomen.json',           'Relativpronomen',              'İlgi Zamirleri'),
+    'verben-praep':          ('6-verben_prap.json',               'Verben mit Präpositionen',     'Edatlı Fiiller'),
+    'pronominaladv':         ('7-pronominaladverbien.json',       'Pronominaladverbien',          'Pronominaladverb'),
+    'adjektivdekl':          ('8-adjektivdeklination.json',       'Adjektivdeklination',          'Sıfat Çekimi'),
+    'n-deklination':         ('9-n_deklination.json',             'N-Deklination',                'N-Çekimi'),
+    'modalverben':           ('10-modalverben.json',              'Modalverben',                  'Modal Fiiller'),
+    'konnektoren':           ('11-konnektoren_kausativ.json',     'Konnektoren',                  'Bağlaçlar'),
+    'dativ-akkusativ':       ('12-Dativ-Akkusativ-Genitiv.json',  'Dativ / Akkusativ / Genitiv',  'Dativ / Akk / Gen'),
+    'zweiteilige-konnekt':   ('13-Zweiteilige Konnektoren.json',  'Zweiteilige Konnektoren',      'İkili Bağlaçlar'),
+    'dtz-lesen':             ('14_dtz_lesen.json',                'DTZ Lesen',                    'DTZ Okuma'),
 }
 
 
@@ -60,10 +43,10 @@ class Soru:
 
 
 def _load_all() -> dict[str, list[Soru]]:
-    """Tüm JSON'ları yükler, thema → [Soru] dict döner."""
+    """Tüm JSON'ları yükler, slug → [Soru] dict döner."""
     bank: dict[str, list[Soru]] = {}
 
-    for fname, thema in KONULAR.items():
+    for slug, (fname, thema, _tr) in KONULAR.items():
         path = DATA_DIR / fname
         if not path.exists():
             continue
@@ -95,7 +78,7 @@ def _load_all() -> dict[str, list[Soru]]:
                     kontext=item.get('kontext', ''),
                 ))
 
-        bank[thema] = sorular
+        bank[slug] = sorular
 
     return bank
 
@@ -105,21 +88,22 @@ _BANK: dict[str, list[Soru]] = _load_all()
 
 
 def konu_listesi() -> list[dict]:
-    """Her konu için {thema, tr, toplam} döner."""
+    """Her konu için {slug, thema, tr, toplam} döner."""
     return [
         {
+            'slug': slug,
             'thema': thema,
-            'tr': KONU_TR.get(thema, thema),
-            'toplam': len(_BANK.get(thema, [])),
+            'tr': tr,
+            'toplam': len(_BANK.get(slug, [])),
         }
-        for thema in KONULAR.values()
-        if thema in _BANK
+        for slug, (_, thema, tr) in KONULAR.items()
+        if slug in _BANK
     ]
 
 
-def rastgele_soru(thema: str, gorulmus: list[str]) -> Soru | None:
+def rastgele_soru(slug: str, gorulmus: list[str]) -> Soru | None:
     """Görülmemiş sorulardan rastgele bir tane döner."""
-    havuz = [s for s in _BANK.get(thema, []) if s.uid not in gorulmus]
+    havuz = [s for s in _BANK.get(slug, []) if s.uid not in gorulmus]
     if not havuz:
         return None
     soru = random.choice(havuz)
@@ -144,5 +128,13 @@ def rastgele_soru(thema: str, gorulmus: list[str]) -> Soru | None:
     )
 
 
-def soru_sayisi(thema: str) -> int:
-    return len(_BANK.get(thema, []))
+def konu_bilgi(slug: str) -> tuple[str, str] | None:
+    """slug → (thema, tr) döner, yoksa None."""
+    entry = KONULAR.get(slug)
+    if not entry:
+        return None
+    return entry[1], entry[2]
+
+
+def soru_sayisi(slug: str) -> int:
+    return len(_BANK.get(slug, []))
