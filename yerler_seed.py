@@ -20,7 +20,7 @@ YERLER = [
         'kategori': 'gezi',
         'adres': 'Domstraße 3',
         'sehir': 'Mainz',
-        'website': 'https://www.bistum-mainz.de/dom/',
+        'website': 'https://www.mainz.de/microsite/dom/index.php',
         'maps_url': 'https://maps.google.com/?q=Mainzer+Dom',
         'kapak_resmi': wiki_img('Mainz_Dom_BW_2012-08-18_16-18-12.JPG'),
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Mainzer_Dom',
@@ -43,7 +43,7 @@ YERLER = [
         'sehir': 'Mainz',
         'website': 'https://www.gutenberg-museum.de/',
         'maps_url': 'https://maps.google.com/?q=Gutenberg+Museum+Mainz',
-        'kapak_resmi': wiki_img('Gutenberg_Museum_Mainz_BW_2012-08-18_13-15-41.JPG'),
+        'kapak_resmi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Tore_am_Gutenberg-Museum,_Liebfrauenplatz,_Mainz.jpg/1280px-Tore_am_Gutenberg-Museum,_Liebfrauenplatz,_Mainz.jpg',
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Gutenberg-Museum',
         'icerik': (
             '<p>Matbaanın mucidi Johannes Gutenberg\'in doğduğu şehirde yer alan bu müzede, dünyada geriye kalan '
