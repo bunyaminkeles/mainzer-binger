@@ -2,13 +2,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Ilan, ILAN_KATEGORI
+from linkler.models import OnemliLink
 
 def liste(request):
     kategori = request.GET.get('kategori', '')
     qs = Ilan.objects.filter(aktif=True, onaylandi=True)
     if kategori:
         qs = qs.filter(kategori=kategori)
-    return render(request, 'ilan/liste.html', {'ilanlar': qs, 'kategoriler': ILAN_KATEGORI, 'secili': kategori})
+    platformlar = OnemliLink.objects.filter(kategori='ilan', aktif=True).order_by('sira')
+    return render(request, 'ilan/liste.html', {
+        'ilanlar': qs,
+        'kategoriler': ILAN_KATEGORI,
+        'secili': kategori,
+        'platformlar': platformlar,
+    })
 
 def detay(request, pk):
     ilan = get_object_or_404(Ilan, pk=pk, aktif=True, onaylandi=True)
