@@ -29,6 +29,15 @@ LINKLER = [
     dict(ad='Mainz Bürgeramt — Randevu', url='https://termine-reservieren.de/termine/buergeramt.mainz/',
          kategori='resmi', sira=4,
          aciklama='Mainz Vatandaşlık Dairesi online randevu — Anmeldung, pasaport, kimlik işlemleri.'),
+    dict(ad='Doctolib — Online Doktor Randevusu', url='https://www.doctolib.de/',
+         kategori='saglik', sira=1,
+         aciklama='Almanya genelinde doktor, uzman ve klinik randevuları için online platform.'),
+    dict(ad='IKK Südwest — Sağlık Sigortası', url='https://www.ikk-suedwest.de/',
+         kategori='saglik', sira=2,
+         aciklama='Mainz bölgesinde yaygın sağlık sigortası — üyelik ve hizmetler.'),
+    dict(ad='AOK — Sağlık Sigortası', url='https://www.aok.de/pk/',
+         kategori='saglik', sira=3,
+         aciklama="Almanya'nın en büyük kamu sağlık sigortası — bilgi ve üyelik başvurusu."),
 ]
 
 # ── Rehber Kaynakları (sadece PDF ve randevu linkleri) ───────────
