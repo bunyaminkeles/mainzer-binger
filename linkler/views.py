@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import OnemliLink, LINK_KATEGORI
+
+def git(request, pk):
+    link = get_object_or_404(OnemliLink, pk=pk, aktif=True)
+    return render(request, 'linkler/git.html', {'link': link})
 
 def liste(request):
     kategori = request.GET.get('kategori', '')

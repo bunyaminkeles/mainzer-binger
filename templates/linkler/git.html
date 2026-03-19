@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Mainzer-Binger | {{ link.ad }}{% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+  <div class="spinner-border text-primary mb-3" role="status"></div>
+  <p class="text-muted">{{ link.ad }} sayfasına yönlendiriliyorsunuz…</p>
+  <a href="{{ link.url }}" class="btn btn-sm btn-outline-secondary mt-2">Hemen Git</a>
+</div>
+<script>window.location.href = "{{ link.url }}";</script>
+{% endblock %}
