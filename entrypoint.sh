@@ -39,6 +39,9 @@ python yerler_seed.py || true
 echo "==> Takvim seed..."
 python takvim_seed.py || true
 
+echo "==> Forum seed..."
+python forum_seed.py || true
+
 echo "==> RSS duyurular..."
 python manage.py rss_cek --sadece-rss || true
 

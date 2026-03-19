@@ -64,6 +64,7 @@ def seed_calistir(request):
         'linkler': 'linkler_seed.py',
         'yerler':  'yerler_seed.py',
         'blog':    'blog_yazilari_ekle.py',
+        'forum':   'forum_seed.py',
     }
 
     if script_param == 'hepsi':
