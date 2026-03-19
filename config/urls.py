@@ -16,4 +16,5 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('yerler/', include('yerler.urls')),
     path('linkler/', include('linkler.urls')),
+    path('api/', include('api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
