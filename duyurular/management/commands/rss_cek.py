@@ -23,10 +23,10 @@ RSS_KAYNAKLAR = [
 
 SCRAPE_KAYNAKLAR = [
     {
-        'url':        'https://mainz-cg.mfa.gov.tr/Mission/Announcements',
+        'url':        'https://mainz-bk.mfa.gov.tr/Mission/Announcements',
         'kategori':   'genel',
-        'kaynak':     'T.C. Mainz Konsolosluğu',
-        'link_base':  'https://mainz-cg.mfa.gov.tr',
+        'kaynak':     'T.C. Mainz Başkonsolosluğu',
+        'link_base':  'https://mainz-bk.mfa.gov.tr',
         'link_match': '/Mission/ShowAnnouncement/',
     },
 ]

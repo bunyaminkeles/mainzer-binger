@@ -30,6 +30,9 @@ print(f'Site: {domain}')
 echo "==> Blog yazilari..."
 python blog_yazilari_ekle.py
 
+echo "==> Linkler ve rehber seed..."
+python linkler_seed.py
+
 echo "==> RSS duyurular..."
 python manage.py rss_cek --sadece-rss || true
 
