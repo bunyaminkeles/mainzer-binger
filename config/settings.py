@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from decouple import config
 import dj_database_url
@@ -6,7 +7,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+
+# Render otomatik hostname desteği
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,6 +28,9 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'allauth',
     'allauth.account',
+
+    # Zamanlayıcı
+    'django_crontab',
 
     # Proje app'leri
     'core',
@@ -114,3 +123,9 @@ LOGOUT_REDIRECT_URL = '/'
 
 # E-posta (lokal: konsola yaz)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Zamanlanmış görevler
+CRONJOBS = [
+    # Her gece 02:00 — RSS duyurularını çek
+    ('0 2 * * *', 'django.core.management.call_command', ['rss_cek']),
+]

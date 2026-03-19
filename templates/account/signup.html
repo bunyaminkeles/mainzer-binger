@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kayıt Ol — Mainzer-Binger</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  {% load static %}
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; min-height: 100vh; background: #0d2a1f; }
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+    }
+
+    /* Sol panel – Mainz görseli (kayıt versiyonu) */
+    .auth-panel-left {
+      flex: 1 1 55%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 4rem;
+      background:
+        linear-gradient(160deg, rgba(13,42,31,0.93) 0%, rgba(38,115,88,0.82) 60%, rgba(74,158,143,0.78) 100%),
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,0.025) 0px,
+          rgba(255,255,255,0.025) 1px,
+          transparent 1px,
+          transparent 50px
+        );
+    }
+
+    /* Dekoratif daireler */
+    .deco-circle-1 {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 50px rgba(255,255,255,0.03);
+    }
+    .deco-circle-2 {
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 60px rgba(255,255,255,0.025);
+    }
+    .deco-circle-3 {
+      position: absolute;
+      top: 50%;
+      right: 10%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .back-to-home {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+    .back-to-home:hover { color: #fff; }
+
+    .auth-left-content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      text-align: center;
+      max-width: 480px;
+    }
+    .auth-logo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    /* Ren nehri SVG görseli */
+    .rhine-scene {
+      width: 320px;
+      margin: 0 auto 2rem;
+      display: block;
+    }
+
+    .auth-left-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .auth-left-title span { color: #7dd3c8; }
+    .auth-left-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      display: inline-block;
+    }
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.6rem 0;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.93rem;
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      background: rgba(125,211,200,0.25);
+      border: 1px solid rgba(125,211,200,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7dd3c8;
+      flex-shrink: 0;
+    }
+
+    /* Sağ panel */
+    .auth-panel-right {
+      flex: 0 0 440px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.5rem 2.5rem;
+      overflow-y: auto;
+    }
+
+    .auth-form-header { margin-bottom: 1.8rem; }
+    .auth-form-header .form-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #2C5F8A;
+      margin-bottom: 0.9rem;
+      text-decoration: none;
+    }
+    .auth-form-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a2d3d;
+      margin-bottom: 0.3rem;
+    }
+    .auth-form-header p {
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    /* Form alanları */
+    .auth-field { margin-bottom: 1rem; }
+    .auth-field label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #2d3748;
+      margin-bottom: 0.35rem;
+    }
+    .auth-field-input { position: relative; }
+    .auth-field-input i {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0aec0;
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+    .auth-form input[type="text"],
+    .auth-form input[type="email"],
+    .auth-form input[type="password"] {
+      display: block;
+      width: 100%;
+      padding: 0.6rem 0.9rem 0.6rem 2.5rem;
+      font-size: 0.92rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #2d3748;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none;
+    }
+    .auth-form input:focus {
+      border-color: #4A9E8F;
+      box-shadow: 0 0 0 3px rgba(74,158,143,0.12);
+      background: #fff;
+    }
+    .field-error {
+      font-size: 0.78rem;
+      color: #e53e3e;
+      margin-top: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .field-help {
+      font-size: 0.78rem;
+      color: #a0aec0;
+      margin-top: 0.25rem;
+    }
+
+    /* Şifre güçlüğü */
+    .password-tips {
+      background: #f0faf8;
+      border: 1px solid #c6ede8;
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.3rem;
+    }
+    .password-tips p {
+      font-size: 0.75rem;
+      color: #2d6a62;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .auth-submit-btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #4A9E8F 0%, #2d7a6e 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      margin-top: 1.3rem;
+      letter-spacing: 0.3px;
+    }
+    .auth-submit-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .terms-note {
+      font-size: 0.78rem;
+      color: #a0aec0;
+      text-align: center;
+      margin-top: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.2rem 0;
+      color: #cbd5e0;
+      font-size: 0.85rem;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .auth-alt-link {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #718096;
+    }
+    .auth-alt-link a {
+      color: #2C5F8A;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .auth-alt-link a:hover { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      .auth-panel-left { display: none; }
+      .auth-panel-right { flex: 1; max-width: 100%; padding: 2rem 1.5rem; }
+      .auth-wrapper { justify-content: center; background: linear-gradient(135deg, #267358 0%, #4A9E8F 100%); }
+      .auth-panel-right { border-radius: 16px; margin: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    }
+  </style>
+</head>
+<body>
+
+<a href="{% url 'core:anasayfa' %}" class="back-to-home">
+  <i class="bi bi-arrow-left"></i> Ana Sayfa
+</a>
+
+<div class="auth-wrapper">
+  <!-- Sol Panel -->
+  <div class="auth-panel-left">
+    <div class="deco-circle-1"></div>
+    <div class="deco-circle-2"></div>
+    <div class="deco-circle-3"></div>
+
+    <div class="auth-left-content">
+      <div class="auth-logo">
+        <i class="bi bi-geo-alt-fill"></i> Mainzer-Binger
+      </div>
+
+      <!-- Ren Nehri & Mainz Panorama -->
+      <svg class="rhine-scene" viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+        <!-- Gökyüzü -->
+        <rect width="320" height="180" fill="none"/>
+        <!-- Binalar sol -->
+        <rect x="10" y="90" width="30" height="70" fill="rgba(255,255,255,0.15)" rx="2"/>
+        <rect x="18" y="100" width="8" height="10" fill="rgba(0,0,0,0.2)" rx="1"/>
+        <rect x="30" y="100" width="8" height="10" fill="rgba(0,0,0,0.2)" rx="1"/>
+        <rect x="18" y="118" width="8" height="10" fill="rgba(0,0,0,0.2)" rx="1"/>
+        <rect x="30" y="118" width="8" height="10" fill="rgba(0,0,0,0.2)" rx="1"/>
+        <!-- Dom ana yapı -->
+        <rect x="90" y="50" width="140" height="120" fill="rgba(255,255,255,0.18)" rx="3"/>
+        <!-- Sol kule -->
+        <rect x="85" y="25" width="30" height="145" fill="rgba(255,255,255,0.2)" rx="2"/>
+        <polygon points="85,25 100,0 115,25" fill="rgba(255,255,255,0.25)"/>
+        <!-- Sağ kule -->
+        <rect x="205" y="25" width="30" height="145" fill="rgba(255,255,255,0.2)" rx="2"/>
+        <polygon points="205,25 220,0 235,25" fill="rgba(255,255,255,0.25)"/>
+        <!-- Merkez kule -->
+        <rect x="140" y="35" width="40" height="135" fill="rgba(255,255,255,0.22)" rx="2"/>
+        <polygon points="140,35 160,10 180,35" fill="rgba(255,255,255,0.28)"/>
+        <!-- Pencereler -->
+        <circle cx="160" cy="50" r="10" fill="rgba(0,0,0,0.2)"/>
+        <rect x="93" y="40" width="8" height="12" fill="rgba(0,0,0,0.15)" rx="1"/>
+        <rect x="105" y="40" width="8" height="12" fill="rgba(0,0,0,0.15)" rx="1"/>
+        <rect x="213" y="40" width="8" height="12" fill="rgba(0,0,0,0.15)" rx="1"/>
+        <rect x="225" y="40" width="8" height="12" fill="rgba(0,0,0,0.15)" rx="1"/>
+        <!-- Binalar sağ -->
+        <rect x="280" y="100" width="30" height="60" fill="rgba(255,255,255,0.12)" rx="2"/>
+        <polygon points="280,100 295,80 310,100" fill="rgba(255,255,255,0.15)"/>
+        <!-- Ren Nehri -->
+        <path d="M0 155 Q80 148 160 155 Q240 162 320 152 L320 180 L0 180 Z" fill="rgba(74,158,143,0.5)"/>
+        <path d="M0 162 Q60 158 120 162 Q200 168 280 160 L320 163 L320 180 L0 180 Z" fill="rgba(74,158,143,0.35)"/>
+        <!-- Yansıma -->
+        <path d="M85 168 Q100 164 115 168" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none"/>
+        <path d="M140 170 Q160 166 180 170" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none"/>
+        <path d="M205 168 Q220 164 235 168" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none"/>
+      </svg>
+
+      <h1 class="auth-left-title">
+        <span>Mainz</span>'te Yeni misin?<br>Topluluğa Katıl!
+      </h1>
+      <p class="auth-left-desc">
+        Ücretsiz hesap oluştur, binlerce Türkle iletişime geç,
+        Mainz yaşamını kolaylaştır.
+      </p>
+      <ol class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <span>E-posta ve kullanıcı adını gir</span>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <span>Güçlü bir şifre belirle</span>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <span>Foruma giriş yap ve keşfetmeye başla!</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Sağ Panel -->
+  <div class="auth-panel-right">
+    <div class="auth-form-header">
+      <a href="{% url 'core:anasayfa' %}" class="form-logo">
+        <i class="bi bi-geo-alt-fill" style="color:#4A9E8F"></i> Mainzer-Binger
+      </a>
+      <h2>Hesap Oluştur</h2>
+      <p>Ücretsiz katıl, topluluğun bir parçası ol.</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-3 py-2" role="alert" style="border-radius:8px;font-size:0.88rem;">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger mb-3 py-2" style="border-radius:8px;font-size:0.88rem;">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'account_signup' %}" class="auth-form">
+      {% csrf_token %}
+      {{ redirect_field }}
+
+      <!-- İki kolonlu: e-posta ve kullanıcı adı -->
+      <div class="row g-2 mb-0">
+        {% for field in form %}
+          {% if field.name == 'email' %}
+            <div class="col-12">
+              <div class="auth-field">
+                <label for="{{ field.id_for_label }}">
+                  <i class="bi bi-envelope me-1 text-muted"></i>{{ field.label }}
+                </label>
+                <div class="auth-field-input">
+                  <i class="bi bi-envelope"></i>
+                  {{ field }}
+                </div>
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    <div class="field-error"><i class="bi bi-exclamation-circle"></i>{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+          {% if field.name == 'username' %}
+            <div class="col-12">
+              <div class="auth-field">
+                <label for="{{ field.id_for_label }}">
+                  <i class="bi bi-person me-1 text-muted"></i>{{ field.label }}
+                </label>
+                <div class="auth-field-input">
+                  <i class="bi bi-person"></i>
+                  {{ field }}
+                </div>
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    <div class="field-error"><i class="bi bi-exclamation-circle"></i>{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
+                {% if field.help_text %}
+                  <div class="field-help">{{ field.help_text }}</div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% for field in form %}
+        {% if field.name == 'password1' %}
+          <div class="auth-field">
+            <label for="{{ field.id_for_label }}">
+              <i class="bi bi-lock me-1 text-muted"></i>{{ field.label }}
+            </label>
+            <div class="auth-field-input">
+              <i class="bi bi-lock"></i>
+              {{ field }}
+            </div>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <div class="field-error"><i class="bi bi-exclamation-circle"></i>{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+            <div class="password-tips">
+              <p><i class="bi bi-info-circle me-1"></i>En az 8 karakter, sadece rakamlardan oluşmamalı.</p>
+            </div>
+          </div>
+        {% endif %}
+        {% if field.name == 'password2' %}
+          <div class="auth-field">
+            <label for="{{ field.id_for_label }}">
+              <i class="bi bi-lock-fill me-1 text-muted"></i>{{ field.label }}
+            </label>
+            <div class="auth-field-input">
+              <i class="bi bi-lock-fill"></i>
+              {{ field }}
+            </div>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <div class="field-error"><i class="bi bi-exclamation-circle"></i>{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <button type="submit" class="auth-submit-btn">
+        <i class="bi bi-person-plus me-2"></i>Ücretsiz Kayıt Ol
+      </button>
+
+      <p class="terms-note">
+        Kayıt olarak topluluğun kurallarını kabul etmiş olursunuz.
+      </p>
+    </form>
+
+    <div class="auth-divider">zaten üye misin?</div>
+    <div class="auth-alt-link">
+      <a href="{% url 'account_login' %}">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

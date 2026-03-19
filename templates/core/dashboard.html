@@ -1,128 +1,604 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard — Mainzer-Binger{% endblock %}
+{% block title %}Panelim — Mainzer-Binger{% endblock %}
+
+{% block extra_css %}
+<style>
+  .dashboard-hero {
+    background: linear-gradient(135deg, #2C5F8A 0%, #1a3d5c 60%, #4A9E8F 100%);
+    color: #fff;
+    padding: 2rem 0 3.5rem;
+    margin-bottom: -2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .dashboard-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    background: var(--bg);
+    border-radius: 16px 16px 0 0;
+  }
+  .dashboard-hero .deco {
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.08);
+    box-shadow: inset 0 0 0 50px rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+  .dashboard-hero .deco2 {
+    position: absolute;
+    right: 100px;
+    bottom: -100px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-avatar {
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .hero-username {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+  }
+  .hero-meta {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+  .hero-meta i { margin-right: 0.3rem; }
+
+  /* Stat kartları */
+  .stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.25rem 1.1rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    color: inherit;
+  }
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .stat-icon.blue   { background: rgba(44,95,138,0.1);  color: #2C5F8A; }
+  .stat-icon.teal   { background: rgba(74,158,143,0.1); color: #4A9E8F; }
+  .stat-icon.orange { background: rgba(237,137,54,0.1); color: #ed8936; }
+  .stat-icon.purple { background: rgba(128,90,213,0.1); color: #805AD5; }
+  .stat-icon.red    { background: rgba(229,62,62,0.1);  color: #e53e3e; }
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* Hızlı nav */
+  .quick-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  .quick-nav-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 0.75rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .quick-nav-item:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(74,158,143,0.15);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .quick-nav-item i {
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+  .quick-nav-item span {
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  /* İçerik kartları */
+  .content-card { border: 1px solid var(--border); border-radius: 12px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.05); overflow: hidden; }
+  .content-card .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 1.25rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  .content-card .card-header .header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .list-item-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .list-item-link:last-child { border-bottom: none; }
+  .list-item-link:hover { background: #f8faff; color: var(--primary); }
+  .list-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(44,95,138,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+  .list-item-body { flex: 1; min-width: 0; }
+  .list-item-title { font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.1rem; }
+  .list-item-meta { font-size: 0.75rem; color: var(--text-muted); }
+
+  .list-item-plain {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .list-item-plain:last-child { border-bottom: none; }
+
+  /* Tarih badge */
+  .date-badge {
+    min-width: 42px;
+    text-align: center;
+    background: rgba(44,95,138,0.07);
+    border-radius: 8px;
+    padding: 0.3rem 0.4rem;
+  }
+  .date-badge .day { font-size: 1.1rem; font-weight: 800; color: var(--primary); line-height: 1; }
+  .date-badge .month { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+
+  /* Blog kartı */
+  .blog-mini {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .blog-mini:last-child { border-bottom: none; }
+  .blog-mini:hover { background: #f8faff; }
+  .blog-mini-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(74,158,143,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* Forum konu satırı */
+  .forum-row-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(128,90,213,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #805AD5;
+    flex-shrink: 0;
+  }
+
+  /* Profil kutusu */
+  .profile-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .profile-avatar-lg {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #2C5F8A, #4A9E8F);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 700;
+    margin: 0 auto 0.75rem;
+  }
+
+  /* Boş durum */
+  .empty-state {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+  .empty-state i { font-size: 1.8rem; display: block; margin-bottom: 0.4rem; opacity: 0.4; }
+
+  /* İlan badge */
+  .ilan-badge {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 576px) {
+    .quick-nav-grid { grid-template-columns: repeat(4, 1fr); }
+    .quick-nav-item span { font-size: 0.68rem; }
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
 
-  <!-- Hoş geldin başlığı -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h4 class="mb-0">Hoş geldin, <span class="text-primary">{{ user.username }}</span>!</h4>
-      <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Mainz &bull; {{ user.date_joined|date:"d.m.Y" }}'den beri üyesin</small>
+<!-- Hero Banner -->
+<div class="dashboard-hero">
+  <div class="deco"></div>
+  <div class="deco2"></div>
+  <div class="container">
+    <div class="d-flex align-items-center gap-3">
+      <div class="hero-avatar">{{ user.username|first|upper }}</div>
+      <div>
+        <div class="hero-username">Merhaba, {{ user.username }}! 👋</div>
+        <div class="hero-meta">
+          <i class="bi bi-geo-alt-fill"></i>{{ profil.sehir|default:"Mainz" }}
+          &ensp;•&ensp;
+          <i class="bi bi-calendar3"></i>{{ user.date_joined|date:"d.m.Y" }}'den beri üye
+        </div>
+      </div>
     </div>
-    <a href="{% url 'accounts:profil' %}" class="btn btn-outline-primary btn-sm">
-      <i class="bi bi-person-gear me-1"></i>Profil
-    </a>
   </div>
+</div>
 
-  <!-- Widget satırı -->
+<div class="container pb-5" style="margin-top: 2.5rem;">
+
+  <!-- İstatistik Kartları -->
   <div class="row g-3 mb-4">
-    <div class="col-6 col-md-3">
-      <div class="widget-card">
-        <span class="widget-icon"><i class="bi bi-megaphone"></i></span>
-        <div class="widget-title">Duyurular</div>
-        <div class="widget-value">{{ son_duyurular.count }}</div>
+    <div class="col-6 col-sm-4 col-md">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="bi bi-megaphone-fill"></i></div>
+        <div>
+          <div class="stat-label">Duyurular</div>
+          <div class="stat-value">{{ son_duyurular.count }}</div>
+          <div class="stat-sub">yeni duyuru</div>
+        </div>
       </div>
     </div>
-    <div class="col-6 col-md-3">
-      <div class="widget-card">
-        <span class="widget-icon"><i class="bi bi-calendar3"></i></span>
-        <div class="widget-title">Yaklaşan Gün</div>
-        <div class="widget-value">{{ yaklasan.count }}</div>
-      </div>
+    <div class="col-6 col-sm-4 col-md">
+      <a href="{% url 'takvim:takvim' %}" class="stat-card">
+        <div class="stat-icon teal"><i class="bi bi-calendar-event-fill"></i></div>
+        <div>
+          <div class="stat-label">Etkinlik</div>
+          <div class="stat-value">{{ yaklasan.count }}</div>
+          <div class="stat-sub">yaklaşan gün</div>
+        </div>
+      </a>
     </div>
-    <div class="col-6 col-md-3">
-      <div class="widget-card">
-        <span class="widget-icon"><i class="bi bi-grid"></i></span>
-        <div class="widget-title">İlanlarım</div>
-        <div class="widget-value">{{ benim_ilanim.count }}</div>
-      </div>
+    <div class="col-6 col-sm-4 col-md">
+      <a href="{% url 'ilan:liste' %}" class="stat-card">
+        <div class="stat-icon orange"><i class="bi bi-grid-fill"></i></div>
+        <div>
+          <div class="stat-label">İlanlarım</div>
+          <div class="stat-value">{{ benim_ilanim.count }}</div>
+          <div class="stat-sub">aktif ilan</div>
+        </div>
+      </a>
     </div>
-    <div class="col-6 col-md-3">
-      <a href="{% url 'forum:liste' %}" class="widget-card text-decoration-none">
-        <span class="widget-icon"><i class="bi bi-chat-dots"></i></span>
-        <div class="widget-title">Forum</div>
-        <div class="widget-value"><i class="bi bi-arrow-right-circle"></i></div>
+    <div class="col-6 col-sm-4 col-md">
+      <a href="{% url 'forum:liste' %}" class="stat-card">
+        <div class="stat-icon purple"><i class="bi bi-chat-dots-fill"></i></div>
+        <div>
+          <div class="stat-label">Konularım</div>
+          <div class="stat-value">{{ benim_konularim }}</div>
+          <div class="stat-sub">forum konusu</div>
+        </div>
       </a>
     </div>
   </div>
 
-  <div class="row g-4">
-    <!-- Son duyurular -->
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <span><i class="bi bi-megaphone me-2"></i>Son Duyurular</span>
-          <a href="{% url 'duyurular:liste' %}" class="btn btn-sm btn-outline-primary">Tümü</a>
-        </div>
-        <div class="card-body p-0">
-          {% for d in son_duyurular %}
-          <a href="{% url 'duyurular:detay' d.pk %}" class="d-flex p-3 border-bottom text-decoration-none text-dark">
-            <div class="flex-grow-1">
-              <div class="fw-semibold small">{{ d.baslik }}</div>
-              <small class="text-muted">{{ d.get_kategori_display }} &bull; {{ d.olusturulma|date:"d.m.Y" }}</small>
-            </div>
-          </a>
-          {% empty %}
-          <p class="text-muted p-3 mb-0 small">Duyuru bulunamadı.</p>
-          {% endfor %}
-        </div>
-      </div>
+  <!-- Hızlı Navigasyon -->
+  <div class="mb-4">
+    <h6 class="text-muted text-uppercase fw-bold small mb-3" style="letter-spacing:1px;">
+      <i class="bi bi-lightning-charge me-1"></i>Hızlı Erişim
+    </h6>
+    <div class="quick-nav-grid">
+      <a href="{% url 'rehber:liste' %}" class="quick-nav-item">
+        <i class="bi bi-book"></i>
+        <span>Rehber</span>
+      </a>
+      <a href="{% url 'duyurular:liste' %}" class="quick-nav-item">
+        <i class="bi bi-megaphone"></i>
+        <span>Duyurular</span>
+      </a>
+      <a href="{% url 'takvim:takvim' %}" class="quick-nav-item">
+        <i class="bi bi-calendar3"></i>
+        <span>Takvim</span>
+      </a>
+      <a href="{% url 'forum:liste' %}" class="quick-nav-item">
+        <i class="bi bi-chat-dots"></i>
+        <span>Forum</span>
+      </a>
+      <a href="{% url 'blog:liste' %}" class="quick-nav-item">
+        <i class="bi bi-pencil-square"></i>
+        <span>Blog</span>
+      </a>
+      <a href="{% url 'ilan:liste' %}" class="quick-nav-item">
+        <i class="bi bi-grid"></i>
+        <span>İlanlar</span>
+      </a>
+      <a href="{% url 'yerler:liste' %}" class="quick-nav-item">
+        <i class="bi bi-geo-alt"></i>
+        <span>Yerler</span>
+      </a>
+      <a href="{% url 'linkler:liste' %}" class="quick-nav-item">
+        <i class="bi bi-link-45deg"></i>
+        <span>Linkler</span>
+      </a>
     </div>
+  </div>
 
-    <!-- Yaklaşan günler -->
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <span><i class="bi bi-calendar3 me-2"></i>Yaklaşan Günler</span>
-          <a href="{% url 'takvim:takvim' %}" class="btn btn-sm btn-outline-primary">Takvim</a>
+  <!-- Ana İçerik -->
+  <div class="row g-4">
+
+    <!-- Sol kolon -->
+    <div class="col-lg-8">
+
+      <!-- Son Duyurular -->
+      <div class="content-card mb-4">
+        <div class="card-header">
+          <div class="header-left">
+            <i class="bi bi-megaphone-fill text-primary"></i>
+            Son Duyurular
+          </div>
+          <a href="{% url 'duyurular:liste' %}" class="btn btn-sm btn-outline-primary" style="font-size:0.8rem;padding:0.25rem 0.65rem;">Tümü</a>
         </div>
-        <div class="card-body p-0">
-          {% for e in yaklasan %}
-          <div class="d-flex align-items-center p-3 border-bottom">
-            <div class="me-3 text-center" style="min-width:44px">
-              <div class="fw-bold text-primary">{{ e.tarih|date:"d" }}</div>
-              <div class="text-muted" style="font-size:0.72rem">{{ e.tarih|date:"M" }}</div>
+        {% for d in son_duyurular %}
+          <a href="{% url 'duyurular:detay' d.pk %}" class="list-item-link">
+            <div class="list-item-icon"><i class="bi bi-bell"></i></div>
+            <div class="list-item-body">
+              <div class="list-item-title">{{ d.baslik }}</div>
+              <div class="list-item-meta">
+                <span class="badge badge-duyuru me-1">{{ d.get_kategori_display }}</span>
+                {{ d.olusturulma|date:"d.m.Y" }}
+              </div>
             </div>
-            <div>
-              <div class="small fw-semibold">{{ e.baslik }}</div>
-              <small class="text-muted">{{ e.get_tur_display }}</small>
+            <i class="bi bi-chevron-right text-muted small"></i>
+          </a>
+        {% empty %}
+          <div class="empty-state">
+            <i class="bi bi-bell-slash"></i>
+            Henüz duyuru yok.
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Son Forum Konuları -->
+      <div class="content-card mb-4">
+        <div class="card-header">
+          <div class="header-left">
+            <i class="bi bi-chat-dots-fill" style="color:#805AD5"></i>
+            Son Forum Konuları
+          </div>
+          <div class="d-flex gap-2">
+            <a href="{% url 'forum:liste' %}" class="btn btn-sm btn-accent" style="font-size:0.8rem;padding:0.25rem 0.65rem;">
+              <i class="bi bi-plus me-1"></i>Konu Aç
+            </a>
+            <a href="{% url 'forum:liste' %}" class="btn btn-sm btn-outline-primary" style="font-size:0.8rem;padding:0.25rem 0.65rem;">Tümü</a>
+          </div>
+        </div>
+        {% for k in son_konular %}
+          <a href="{% url 'forum:konu' k.pk %}" class="list-item-link">
+            <div class="forum-row-icon"><i class="bi bi-chat-text"></i></div>
+            <div class="list-item-body">
+              <div class="list-item-title">{{ k.baslik }}</div>
+              <div class="list-item-meta">
+                {{ k.kategori.ad }} &bull; {{ k.yazar.username|default:"?" }} &bull; {{ k.guncelleme|date:"d.m.Y" }}
+                {% if k.yorumlar.count %}
+                  &bull; <i class="bi bi-chat-right-text"></i> {{ k.yorumlar.count }}
+                {% endif %}
+              </div>
+            </div>
+            {% if k.sabitlendi %}
+              <span class="badge bg-warning text-dark" style="font-size:0.7rem;"><i class="bi bi-pin-fill"></i></span>
+            {% endif %}
+            <i class="bi bi-chevron-right text-muted small"></i>
+          </a>
+        {% empty %}
+          <div class="empty-state">
+            <i class="bi bi-chat-square"></i>
+            Henüz forum konusu yok. İlk konuyu sen aç!
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Yaklaşan Etkinlikler -->
+      <div class="content-card">
+        <div class="card-header">
+          <div class="header-left">
+            <i class="bi bi-calendar-event-fill text-success"></i>
+            Yaklaşan Etkinlikler
+          </div>
+          <a href="{% url 'takvim:takvim' %}" class="btn btn-sm btn-outline-primary" style="font-size:0.8rem;padding:0.25rem 0.65rem;">Takvim</a>
+        </div>
+        {% for e in yaklasan %}
+          <div class="list-item-plain">
+            <div class="date-badge">
+              <div class="day">{{ e.tarih|date:"d" }}</div>
+              <div class="month">{{ e.tarih|date:"M" }}</div>
+            </div>
+            <div class="list-item-body">
+              <div class="list-item-title">{{ e.baslik }}</div>
+              <div class="list-item-meta">{{ e.get_tur_display }} &bull; {{ e.tarih|date:"l, d F Y" }}</div>
             </div>
           </div>
-          {% empty %}
-          <p class="text-muted p-3 mb-0 small">Yaklaşan etkinlik yok.</p>
-          {% endfor %}
-        </div>
+        {% empty %}
+          <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            Yaklaşan etkinlik yok.
+          </div>
+        {% endfor %}
       </div>
+
     </div>
 
-    <!-- İlanlarım -->
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <span><i class="bi bi-grid me-2"></i>İlanlarım</span>
-          <a href="{% url 'ilan:ver' %}" class="btn btn-sm btn-accent">
-            <i class="bi bi-plus me-1"></i>İlan Ver
+    <!-- Sağ kolon -->
+    <div class="col-lg-4">
+
+      <!-- Profil Özeti -->
+      <div class="profile-box mb-4">
+        <div class="profile-avatar-lg">{{ user.username|first|upper }}</div>
+        <div class="text-center mb-3">
+          <div class="fw-bold">{{ user.username }}</div>
+          <div class="text-muted small">{{ user.email }}</div>
+          {% if profil.biyografi %}
+            <div class="small mt-1 text-muted">{{ profil.biyografi|truncatewords:15 }}</div>
+          {% endif %}
+          <div class="small text-muted mt-1">
+            <i class="bi bi-geo-alt me-1"></i>{{ profil.sehir|default:"Mainz" }}
+          </div>
+        </div>
+        <a href="{% url 'accounts:profil' %}" class="btn btn-outline-primary btn-sm w-100">
+          <i class="bi bi-person-gear me-1"></i>Profili Düzenle
+        </a>
+      </div>
+
+      <!-- İlanlarım -->
+      <div class="content-card mb-4">
+        <div class="card-header">
+          <div class="header-left">
+            <i class="bi bi-grid-fill text-warning"></i>
+            İlanlarım
+          </div>
+          <a href="{% url 'ilan:ver' %}" class="btn btn-sm btn-accent" style="font-size:0.8rem;padding:0.25rem 0.65rem;">
+            <i class="bi bi-plus"></i> Yeni
           </a>
         </div>
-        <div class="card-body p-0">
-          {% for i in benim_ilanim %}
-          <div class="d-flex align-items-center p-3 border-bottom">
-            <div class="flex-grow-1">
-              <div class="small fw-semibold">{{ i.baslik }}</div>
-              <small class="text-muted">{{ i.get_kategori_display }}{% if i.fiyat %} &bull; {{ i.fiyat }} €{% endif %}</small>
+        {% for i in benim_ilanim %}
+          <div class="list-item-plain">
+            <div class="list-item-body">
+              <div class="list-item-title" style="font-size:0.85rem;">{{ i.baslik }}</div>
+              <div class="list-item-meta">
+                {{ i.get_kategori_display }}
+                {% if i.fiyat %} &bull; {{ i.fiyat }} €{% endif %}
+              </div>
             </div>
-            <span class="badge {% if i.onaylandi %}bg-success{% else %}bg-warning text-dark{% endif %}">
-              {% if i.onaylandi %}Yayında{% else %}İncelemede{% endif %}
+            <span class="ilan-badge {% if i.onaylandi %}bg-success text-white{% else %}bg-warning text-dark{% endif %}">
+              {% if i.onaylandi %}Yayında{% else %}İnceleme{% endif %}
             </span>
           </div>
-          {% empty %}
-          <p class="text-muted p-3 mb-0 small">Henüz ilan vermemişsiniz.</p>
-          {% endfor %}
-        </div>
+        {% empty %}
+          <div class="empty-state">
+            <i class="bi bi-grid"></i>
+            Henüz ilan vermediniz.
+          </div>
+        {% endfor %}
       </div>
-    </div>
 
+      <!-- Son Blog Yazıları -->
+      <div class="content-card">
+        <div class="card-header">
+          <div class="header-left">
+            <i class="bi bi-pencil-fill text-info"></i>
+            Son Blog Yazıları
+          </div>
+          <a href="{% url 'blog:liste' %}" class="btn btn-sm btn-outline-primary" style="font-size:0.8rem;padding:0.25rem 0.65rem;">Tümü</a>
+        </div>
+        {% for b in son_bloglar %}
+          <a href="{% url 'blog:detay' b.slug %}" class="blog-mini">
+            <div class="blog-mini-icon"><i class="bi bi-pencil-square"></i></div>
+            <div class="list-item-body">
+              <div class="list-item-title">{{ b.baslik }}</div>
+              <div class="list-item-meta">{{ b.yazar.username|default:"?" }} &bull; {{ b.olusturulma|date:"d.m.Y" }}</div>
+            </div>
+          </a>
+        {% empty %}
+          <div class="empty-state">
+            <i class="bi bi-pencil"></i>
+            Henüz blog yazısı yok.
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
   </div>
+
 </div>
 {% endblock %}

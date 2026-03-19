@@ -5,18 +5,26 @@ from ilan.models import Ilan
 from django.utils import timezone
 from takvim.models import Etkinlik
 from duyurular.models import Duyuru
+from forum.models import Konu
+from blog.models import BlogYazisi
 
 @login_required
 def dashboard(request):
     profil, _ = Profil.objects.get_or_create(kullanici=request.user)
-    son_duyurular = Duyuru.objects.filter(yayinda=True).order_by('-olusturulma')[:5]
-    yaklasan      = Etkinlik.objects.filter(tarih__gte=timezone.now().date()).order_by('tarih')[:5]
-    benim_ilanim  = Ilan.objects.filter(sahip=request.user).order_by('-olusturulma')[:5]
+    son_duyurular  = Duyuru.objects.filter(yayinda=True).order_by('-olusturulma')[:5]
+    yaklasan       = Etkinlik.objects.filter(tarih__gte=timezone.now().date()).order_by('tarih')[:5]
+    benim_ilanim   = Ilan.objects.filter(sahip=request.user).order_by('-olusturulma')[:5]
+    son_konular    = Konu.objects.select_related('yazar', 'kategori').order_by('-guncelleme')[:5]
+    son_bloglar    = BlogYazisi.objects.filter(yayinda=True).order_by('-olusturulma')[:3]
+    benim_konularim = Konu.objects.filter(yazar=request.user).count()
     return render(request, 'core/dashboard.html', {
         'profil': profil,
         'son_duyurular': son_duyurular,
         'yaklasan': yaklasan,
         'benim_ilanim': benim_ilanim,
+        'son_konular': son_konular,
+        'son_bloglar': son_bloglar,
+        'benim_konularim': benim_konularim,
     })
 
 @login_required
