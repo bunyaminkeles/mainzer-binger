@@ -11,10 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Build sırasında geçici SECRET_KEY — sadece collectstatic için
 RUN SECRET_KEY=build-only-dummy-key DATABASE_URL=sqlite:///dummy.db \
     python manage.py collectstatic --no-input
 
+RUN chmod +x entrypoint.sh
+
 EXPOSE 8000
 
-CMD ["gunicorn", "config.wsgi", "--bind", "0.0.0.0:8000", "--workers", "2", "--log-file", "-"]
+CMD ["./entrypoint.sh"]
