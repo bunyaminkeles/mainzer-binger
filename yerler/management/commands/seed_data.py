@@ -16,6 +16,23 @@ from forum.models import ForumKategori
 
 
 YERLER = [
+    # Yerler admin panelinden elle girilmeli.
+    # Adres, telefon ve harita bilgileri doğrudan yerinde kontrol edilerek
+    # /admin/yerler/yer/ üzerinden eklenmesi önerilir.
+    #
+    # Örnek format:
+    # {
+    #     'ad': 'Ausländerbehörde Mainz',
+    #     'kategori': 'resmi_kurum',
+    #     'adres': 'Doğrulanmış adres',
+    #     'telefon': 'Doğrulanmış telefon',
+    #     'website': 'https://...',
+    #     'maps_url': 'https://maps.google.com/?q=...',
+    #     'aciklama': '...',
+    # },
+]
+
+_YERLER_ARSIV = [
     # --- RESMİ KURUMLAR ---
     {
         'ad': 'Ausländerbehörde Mainz',
@@ -270,7 +287,7 @@ YERLER = [
         'maps_url': '',
         'aciklama': 'Mainz\'a 1 saat mesafede Ren üzerindeki en büyük kale kalıntısı. Muhteşem manzara.',
     },
-]
+]  # _YERLER_ARSIV sonu
 
 LINKLER = [
     # --- RESMİ KURUMLAR ---
