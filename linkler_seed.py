@@ -23,6 +23,12 @@ LINKLER = [
     dict(ad='Mainz Şehir Portalı', url='https://www.mainz.de/',
          kategori='resmi', sira=2,
          aciklama='Mainz Belediyesi resmi sitesi — haberler, hizmetler, vatandaş işlemleri.'),
+    dict(ad='BAMF — Göç ve Mülteci Dairesi', url='https://www.bamf.de/EN/Startseite/startseite_node.html',
+         kategori='resmi', sira=3,
+         aciklama='Federal Göç ve Mülteciler Dairesi — oturma izni, entegrasyon kursları ve sığınma başvuruları.'),
+    dict(ad='Mainz Bürgeramt — Randevu', url='https://termine-reservieren.de/termine/buergeramt.mainz/',
+         kategori='resmi', sira=4,
+         aciklama='Mainz Vatandaşlık Dairesi online randevu — Anmeldung, pasaport, kimlik işlemleri.'),
 ]
 
 # ── Rehber Kaynakları ────────────────────────────────────────────
@@ -41,6 +47,14 @@ REHBER = [
     dict(baslik='Mainz Belediyesi (mainz.de)', tip='link', url='https://www.mainz.de/',
          kategori='resmi', icon='bi-building-fill', sira=2, yayinda=True,
          ozet='Mainz şehir portalı — belediye hizmetleri, haberler ve duyurular.'),
+    dict(baslik='BAMF — Göç ve Mülteci Dairesi', tip='link',
+         url='https://www.bamf.de/EN/Startseite/startseite_node.html',
+         kategori='resmi', icon='bi-shield-check', sira=3, yayinda=True,
+         ozet='Oturma izni, entegrasyon kursları ve sığınma başvuruları için resmi daire.'),
+    dict(baslik='Mainz Bürgeramt — Online Randevu', tip='link',
+         url='https://termine-reservieren.de/termine/buergeramt.mainz/',
+         kategori='resmi', icon='bi-calendar-check', sira=4, yayinda=True,
+         ozet='Anmeldung, pasaport ve kimlik işlemleri için online randevu sistemi.'),
 ]
 
 eklendi = 0
