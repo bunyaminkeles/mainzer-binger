@@ -79,7 +79,7 @@ YERLER = [
         'adres': 'Oberstadt',
         'sehir': 'Mainz',
         'maps_url': 'https://maps.google.com/?q=Zitadelle+Mainz',
-        'kapak_resmi': wiki_img('Mainz_Zitadelle_BW_1.JPG'),
+        'kapak_resmi': wiki_img('Zitadelle_Mainz_-_Der_Kommandantenbau.JPG'),
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Zitadelle_Mainz',
         'icerik': (
             '<p>Şehrin tarihine yakından tanıklık eden, Roma döneminden kalma kalıntılara da ev sahipliği yapan bu büyük '
@@ -98,7 +98,7 @@ YERLER = [
         'adres': 'Ren Nehri üzerinde, adacık',
         'sehir': 'Bingen am Rhein',
         'maps_url': 'https://maps.google.com/?q=Mäuseturm+Bingen',
-        'kapak_resmi': wiki_img('Bingen_Maeusturm_BW_1.JPG'),
+        'kapak_resmi': wiki_img('Maeuseturm_bingen.JPG'),
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Mäuseturm',
         'icerik': (
             '<p>Bingen am Rhein\'da, Ren Nehri üzerinde küçük bir adacıkta yer alan tarihi bir gümrük kulesidir. '
@@ -118,7 +118,7 @@ YERLER = [
         'sehir': 'Trechtingshausen',
         'website': 'https://www.burg-rheinstein.de/',
         'maps_url': 'https://maps.google.com/?q=Burg+Rheinstein',
-        'kapak_resmi': wiki_img('Burg_Rheinstein_und_Schweizerhaus_am_Rhein.JPG'),
+        'kapak_resmi': wiki_img('Burg_Rheinstein_S_2012_06_17_14_15_51.JPG'),
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Burg_Rheinstein',
         'icerik': (
             '<p>Trechtingshausen yakınlarında, Ren Nehri\'ne tepeden bakan büyüleyici ve masalsı bir şatodur. '
@@ -137,7 +137,7 @@ YERLER = [
         'adres': 'Binger Stadtwald, Weiler bei Bingen',
         'sehir': 'Bingen am Rhein',
         'maps_url': 'https://maps.google.com/?q=Steckeschlääferklamm+Bingen',
-        'kapak_resmi': wiki_img('Magischer_Wald.JPG'),
+        'kapak_resmi': 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1280&q=80',
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Steckeschlääferklamm',
         'icerik': (
             '<p>Doğa yürüyüşü yapmayı seviyorsanız bu geçit harika bir seçenektir. Yol boyunca ağaçların gövdelerine '
@@ -157,7 +157,7 @@ YERLER = [
         'sehir': 'Ingelheim am Rhein',
         'website': 'https://www.ingelheimer-winzerkeller.de/',
         'maps_url': 'https://maps.google.com/?q=Ingelheimer+Winzerkeller',
-        'kapak_resmi': wiki_img('Ingelheim_am_Rhein_Rathaus_BW_1.JPG'),
+        'kapak_resmi': 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1280&q=80',
         'wikipedia_url': 'https://de.wikipedia.org/wiki/Ingelheimer_Winzerkeller',
         'icerik': (
             '<p>Ingelheim am Rhein\'da yer alan bu tarihi mahzen ve tesis, bölgenin köklü şarap yapım geleneğini yansıtır. '
