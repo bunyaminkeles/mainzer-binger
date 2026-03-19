@@ -14,15 +14,18 @@ YER_KATEGORI = [
 ]
 
 class Yer(models.Model):
-    ad          = models.CharField(max_length=200)
-    kategori    = models.CharField(max_length=20, choices=YER_KATEGORI)
-    adres       = models.TextField()
-    sehir       = models.CharField(max_length=100, default='Mainz')
-    telefon     = models.CharField(max_length=50, blank=True)
-    website     = models.URLField(blank=True)
-    maps_url    = models.URLField(blank=True, help_text='Google Maps linki')
-    aciklama    = models.TextField(blank=True)
-    aktif       = models.BooleanField(default=True)
+    ad              = models.CharField(max_length=200)
+    kategori        = models.CharField(max_length=20, choices=YER_KATEGORI)
+    adres           = models.TextField()
+    sehir           = models.CharField(max_length=100, default='Mainz')
+    telefon         = models.CharField(max_length=50, blank=True)
+    website         = models.URLField(blank=True)
+    maps_url        = models.URLField(blank=True, help_text='Google Maps linki')
+    aciklama        = models.TextField(blank=True)
+    kapak_resmi     = models.URLField(blank=True, verbose_name='Kapak Resmi URL')
+    icerik          = models.TextField(blank=True, verbose_name='Blog İçeriği (HTML)')
+    wikipedia_url   = models.URLField(blank=True, verbose_name='Wikipedia Kaynak URL')
+    aktif           = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['kategori', 'ad']
