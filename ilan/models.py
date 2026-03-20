@@ -2,12 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 
 ILAN_KATEGORI = [
+    # Satılık / Kiralık
     ('arac_satilik', 'Araç Satılık'),
-    ('arac_araniyor', 'Araç Aranıyor'),
     ('ev_kiralik', 'Ev / Daire Kiralık'),
+    ('esya_satilik', 'Eşya / Mobilya Satılık'),
+    ('diger_satilik', 'Diğer Satılık'),
+    # Aranıyor
+    ('arac_araniyor', 'Araç Aranıyor'),
     ('ev_araniyor', 'Ev / Oda Aranıyor'),
-    ('diger', 'Diğer'),
+    ('is_araniyor', 'İş Arıyorum'),
+    ('eleman_araniyor', 'Eleman Aranıyor'),
+    ('esya_araniyor', 'Eşya / Mobilya Aranıyor'),
+    ('diger_araniyor', 'Diğer Aranıyor'),
 ]
+
+SATILIK_KATEGORILER = {'arac_satilik', 'ev_kiralik', 'esya_satilik', 'diger_satilik'}
+ARANIYOR_KATEGORILER = {'arac_araniyor', 'ev_araniyor', 'is_araniyor', 'eleman_araniyor', 'esya_araniyor', 'diger_araniyor'}
+
 
 class Ilan(models.Model):
     sahip       = models.ForeignKey(User, on_delete=models.CASCADE)
