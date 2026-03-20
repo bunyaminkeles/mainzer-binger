@@ -29,33 +29,80 @@
       </div>
     </div>
 
-    <!-- Sağ: Kullanıcı İlanları -->
+    <!-- Sağ: İlanlar -->
     <div class="col-lg-9 col-md-8">
-      <!-- Kategori filtresi -->
-      <div class="d-flex flex-wrap gap-2 mb-3">
-        <a href="{% url 'ilan:liste' %}" class="btn btn-sm {% if not secili %}btn-primary{% else %}btn-outline-secondary{% endif %}">Tümü</a>
-        {% for k, v in kategoriler %}
-        <a href="?kategori={{ k }}" class="btn btn-sm {% if secili == k %}btn-primary{% else %}btn-outline-secondary{% endif %}">{{ v }}</a>
-        {% endfor %}
-      </div>
 
-      <div class="row g-3">
-        {% for i in ilanlar %}
-        <div class="col-md-4 col-6">
-          <div class="card h-100">
-            <div class="card-body">
-              <span class="badge bg-secondary mb-1" style="font-size:0.7rem">{{ i.get_kategori_display }}</span>
-              <h6 class="card-title mt-1">
-                <a href="{% url 'ilan:detay' i.pk %}" class="text-dark text-decoration-none stretched-link">{{ i.baslik }}</a>
-              </h6>
-              <p class="small text-muted">{{ i.icerik|truncatechars:80 }}</p>
-              {% if i.fiyat %}<strong class="text-primary">{{ i.fiyat }} €</strong>{% endif %}
+      <!-- Sekmeler -->
+      <ul class="nav nav-tabs mb-3" id="ilanTabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="tab" href="#satilik-panel">
+            <i class="bi bi-tag me-1"></i>Satılık / Kiralık
+            {% if satilik %}<span class="badge bg-primary ms-1">{{ satilik.count }}</span>{% endif %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#araniyor-panel">
+            <i class="bi bi-search me-1"></i>Aranıyor
+            {% if araniyor %}<span class="badge bg-warning text-dark ms-1">{{ araniyor.count }}</span>{% endif %}
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+
+        <!-- Satılık / Kiralık -->
+        <div class="tab-pane fade show active" id="satilik-panel">
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            {% for k, v in satilik_kategoriler %}
+            <a href="?kategori={{ k }}" class="btn btn-sm {% if secili == k %}btn-primary{% else %}btn-outline-secondary{% endif %}">{{ v }}</a>
+            {% endfor %}
+          </div>
+          <div class="row g-3">
+            {% for i in satilik %}
+            <div class="col-md-4 col-6">
+              <div class="card h-100">
+                <div class="card-body">
+                  <span class="badge bg-primary mb-1" style="font-size:.7rem;">{{ i.get_kategori_display }}</span>
+                  <h6 class="card-title mt-1">
+                    <a href="{% url 'ilan:detay' i.pk %}" class="text-dark text-decoration-none">{{ i.baslik }}</a>
+                  </h6>
+                  <p class="small text-muted">{{ i.icerik|truncatechars:80 }}</p>
+                  {% if i.fiyat %}<strong class="text-primary">{{ i.fiyat }} €</strong>{% endif %}
+                </div>
+              </div>
             </div>
+            {% empty %}
+            <p class="text-muted ms-2">Henüz satılık / kiralık ilan yok.</p>
+            {% endfor %}
           </div>
         </div>
-        {% empty %}
-        <p class="text-muted">Henüz ilan yok.</p>
-        {% endfor %}
+
+        <!-- Aranıyor -->
+        <div class="tab-pane fade" id="araniyor-panel">
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            {% for k, v in araniyor_kategoriler %}
+            <a href="?kategori={{ k }}" class="btn btn-sm {% if secili == k %}btn-warning{% else %}btn-outline-secondary{% endif %}">{{ v }}</a>
+            {% endfor %}
+          </div>
+          <div class="row g-3">
+            {% for i in araniyor %}
+            <div class="col-md-4 col-6">
+              <div class="card h-100 border-warning border-opacity-50">
+                <div class="card-body">
+                  <span class="badge bg-warning text-dark mb-1" style="font-size:.7rem;">{{ i.get_kategori_display }}</span>
+                  <h6 class="card-title mt-1">
+                    <a href="{% url 'ilan:detay' i.pk %}" class="text-dark text-decoration-none">{{ i.baslik }}</a>
+                  </h6>
+                  <p class="small text-muted">{{ i.icerik|truncatechars:80 }}</p>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <p class="text-muted ms-2">Henüz aranıyor ilanı yok.</p>
+            {% endfor %}
+          </div>
+        </div>
+
       </div>
     </div>
 

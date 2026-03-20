@@ -1,0 +1,130 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Mainzer Yönetim Paneli{% endblock %}
+{% block site_header %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">🇩🇪 Mainzer Admin</a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+:root {
+    --indigo: #6366f1;
+    --green:  #10b981;
+    --amber:  #f59e0b;
+    --pink:   #ec4899;
+    --sky:    #38bdf8;
+    --slate:  #94a3b8;
+    --card-bg: #1e293b;
+    --border:  rgba(99,102,241,0.18);
+}
+body { background: #0f172a !important; color: #e2e8f0 !important; }
+#header { background: #1e293b !important; border-bottom: 1px solid var(--border) !important; }
+#header a:link, #header a:visited { color: #e2e8f0 !important; }
+#nav-sidebar, .module { background: #1e293b !important; }
+.module h2, .module caption { background: #1e293b !important; border-bottom: 1px solid var(--border) !important; }
+a:link, a:visited { color: var(--sky); }
+
+/* ── Genel kart ─────────────────────────────── */
+.stat-card, .dashboard-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+}
+.dashboard-card .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: .75rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--border);
+}
+.dashboard-card .card-header h5 {
+    margin: 0;
+    font-size: .95rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+.dashboard-card .card-body { padding: 0; }
+
+/* ── Stat kartı ─────────────────────────────── */
+.stat-label { font-size: .78rem; color: var(--slate); margin: 0; text-transform: uppercase; letter-spacing: .04em; }
+.stat-value { font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+.gradient-text { background: linear-gradient(135deg, var(--indigo), var(--sky)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-change { font-size: .72rem; }
+.stat-change.positive { color: var(--green); }
+.stat-change.neutral  { color: var(--slate); }
+.stat-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; flex-shrink: 0;
+}
+.delta-badge {
+    display: inline-block; font-size: .68rem; padding: 1px 6px;
+    border-radius: 20px; margin-top: 4px; font-weight: 600;
+}
+.delta-up   { background: rgba(16,185,129,.15); color: var(--green); }
+.delta-down { background: rgba(239,68,68,.15);  color: #ef4444; }
+
+/* ── Health ring ────────────────────────────── */
+.health-card { padding: 1rem; }
+.health-ring { position: relative; width: 80px; height: 80px; }
+.health-svg  { width: 100%; height: 100%; transform: rotate(-90deg); }
+.health-bg   { fill: none; stroke: rgba(99,102,241,.15); stroke-width: 8; }
+.health-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
+.health-value {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    font-size: 1.1rem; font-weight: 700;
+}
+.health-label { font-size: .78rem; font-weight: 600; }
+
+/* ── İçerik özeti kutuları ──────────────────── */
+.content-stat-box {
+    background: rgba(99,102,241,.07);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .75rem;
+    text-align: center;
+}
+.content-stat-val { font-size: 1.5rem; font-weight: 700; }
+.content-stat-lbl { font-size: .7rem; color: var(--slate); margin-top: 2px; }
+
+/* ── Tablo ──────────────────────────────────── */
+.table-dashboard { color: #e2e8f0 !important; font-size: .82rem; }
+.table-dashboard thead th { color: var(--slate) !important; border-bottom: 1px solid var(--border) !important; font-weight: 600; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; }
+.table-dashboard td { border-color: rgba(99,102,241,.08) !important; vertical-align: middle; }
+.table-dashboard tr:hover td { background: rgba(99,102,241,.04) !important; }
+
+/* ── Kullanıcı avatarı ──────────────────────── */
+.user-avatar-sm {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--indigo), var(--sky));
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+
+/* ── Butonlar ───────────────────────────────── */
+.btn { border-radius: 6px !important; font-size: .78rem !important; padding: .25rem .65rem !important; }
+.btn-xs { font-size: .7rem !important; padding: .15rem .5rem !important; }
+.btn-outline-warning { border-color: var(--amber) !important; color: var(--amber) !important; }
+.btn-outline-info { border-color: var(--sky) !important; color: var(--sky) !important; }
+.btn-success { background: var(--green) !important; border-color: var(--green) !important; }
+.btn-outline-danger { border-color: #ef4444 !important; color: #ef4444 !important; }
+.btn-group-sm .btn { font-size: .75rem !important; }
+.btn-outline-info.active { background: var(--sky) !important; color: #0f172a !important; }
+
+/* ── Badge ──────────────────────────────────── */
+.badge-danger    { background: #ef4444; color: #fff; border-radius: 20px; padding: 2px 7px; font-size: .68rem; }
+.badge-warning   { background: var(--amber); color: #0f172a; border-radius: 20px; padding: 2px 7px; font-size: .68rem; }
+.badge-secondary { background: #475569; color: #fff; border-radius: 20px; padding: 2px 7px; font-size: .68rem; }
+
+/* ── Sekme (nav pills) ──────────────────────── */
+.nav-pills .nav-link { color: var(--slate) !important; border-radius: 8px !important; font-size: .8rem; padding: .3rem .75rem; }
+.nav-pills .nav-link.active { background: rgba(99,102,241,.25) !important; color: var(--indigo) !important; font-weight: 600; }
+
+/* ── Grafik toggle ──────────────────────────── */
+.chart-toggle-group .btn { min-width: 52px; }
+</style>
+{% endblock %}

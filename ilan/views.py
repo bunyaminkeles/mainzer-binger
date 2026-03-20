@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Ilan, ILAN_KATEGORI
+from .models import Ilan, ILAN_KATEGORI, SATILIK_KATEGORILER, ARANIYOR_KATEGORILER
 from linkler.models import OnemliLink
 
 def liste(request):
@@ -9,12 +9,19 @@ def liste(request):
     qs = Ilan.objects.filter(aktif=True, onaylandi=True)
     if kategori:
         qs = qs.filter(kategori=kategori)
+
+    satilik  = qs.filter(kategori__in=SATILIK_KATEGORILER)
+    araniyor = qs.filter(kategori__in=ARANIYOR_KATEGORILER)
+
     platformlar = OnemliLink.objects.filter(kategori='ilan', aktif=True).order_by('sira')
     return render(request, 'ilan/liste.html', {
-        'ilanlar': qs,
-        'kategoriler': ILAN_KATEGORI,
-        'secili': kategori,
-        'platformlar': platformlar,
+        'satilik':            satilik,
+        'araniyor':           araniyor,
+        'kategoriler':        ILAN_KATEGORI,
+        'satilik_kategoriler': [k for k in ILAN_KATEGORI if k[0] in SATILIK_KATEGORILER],
+        'araniyor_kategoriler': [k for k in ILAN_KATEGORI if k[0] in ARANIYOR_KATEGORILER],
+        'secili':             kategori,
+        'platformlar':        platformlar,
     })
 
 def detay(request, pk):
