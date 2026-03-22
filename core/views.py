@@ -53,7 +53,7 @@ def hakkinda(request):
                 subject=f'[RLP Rehber] Yeni Öneri — {tur}',
                 message=f'Tür: {tur}\nGönderen: {ad or "Anonim"}\nE-posta: {eposta or "—"}\n\n{mesaj}',
                 from_email=django_settings.DEFAULT_FROM_EMAIL,
-                recipient_list=['bkeles74@gmail.com'],
+                recipient_list=['info@analizus.com'],
                 fail_silently=True,
             )
             gonderildi = True
@@ -138,7 +138,7 @@ def iletisim(request):
                 subject=f'[RLP Rehber] İletişim — {ad or "Anonim"}',
                 message=f'Gönderen: {ad}\nE-posta: {eposta}\n\n{mesaj}',
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=['bkeles74@gmail.com'],
+                recipient_list=['info@analizus.com'],
                 fail_silently=True,
             )
             gonderildi = True

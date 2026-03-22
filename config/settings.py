@@ -134,7 +134,7 @@ if config('RESEND_API_KEY', default=''):
     ANYMAIL = {
         'RESEND_API_KEY': config('RESEND_API_KEY'),
     }
-    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@rlprehber.de')
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='RLP Rehber <info@analizus.com>')
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
