@@ -19,10 +19,10 @@ def _yanlis_listesi(slug, yanlis_ids, cevaplar):
             cv = cevaplar.get(uid, {})
             result.append({
                 'frage': s.frage,
-                'dogru_harf': s.dogru_harf,
-                'dogru_metin': s.optionen.get(s.dogru_harf, ''),
+                'dogru_harf': cv.get('dogru_harf', s.dogru_harf),
+                'dogru_metin': cv.get('dogru_metin') or s.optionen.get(s.dogru_harf, ''),
                 'secilen_harf': cv.get('secilen_harf', ''),
-                'secilen_metin': s.optionen.get(cv.get('secilen_harf', ''), ''),
+                'secilen_metin': cv.get('secilen_metin') or s.optionen.get(cv.get('secilen_harf', ''), ''),
             })
     return result
 
@@ -110,6 +110,7 @@ def quiz(request, slug):
                 'dogru_harf': soru.dogru_harf,
                 'erklaerung': soru.erklaerung,
                 'mod': mod,
+                'optionen': soru.optionen,
             }
             return render(request, 'almanca/quiz.html', {
                 'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
@@ -143,6 +144,7 @@ def quiz(request, slug):
         'dogru_harf': soru.dogru_harf,
         'erklaerung': soru.erklaerung,
         'mod': mod,
+        'optionen': soru.optionen,
     }
 
     return render(request, 'almanca/quiz.html', {
@@ -189,6 +191,7 @@ def cevapla(request, slug):
     erklaerung = kayit['erklaerung']
     uid        = kayit['uid']
     mod        = kayit.get('mod', 'rastgele')
+    optionen   = kayit.get('optionen', {})
 
     # Görülmüş listesi
     gorulmus = request.session.get(f'alm_gorulmus_{slug}', [])
@@ -209,7 +212,12 @@ def cevapla(request, slug):
 
     # Cevap kaydı
     cevaplar = request.session.get(f'alm_cevaplar_{slug}', {})
-    cevaplar[uid] = {'secilen_harf': secilen, 'dogru_harf': dogru_harf}
+    cevaplar[uid] = {
+        'secilen_harf': secilen,
+        'dogru_harf': dogru_harf,
+        'secilen_metin': optionen.get(secilen, ''),
+        'dogru_metin': optionen.get(dogru_harf, ''),
+    }
     request.session[f'alm_cevaplar_{slug}'] = cevaplar
 
     if secilen == dogru_harf:
