@@ -41,13 +41,22 @@ def hakkinda(request):
     from .models import Oneri
     gonderildi = False
     if request.method == 'POST':
-        Oneri.objects.create(
-            tur=request.POST.get('tur', 'oneri'),
-            ad=request.POST.get('ad', '').strip(),
-            eposta=request.POST.get('eposta', '').strip(),
-            mesaj=request.POST.get('mesaj', '').strip(),
-        )
-        gonderildi = True
+        from django.core.mail import send_mail
+        from django.conf import settings as django_settings
+        tur   = request.POST.get('tur', 'oneri')
+        ad    = request.POST.get('ad', '').strip()
+        eposta = request.POST.get('eposta', '').strip()
+        mesaj = request.POST.get('mesaj', '').strip()
+        if mesaj:
+            Oneri.objects.create(tur=tur, ad=ad, eposta=eposta, mesaj=mesaj)
+            send_mail(
+                subject=f'[RLP Rehber] Yeni Öneri — {tur}',
+                message=f'Tür: {tur}\nGönderen: {ad or "Anonim"}\nE-posta: {eposta or "—"}\n\n{mesaj}',
+                from_email=django_settings.DEFAULT_FROM_EMAIL,
+                recipient_list=['info@analizus.com'],
+                fail_silently=True,
+            )
+            gonderildi = True
     return render(request, 'core/hakkinda.html', {'gonderildi': gonderildi})
 
 
@@ -117,7 +126,23 @@ def arama(request):
 
 
 def iletisim(request):
-    return render(request, 'core/iletisim.html')
+    gonderildi = False
+    if request.method == 'POST':
+        from django.core.mail import send_mail
+        from django.conf import settings
+        ad      = request.POST.get('ad', '').strip()
+        eposta  = request.POST.get('eposta', '').strip()
+        mesaj   = request.POST.get('mesaj', '').strip()
+        if mesaj:
+            send_mail(
+                subject=f'[RLP Rehber] İletişim — {ad or "Anonim"}',
+                message=f'Gönderen: {ad}\nE-posta: {eposta}\n\n{mesaj}',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=['info@analizus.com'],
+                fail_silently=True,
+            )
+            gonderildi = True
+    return render(request, 'core/iletisim.html', {'gonderildi': gonderildi})
 
 
 @login_required

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # Üçüncü parti
+    'anymail',
     'crispy_forms',
     'crispy_bootstrap5',
     'allauth',
@@ -127,8 +128,15 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
-# E-posta (lokal: konsola yaz)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# E-posta — Resend HTTP API (django-anymail)
+if config('RESEND_API_KEY', default=''):
+    EMAIL_BACKEND       = 'anymail.backends.resend.EmailBackend'
+    ANYMAIL = {
+        'RESEND_API_KEY': config('RESEND_API_KEY'),
+    }
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='RLP Rehber <info@analizus.com>')
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Zamanlanmış görevler
 CRONJOBS = [
