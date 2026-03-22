@@ -54,7 +54,14 @@
     {% else %}
       <span class="badge bg-secondary"><i class="bi bi-shuffle me-1"></i>Rastgele</span>
     {% endif %}
-    <span class="text-muted small fw-semibold">Soru #{{ soru.uid }}</span>
+    <form method="get" class="d-inline-flex align-items-center gap-1 mb-0">
+      <input type="hidden" name="mod" value="{{ mod }}">
+      <span class="text-muted small fw-semibold">Soru #</span>
+      <input type="text" name="uid" value="{{ soru.uid }}"
+        class="text-muted small fw-semibold border-0 border-bottom p-0 px-1 bg-transparent"
+        style="width:4.5rem; outline:none;"
+        title="Soru numarası girin ve Enter'a basın">
+    </form>
   </div>
 
   <!-- İlerleme çubuğu -->
@@ -124,7 +131,7 @@
   {% endif %}
 
   <!-- Navigasyon -->
-  <div class="d-flex justify-content-between align-items-center {% if not already_answered %}d-none{% endif %}" id="nav-alan">
+  <div class="d-flex justify-content-between align-items-center" id="nav-alan">
     {% if mevcut_idx > 0 %}
     <a href="{% url 'almanca:quiz' slug %}?goto={{ mevcut_idx|add:'-1' }}&mod={{ mod }}" class="btn btn-outline-secondary btn-sm" id="onceki-btn">
       <i class="bi bi-arrow-left me-1"></i>Önceki Soru
@@ -213,13 +220,9 @@ document.querySelectorAll('.secim-btn').forEach(btn => {
       veri.durum === 'dogru' ? '✓ Doğru!' : `✗ Yanlış — Doğru cevap: ${veri.dogru_harf}`;
     document.getElementById('aciklama').textContent = veri.erklaerung || '';
 
-    // Navigasyon butonlarını göster
-    const navAlan = document.getElementById('nav-alan');
-    navAlan.classList.remove('d-none');
-
     // Önceki buton
     if (veri.gecmis_idx > 0) {
-      document.getElementById('onceki-btn').href = QUIZ_URL + '?goto=' + (veri.gecmis_idx - 1);
+      document.getElementById('onceki-btn').href = QUIZ_URL + '&goto=' + (veri.gecmis_idx - 1);
     }
   });
 });

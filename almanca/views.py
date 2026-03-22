@@ -82,6 +82,46 @@ def quiz(request, slug):
             'mod': mod,
         })
 
+    # UID ile doğrudan navigasyon: ?uid=<uid>
+    uid_param = request.GET.get('uid')
+    if uid_param is not None:
+        uid_param = uid_param.strip()
+        soru = engine.soru_by_uid(slug, uid_param)
+        if not soru:
+            return redirect(f"{request.path}?mod={mod}")
+        if uid_param in cevaplar:
+            idx = gecmis.index(uid_param) if uid_param in gecmis else len(gecmis) - 1
+            cv = cevaplar[uid_param]
+            return render(request, 'almanca/quiz.html', {
+                'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
+                'gorulmus': len(gorulmus), 'toplam': toplam,
+                'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
+                'already_answered': True,
+                'secilen_harf': cv.get('secilen_harf'),
+                'dogru_harf_goster': cv.get('dogru_harf', soru.dogru_harf),
+                'mevcut_idx': idx,
+                'gecmis_sayisi': len(gecmis),
+                'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
+                'mod': mod,
+            })
+        else:
+            request.session[f'alm_soru_{slug}'] = {
+                'uid': soru.uid,
+                'dogru_harf': soru.dogru_harf,
+                'erklaerung': soru.erklaerung,
+                'mod': mod,
+            }
+            return render(request, 'almanca/quiz.html', {
+                'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
+                'gorulmus': len(gorulmus), 'toplam': toplam,
+                'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
+                'already_answered': False,
+                'mevcut_idx': len(gecmis),
+                'gecmis_sayisi': len(gecmis),
+                'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
+                'mod': mod,
+            })
+
     # Yeni soru — sıralı veya rastgele mod
     if mod == 'sirali':
         index = request.session.get(f'alm_index_{slug}', 0)
