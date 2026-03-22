@@ -110,26 +110,7 @@ def rastgele_soru(slug: str, gorulmus: list[str]) -> Soru | None:
     havuz = [s for s in _BANK.get(slug, []) if s.uid not in gorulmus]
     if not havuz:
         return None
-    soru = random.choice(havuz)
-
-    # Seçenekleri karıştır
-    harfler = list(soru.optionen.keys())
-    degerler = list(soru.optionen.values())
-    dogru_deger = soru.optionen[soru.dogru_harf]
-    random.shuffle(degerler)
-    yeni_optionen = {harfler[i]: degerler[i] for i in range(len(harfler))}
-    yeni_dogru = next(h for h, v in yeni_optionen.items() if v == dogru_deger)
-
-    return Soru(
-        uid=soru.uid,
-        thema=soru.thema,
-        frage=soru.frage,
-        optionen=yeni_optionen,
-        dogru_harf=yeni_dogru,
-        erklaerung=soru.erklaerung,
-        kontext=soru.kontext,
-        lesetext=soru.lesetext,
-    )
+    return random.choice(havuz)
 
 
 def soru_by_uid(slug: str, uid: str) -> 'Soru | None':
@@ -177,21 +158,4 @@ def sirali_soru(slug: str, index: int) -> Soru | None:
     sorular = sirali_sorular(slug)
     if index >= len(sorular):
         return None
-    soru = sorular[index]
-    # Seçenekleri karıştır (uid ve doğru cevap korunur)
-    harfler = list(soru.optionen.keys())
-    degerler = list(soru.optionen.values())
-    dogru_deger = soru.optionen[soru.dogru_harf]
-    random.shuffle(degerler)
-    yeni_optionen = {harfler[i]: degerler[i] for i in range(len(harfler))}
-    yeni_dogru = next(h for h, v in yeni_optionen.items() if v == dogru_deger)
-    return Soru(
-        uid=soru.uid,
-        thema=soru.thema,
-        frage=soru.frage,
-        optionen=yeni_optionen,
-        dogru_harf=yeni_dogru,
-        erklaerung=soru.erklaerung,
-        kontext=soru.kontext,
-        lesetext=soru.lesetext,
-    )
+    return sorular[index]
