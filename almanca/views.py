@@ -82,6 +82,20 @@ def quiz(request, slug):
             'mod': mod,
         })
 
+    # Cevap vermeden atlama: ?atla=1
+    if request.GET.get('atla'):
+        kayit = request.session.get(f'alm_soru_{slug}')
+        if kayit:
+            uid = kayit['uid']
+            gorulmus = request.session.get(f'alm_gorulmus_{slug}', [])
+            if uid not in gorulmus:
+                gorulmus.append(uid)
+                request.session[f'alm_gorulmus_{slug}'] = gorulmus
+            if mod == 'sirali':
+                idx = request.session.get(f'alm_index_{slug}', 0)
+                request.session[f'alm_index_{slug}'] = idx + 1
+        return redirect(f"{request.path}?mod={mod}")
+
     # UID ile doğrudan navigasyon: ?uid=<uid>
     uid_param = request.GET.get('uid')
     if uid_param is not None:
