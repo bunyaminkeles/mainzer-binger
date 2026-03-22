@@ -92,6 +92,90 @@ YAZILAR = [
 </div>
 '''.strip(),
     },
+    {
+        'baslik': 'Almanya\'da Diploma Denkliği (ZAB): Bürokratik Süreci Adım Adım Çözme Rehberi',
+        'slug': 'almanyada-diploma-denkligi-zab-rehberi',
+        'kapak_resmi': 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=80',
+        'ozet': 'ZAB Zeugnisbewertung nedir, Anabin\'de nasıl kontrol yapılır, belgeler nasıl hazırlanır? Mavi Kart ve nitelikli çalışan vizesi için diploma denkliği sürecinin tam rehberi.',
+        'scope': 'eyalet',
+        'icerik': '''
+<p class="lead">Almanya'da kariyerinize başlamak, nitelikli çalışan vizesi almak veya Mavi Kart (Blaue Karte) başvurusu yapmak istiyorsunuz. Harika bir iş buldunuz ancak sistem önünüze o meşhur engeli çıkardı: <em>"Diplomanızın Almanya'da geçerli olduğunu kanıtlamalısınız."</em></p>
+
+<p>Alman bürokrasisi dışarıdan bakıldığında aşılmaz bir duvar gibi görünebilir. Ancak doğru adımları izlediğinizde, her sürecin aslında belirli kurallara dayanan net bir işleyişi olduğunu göreceksiniz. Bu yazıda, ZAB (Zentralstelle für ausländisches Bildungswesen) üzerinden diploma denklik (<em>Zeugnisbewertung</em>) sürecini en hızlı ve hatasız şekilde nasıl tamamlayacağınızı adım adım anlatıyoruz.</p>
+
+<h4>Adım 1: İlk Kontrol — Anabin Veritabanı</h4>
+
+<p>ZAB'a 200 Euro ödeyip haftalarca beklemeden önce yapmanız gereken çok önemli bir adım var: diplomanızın durumunu Anabin sisteminden kontrol etmek.</p>
+
+<ul>
+  <li><strong>Okulunuz Tanınıyor mu?</strong> Mezun olduğunuz üniversite Anabin'de <strong>"H+"</strong> statüsüne sahip olmalıdır.</li>
+  <li><strong>Bölümünüz Eşdeğer mi?</strong> Okuduğunuz bölüm sistemde <em>"Entspricht"</em> (Eşdeğer) veya <em>"Gleichwertig"</em> (Denk) olarak geçiyor mu?</li>
+</ul>
+
+<p>Eğer her iki sorunun cevabı da evetse ve sistemde tam bir eşleşme bulduysanız, harika bir haberimiz var: çoğu durumda Anabin'den alacağınız PDF çıktıları vize veya Mavi Kart başvurunuz için yeterlidir. Ekstra bir denklik başvurusu yapmanıza gerek kalmaz.</p>
+
+<div class="info-box">
+  <strong>⚠️ Ne zaman ZAB zorunlu?</strong><br>
+  Durum belirsizse (H+/-), okulunuz listede yoksa veya konsolosluk / yabancılar dairesi sizden özel olarak resmi ZAB belgesi (<em>Zeugnisbewertung</em>) talep ediyorsa süreci başlatma vakti gelmiştir.
+</div>
+
+<h4>Adım 2: Belgelerin Doğru Hazırlanması</h4>
+
+<p>ZAB süreci artık tamamen dijital platform ("Mein Portal") üzerinden yürütülüyor. Bu yüzden fiziksel belgelerinizi eksiksiz ve okunur bir şekilde PDF formatında taratmanız hayati önem taşıyor. Türkiye'den alınan diplomalar için genel kurallar şunlardır:</p>
+
+<ul>
+  <li><strong>Orijinal Belgeler:</strong> Diplomanızın ve not dökümünüzün (Transkript) orijinal dildeki yüksek çözünürlüklü taramaları.</li>
+  <li><strong>Çeviriler:</strong> ZAB genellikle Türkçe, İngilizce ve Fransızca dillerindeki belgeleri doğrudan kabul eder ve yeminli tercüme <strong>istemez</strong>. (Yine de başvuru anında portalın <em>"Länderdokumente"</em> sekmesinden güncel şartları mutlaka teyit edin.)</li>
+  <li><strong>Kimlik Belgesi:</strong> Pasaportunuzun veya kimliğinizin taranmış hali.</li>
+</ul>
+
+<div class="info-box">
+  <strong>💡 Kritik İpucu: İş Sözleşmesi</strong><br>
+  Mavi Kart başvurusunda bulunacaksanız ve elinizde şirketle imzaladığınız bir iş sözleşmesi varsa, bunu sisteme <strong>mutlaka</strong> yükleyin. İş sözleşmesi başvurunuza "öncelik" kazandırır ve normalde 3 ay sürebilecek bekleme süresini <strong>2 haftaya</strong> kadar düşürebilir.
+</div>
+
+<h4>Adım 3: Başvuru Süreci — "Mein Portal"</h4>
+
+<p>Belgelerimiz hazır olduğuna göre resmi başvuruya geçebiliriz:</p>
+
+<ol class="blog-steps">
+  <li>
+    <strong>Hesap Oluşturma</strong><br>
+    ZAB'ın yeni başvuru portalında (BundID entegrasyonu ile) bir hesap açın.
+  </li>
+  <li>
+    <strong>Eğitim Geçmişi</strong><br>
+    Lise eğitiminizden başlayarak üniversiteye kadar olan tüm eğitim bilgilerinizi tarih sırasına göre eksiksiz doldurun.
+  </li>
+  <li>
+    <strong>Evrak Yükleme</strong><br>
+    Hazırladığınız PDF dosyalarını sisteme yükleyin. Dosya isimlerinin anlaşılır olmasına dikkat edin.<br>
+    <em>Örn: Ahmet_Yilmaz_Diploma_TR.pdf</em>
+  </li>
+  <li>
+    <strong>Ücret Ödemesi</strong><br>
+    Başvuruyu tamamladığınızda sistem size bir ödeme bildirimi (<em>Gebührenbescheid</em>) gönderecektir. İlk başvuru ücreti <strong>200 Euro</strong>'dur. Banka havalesinin açıklama kısmına (<em>Verwendungszweck</em>) size verilen referans numarasını <strong>eksiksiz ve doğru</strong> yazdığınızdan emin olun. Aksi takdirde ödemeniz sistemde eşleşmez ve süreciniz aylarca uzayabilir.
+  </li>
+</ol>
+
+<h4>Adım 4: Bekleme ve Sonuç</h4>
+
+<p>Ödemeniz ZAB'ın sistemine ulaştığı andan itibaren dosyanız "İşlemde" (<em>In Bearbeitung</em>) statüsüne geçer.</p>
+
+<ul>
+  <li><strong>Mavi Kart — Öncelikli başvuru:</strong> Genellikle ~2 hafta</li>
+  <li><strong>Standart başvuru:</strong> 1 ila 3 ay</li>
+</ul>
+
+<p>Süreç tamamlandığında portal üzerinden dijital imzalı bir PDF belgesi alacaksınız. İşte bu belge sizin resmi <em>Zeugnisbewertung</em>'unuzdur. Artık diplomanızın Alman eğitim ve iş dünyasındaki karşılığını kanıtlayan, kariyeriniz boyunca geçerli olacak kalıcı bir belgeye sahipsiniz.</p>
+
+<div class="info-box mt-4">
+  <strong>🔗 Faydalı Linkler</strong><br>
+  <a href="https://anabin.kmk.org/db/institutionen" target="_blank" rel="noopener">Anabin — Üniversite Arama</a><br>
+  <a href="https://zab.kmk.org/de/zeugnisbewertung/antrag" target="_blank" rel="noopener">ZAB — Zeugnisbewertung Başvurusu</a>
+</div>
+'''.strip(),
+    },
 ]
 
 eklendi = 0
