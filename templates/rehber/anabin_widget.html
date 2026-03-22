@@ -85,7 +85,7 @@ const STEPS = {
   1: {
     id: 1, total: 3,
     question: 'Anabin veritabanında üniversitenizi buldunuz mu? Kurum statüsü nedir?',
-    hint: '<a href="https://anabin.kmk.org" target="_blank" rel="noopener">anabin.kmk.org</a> adresinde üniversitenizi aratın ve kurum kartındaki statüyü kontrol edin.',
+    hint: '<a href="https://anabin.kmk.org/db/institutionen" target="_blank" rel="noopener">anabin.kmk.org/db/institutionen</a> adresine gidin → "Länder" (ülke) filtresinden ülkenizi seçin → çıkan listeden üniversitenizi bulun → kurum kartındaki <strong>H+, H- veya H+/-</strong> statüsünü kontrol edin.',
     options: [
       { label: 'H+',        desc: 'Kurum tanınıyor',   next: 2,           color: 'green'  },
       { label: 'H-',        desc: 'Kurum tanınmıyor',  next: 'outcome-1', color: 'red'    },
@@ -96,7 +96,7 @@ const STEPS = {
   2: {
     id: 2, total: 3,
     question: 'Harika! Okulunuz tanınıyor. Peki mezun olduğunuz bölüm (Abschluss), Anabin\'de birebir aynı isimle listelenmiş mi?',
-    hint: 'Kurum sayfasında "Abschlüsse" sekmesine tıklayın ve lisans / yüksek lisans bölümünüzü arayın.',
+    hint: 'Kurum kartını açın → "Abschlüsse" sekmesine tıklayın → lisans/yüksek lisans bölümünüzü listede arayın.',
     options: [
       { label: 'Evet, listelenmiş',                desc: 'Bölümüm var',            next: 3,           color: 'green'  },
       { label: 'Hayır, bölümüm yok / isim farklı', desc: 'Eşleşme bulunamadı',     next: 'outcome-3', color: 'yellow' },
