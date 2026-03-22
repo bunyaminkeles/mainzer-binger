@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
 from .models import Kaynak, KAYNAK_KATEGORI
 
 
@@ -9,8 +8,7 @@ def liste(request, stadt_slug=None):
 
     if stadt:
         qs = Kaynak.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet'),
-            yayinda=True
+            stadt=stadt, scope='stadt', yayinda=True
         )
     else:
         # /rlp/rehber/ — sadece eyalet geneli
