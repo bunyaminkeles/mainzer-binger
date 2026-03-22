@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # Üçüncü parti
+    'anymail',
     'crispy_forms',
     'crispy_bootstrap5',
     'allauth',
@@ -127,15 +128,13 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
-# E-posta — Resend SMTP (RESEND_API_KEY set edilince aktif olur)
+# E-posta — Resend HTTP API (django-anymail)
 if config('RESEND_API_KEY', default=''):
-    EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST          = 'smtp.resend.com'
-    EMAIL_PORT          = 587
-    EMAIL_USE_TLS       = True
-    EMAIL_HOST_USER     = 'resend'
-    EMAIL_HOST_PASSWORD = config('RESEND_API_KEY')
-    DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL', default='noreply@rlprehber.de')
+    EMAIL_BACKEND       = 'anymail.backends.resend.EmailBackend'
+    ANYMAIL = {
+        'RESEND_API_KEY': config('RESEND_API_KEY'),
+    }
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@rlprehber.de')
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
