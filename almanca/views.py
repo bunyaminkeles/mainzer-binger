@@ -69,6 +69,25 @@ def quiz(request, slug):
             return redirect('almanca:quiz', slug=slug)
 
         cv = cevaplar.get(uid, {})
+        # Atlanmış soru (cevaplanmamış): yanıtlanabilir şekilde göster
+        if not cv:
+            request.session[f'alm_soru_{slug}'] = {
+                'uid': soru.uid,
+                'dogru_harf': soru.dogru_harf,
+                'erklaerung': soru.erklaerung,
+                'mod': mod,
+                'optionen': soru.optionen,
+            }
+            return render(request, 'almanca/quiz.html', {
+                'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
+                'gorulmus': len(gorulmus), 'toplam': toplam,
+                'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
+                'already_answered': False,
+                'mevcut_idx': idx,
+                'gecmis_sayisi': len(gecmis),
+                'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
+                'mod': mod,
+            })
         return render(request, 'almanca/quiz.html', {
             'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
             'gorulmus': len(gorulmus), 'toplam': toplam,
@@ -91,6 +110,10 @@ def quiz(request, slug):
             if uid not in gorulmus:
                 gorulmus.append(uid)
                 request.session[f'alm_gorulmus_{slug}'] = gorulmus
+            gecmis = request.session.get(f'alm_gecmis_{slug}', [])
+            if uid not in gecmis:
+                gecmis.append(uid)
+                request.session[f'alm_gecmis_{slug}'] = gecmis
             if mod == 'sirali':
                 idx = request.session.get(f'alm_index_{slug}', 0)
                 request.session[f'alm_index_{slug}'] = idx + 1
