@@ -10,10 +10,27 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='reklampaketi',
-            name='aciklama',
-            field=models.CharField(blank=True, max_length=200, verbose_name='Kısa Açıklama'),
+        # aciklama daha önce uygulanmış olabilir — mevcut değilse ekle
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunPython(
+                    lambda apps, se: None if 'aciklama' in [
+                        c.name for c in se.connection.introspection.get_table_description(
+                            se.connection.cursor(), 'yerler_reklampaketi'
+                        )
+                    ] else se.execute(
+                        "ALTER TABLE yerler_reklampaketi ADD COLUMN aciklama varchar(200) NOT NULL DEFAULT ''"
+                    ),
+                    migrations.RunPython.noop,
+                ),
+            ],
+            state_operations=[
+                migrations.AddField(
+                    model_name='reklampaketi',
+                    name='aciklama',
+                    field=models.CharField(blank=True, max_length=200, verbose_name='Kısa Açıklama'),
+                ),
+            ],
         ),
         migrations.AddField(
             model_name='yer',
