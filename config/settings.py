@@ -109,7 +109,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -117,19 +116,24 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # S3 — sadece env var tanımlıysa aktif olur, yoksa local media kullanılır
 _AWS_KEY = config('AWS_ACCESS_KEY_ID', default='')
 if _AWS_KEY:
+    AWS_ACCESS_KEY_ID        = _AWS_KEY
+    AWS_SECRET_ACCESS_KEY    = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME  = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME       = config('AWS_S3_REGION_NAME', default='eu-central-1')
+    AWS_S3_FILE_OVERWRITE    = False
+    AWS_DEFAULT_ACL          = None          # Yeni bucket'larda ACL devre dışı
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_S3_CUSTOM_DOMAIN     = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
     STORAGES = {
-        'default': {'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage'},
+        'default':    {'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage'},
         'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage'},
     }
-    AWS_ACCESS_KEY_ID       = _AWS_KEY
-    AWS_SECRET_ACCESS_KEY   = config('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME      = config('AWS_S3_REGION_NAME', default='eu-central-1')
-    AWS_S3_FILE_OVERWRITE   = False
-    AWS_DEFAULT_ACL         = 'public-read'
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_S3_CUSTOM_DOMAIN = f'{config("AWS_STORAGE_BUCKET_NAME")}.s3.{config("AWS_S3_REGION_NAME", default="eu-central-1")}.amazonaws.com'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+else:
+    STORAGES = {
+        'default':    {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage'},
+    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
