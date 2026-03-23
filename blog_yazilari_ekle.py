@@ -199,6 +199,25 @@ YAZILAR = [
 
 <p>Önemli bir nokta: kurum dosyayı ancak belgeler eksiksizse incelemeye alıyor. Eksik evrakla göndermek süreci uzatır. Bu yüzden göndermeden önce güvendiğiniz bir kurumla ön kontrol yaptırmanızı öneririz.</p>
 
+<h4>Resmi Başvuru Formu</h4>
+
+<p>Başvuruda kullanmanız gereken resmi form aşağıda görüntülenebilir. Formu indirip doldurun, ıslak imzayla birlikte evraklarınızla posta yoluyla gönderin.</p>
+
+<div class="mb-2">
+  <a href="https://lsjv.rlp.de/fileadmin/lsjv/Themen/Gesundheit/Gesundheitsberufe/NA-Heilberufe/AB_Antrag_GB_Pflege.pdf"
+     target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+    <i class="bi bi-download me-1"></i>Formu İndir (PDF)
+  </a>
+</div>
+
+<div class="ratio mb-4" style="--bs-aspect-ratio:130%">
+  <iframe
+    src="https://docs.google.com/viewer?url=https://lsjv.rlp.de/fileadmin/lsjv/Themen/Gesundheit/Gesundheitsberufe/NA-Heilberufe/AB_Antrag_GB_Pflege.pdf&embedded=true"
+    style="border:1px solid #dee2e6; border-radius:6px"
+    allowfullscreen>
+  </iframe>
+</div>
+
 <h4>2. Gerekli Belgeler</h4>
 
 <ul>
