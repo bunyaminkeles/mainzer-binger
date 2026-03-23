@@ -1,0 +1,15 @@
+name: RSS Duyurularını Çek
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # Her gün 01:00 UTC (Berlin 02:00 / 03:00)
+  workflow_dispatch:        # GitHub'dan manuel tetikleme butonu
+
+jobs:
+  rss-cek:
+    runs-on: ubuntu-latest
+    steps:
+      - name: RSS endpoint'ini tetikle
+        run: |
+          curl --fail --silent --show-error --max-time 120 \
+            "https://${{ secrets.RENDER_APP_URL }}/api/rss-cek/?token=${{ secrets.CRON_SECRET }}"
