@@ -271,7 +271,7 @@
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_21\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_21.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "22",
@@ -714,7 +714,7 @@
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_55\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_55.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "56",
@@ -910,7 +910,7 @@
     },
     "antwort": "D",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_70\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_70.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "71",
@@ -1691,7 +1691,7 @@
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_130\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_130.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "131",
@@ -2290,7 +2290,7 @@
     },
     "antwort": "C",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_176\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_176.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "177",
@@ -2356,7 +2356,7 @@
     },
     "antwort": "B",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_181\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_181.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "182",
@@ -2435,7 +2435,7 @@
     },
     "antwort": "C",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_187\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_187.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "188",
@@ -2722,7 +2722,7 @@
     },
     "antwort": "D",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_209\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_209.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "210",
@@ -2814,7 +2814,7 @@
     },
     "antwort": "B",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_216\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_216.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "217",
@@ -2945,7 +2945,7 @@
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_226\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_226.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "227",
@@ -3063,7 +3063,7 @@
     },
     "antwort": "C",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_235\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_235.jpg\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "236",
