@@ -23,7 +23,7 @@ python manage.py shell -c "
 from django.contrib.sites.models import Site
 import os
 domain = os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost')
-Site.objects.update_or_create(id=1, defaults={'domain': domain, 'name': 'Mainzer-Binger'})
+Site.objects.update_or_create(id=1, defaults={'domain': domain, 'name': 'RLP Rehber'})
 print(f'Site: {domain}')
 "
 

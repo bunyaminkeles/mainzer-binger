@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-posta Ayarları — RLP Rehber</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  {% load static %}
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <style>
+    body { margin:0; padding:0; min-height:100vh; background:#0f2240; }
+    .auth-wrapper { min-height:100vh; display:flex; flex-direction:row; }
+
+    .auth-panel-left {
+      flex: 1 1 55%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 4rem;
+      background:
+        linear-gradient(160deg, rgba(15,34,64,0.92) 0%, rgba(44,95,138,0.85) 50%, rgba(74,158,143,0.80) 100%),
+        repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px);
+    }
+    .rose-window {
+      position:absolute; top:-80px; right:-80px;
+      width:360px; height:360px; border-radius:50%;
+      border:3px solid rgba(255,255,255,0.1);
+      box-shadow: inset 0 0 0 30px rgba(255,255,255,0.04), inset 0 0 0 90px rgba(255,255,255,0.03), inset 0 0 0 150px rgba(255,255,255,0.02);
+    }
+    .rose-window-2 {
+      position:absolute; bottom:-120px; left:-100px;
+      width:400px; height:400px; border-radius:50%;
+      border:2px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 40px rgba(255,255,255,0.03), inset 0 0 0 120px rgba(255,255,255,0.02);
+    }
+    .auth-left-content { position:relative; z-index:2; color:#fff; text-align:center; max-width:480px; }
+    .auth-logo { font-size:1.1rem; font-weight:600; color:rgba(255,255,255,0.75); letter-spacing:2px; text-transform:uppercase; margin-bottom:2rem; }
+    .auth-left-title { font-size:2.4rem; font-weight:800; line-height:1.2; margin-bottom:1.2rem; }
+    .auth-left-title span { color:#7dd3c8; }
+    .auth-left-desc { font-size:1rem; color:rgba(255,255,255,0.75); line-height:1.7; }
+    .mainz-dom-svg { width:280px; margin:2rem auto 0; opacity:0.22; display:block; }
+    .back-to-home {
+      position:absolute; top:1.5rem; left:1.5rem;
+      color:rgba(255,255,255,0.7); font-size:0.9rem;
+      text-decoration:none; display:flex; align-items:center; gap:0.4rem; z-index:10;
+    }
+    .back-to-home:hover { color:#fff; }
+
+    .auth-panel-right {
+      flex: 0 0 460px;
+      background:#fff;
+      display:flex; flex-direction:column; justify-content:center;
+      padding:2.5rem 2.5rem;
+      overflow-y:auto;
+    }
+    .form-logo { display:flex; align-items:center; gap:0.5rem; font-weight:700; font-size:1.2rem; color:#2C5F8A; margin-bottom:1rem; text-decoration:none; }
+
+    /* E-posta satırı */
+    .email-row {
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:0.5rem;
+      padding:0.85rem 1rem;
+      border:1.5px solid #e2e8f0;
+      border-radius:10px;
+      margin-bottom:0.6rem;
+      background:#f8fafc;
+    }
+    .email-row.primary { border-color:#2C5F8A; background:#f0f5fb; }
+    .email-address { font-size:0.92rem; color:#2d3748; font-weight:500; word-break:break-all; }
+    .email-badges { display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.2rem; }
+
+    .email-actions { display:flex; gap:0.4rem; flex-wrap:wrap; }
+    .email-actions button {
+      padding:0.3rem 0.75rem; font-size:0.8rem; border-radius:6px; border:1.5px solid;
+      cursor:pointer; font-weight:500; transition:all .15s;
+    }
+    .btn-make-primary { background:#fff; border-color:#2C5F8A; color:#2C5F8A; }
+    .btn-make-primary:hover { background:#2C5F8A; color:#fff; }
+    .btn-resend { background:#fff; border-color:#6c757d; color:#6c757d; }
+    .btn-resend:hover { background:#6c757d; color:#fff; }
+    .btn-remove { background:#fff; border-color:#e53e3e; color:#e53e3e; }
+    .btn-remove:hover { background:#e53e3e; color:#fff; }
+
+    /* Yeni e-posta formu */
+    .add-email-box {
+      border:1.5px dashed #cbd5e0; border-radius:10px;
+      padding:1.2rem; margin-top:1.2rem; background:#fafcff;
+    }
+    .add-email-box h6 { font-weight:700; color:#1a2d3d; margin-bottom:0.8rem; font-size:0.95rem; }
+    .add-email-input {
+      display:flex; gap:0.5rem;
+    }
+    .add-email-input input[type="email"] {
+      flex:1; padding:0.6rem 0.9rem; font-size:0.9rem;
+      border:1.5px solid #e2e8f0; border-radius:8px; background:#fff; outline:none;
+    }
+    .add-email-input input[type="email"]:focus {
+      border-color:#2C5F8A; box-shadow:0 0 0 3px rgba(44,95,138,0.1);
+    }
+    .add-email-input button {
+      padding:0.6rem 1.2rem; background:linear-gradient(135deg,#2C5F8A 0%,#1a3d5c 100%);
+      color:#fff; border:none; border-radius:8px; font-size:0.88rem;
+      font-weight:600; cursor:pointer; white-space:nowrap;
+    }
+    .add-email-input button:hover { opacity:0.9; }
+
+    @media (max-width:900px) {
+      .auth-panel-left { display:none; }
+      .auth-panel-right { flex:1; max-width:100%; padding:2rem 1.5rem; }
+      .auth-wrapper { justify-content:center; background:linear-gradient(135deg,#2C5F8A 0%,#4A9E8F 100%); }
+      .auth-panel-right { border-radius:16px; margin:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+    }
+  </style>
+</head>
+<body>
+
+<a href="{% url 'core:anasayfa' %}" class="back-to-home">
+  <i class="bi bi-arrow-left"></i> Ana Sayfa
+</a>
+
+<div class="auth-wrapper">
+  <!-- Sol Panel -->
+  <div class="auth-panel-left">
+    <div class="rose-window"></div>
+    <div class="rose-window-2"></div>
+    <div class="auth-left-content">
+      <div class="auth-logo"><i class="bi bi-geo-alt-fill"></i> RLP Rehber</div>
+      <svg class="mainz-dom-svg" viewBox="0 0 320 200" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="80" width="25" height="120" rx="2"/>
+        <polygon points="20,80 32,50 45,80"/>
+        <rect x="55" y="100" width="20" height="100" rx="2"/>
+        <polygon points="55,100 65,75 75,100"/>
+        <rect x="85" y="60" width="40" height="140" rx="2"/>
+        <polygon points="85,60 105,20 125,60"/>
+        <circle cx="105" cy="42" r="8" fill="rgba(0,0,0,0.25)"/>
+        <rect x="135" y="90" width="30" height="110" rx="2"/>
+        <polygon points="135,90 150,65 165,90"/>
+        <rect x="175" y="70" width="35" height="130" rx="2"/>
+        <polygon points="175,70 192,40 210,70"/>
+        <rect x="220" y="95" width="25" height="105" rx="2"/>
+        <polygon points="220,95 232,70 245,95"/>
+        <rect x="255" y="85" width="30" height="115" rx="2"/>
+        <polygon points="255,85 270,55 285,85"/>
+        <path d="M0 175 Q80 168 160 175 Q240 182 320 170 L320 200 L0 200 Z" fill="rgba(74,158,143,0.6)"/>
+        <path d="M0 182 Q100 178 200 183 Q270 187 320 180 L320 200 L0 200 Z" fill="rgba(74,158,143,0.35)"/>
+      </svg>
+      <h1 class="auth-left-title mt-4">E-posta <span>Ayarları</span></h1>
+      <p class="auth-left-desc">Birden fazla e-posta ekleyebilir, birini birincil olarak belirleyebilirsiniz.</p>
+    </div>
+  </div>
+
+  <!-- Sağ Panel -->
+  <div class="auth-panel-right">
+    <a href="{% url 'core:anasayfa' %}" class="form-logo">
+      <i class="bi bi-geo-alt-fill text-primary"></i> RLP Rehber
+    </a>
+    <h2 style="font-size:1.4rem;font-weight:700;color:#1a2d3d;margin-bottom:0.3rem;">E-posta Adresleri</h2>
+    <p style="color:#718096;font-size:0.88rem;margin-bottom:1.2rem;">Hesabınıza bağlı adresler aşağıda listelenmektedir.</p>
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-3 py-2" role="alert" style="border-radius:8px;font-size:0.85rem;">
+        <i class="bi bi-info-circle me-1"></i>{{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if emailaddresses %}
+    {% for emailaddress in emailaddresses %}
+    <div class="email-row {% if emailaddress.primary %}primary{% endif %}">
+      <div>
+        <div class="email-address">
+          {% if emailaddress.primary %}<i class="bi bi-star-fill text-warning me-1" style="font-size:.8rem"></i>{% endif %}
+          {{ emailaddress.email }}
+        </div>
+        <div class="email-badges">
+          {% if emailaddress.primary %}
+          <span class="badge bg-primary" style="font-size:.72rem">Birincil</span>
+          {% endif %}
+          {% if emailaddress.verified %}
+          <span class="badge bg-success" style="font-size:.72rem"><i class="bi bi-check-circle me-1"></i>Doğrulandı</span>
+          {% else %}
+          <span class="badge bg-warning text-dark" style="font-size:.72rem"><i class="bi bi-exclamation-circle me-1"></i>Doğrulanmamış</span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="email-actions">
+        {% if not emailaddress.primary %}
+        <form method="post" action="{% url 'account_email' %}">
+          {% csrf_token %}
+          <input type="hidden" name="email" value="{{ emailaddress.email }}">
+          <button type="submit" name="action_primary" class="btn-make-primary">
+            <i class="bi bi-star me-1"></i>Birincil Yap
+          </button>
+        </form>
+        {% endif %}
+        {% if not emailaddress.verified %}
+        <form method="post" action="{% url 'account_email' %}">
+          {% csrf_token %}
+          <input type="hidden" name="email" value="{{ emailaddress.email }}">
+          <button type="submit" name="action_send" class="btn-resend">
+            <i class="bi bi-envelope me-1"></i>Tekrar Gönder
+          </button>
+        </form>
+        {% endif %}
+        {% if not emailaddress.primary %}
+        <form method="post" action="{% url 'account_email' %}">
+          {% csrf_token %}
+          <input type="hidden" name="email" value="{{ emailaddress.email }}">
+          <button type="submit" name="action_remove" class="btn-remove">
+            <i class="bi bi-trash me-1"></i>Kaldır
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="text-center text-muted py-3" style="font-size:0.9rem;">
+      <i class="bi bi-envelope-x fs-3 d-block mb-2 opacity-25"></i>
+      Henüz e-posta adresi eklenmemiş.
+    </div>
+    {% endif %}
+
+    <!-- Yeni e-posta ekle -->
+    <div class="add-email-box">
+      <h6><i class="bi bi-plus-circle me-1 text-primary"></i>Yeni E-posta Ekle</h6>
+      <form method="post" action="{% url 'account_email' %}">
+        {% csrf_token %}
+        <div class="add-email-input">
+          <input type="email" name="email" placeholder="yeni@eposta.com" required>
+          <button type="submit" name="action_add">Ekle</button>
+        </div>
+        {% if form.email.errors %}
+        <div style="color:#e53e3e;font-size:0.8rem;margin-top:.4rem;">
+          {% for error in form.email.errors %}<i class="bi bi-exclamation-circle me-1"></i>{{ error }}{% endfor %}
+        </div>
+        {% endif %}
+      </form>
+    </div>
+
+    <div class="mt-3 text-center" style="font-size:0.85rem;color:#718096;">
+      <a href="{% url 'core:dashboard' %}" class="text-primary text-decoration-none">
+        <i class="bi bi-arrow-left me-1"></i>Panele Dön
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

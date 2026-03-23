@@ -1,0 +1,11 @@
+Merhaba {{ user.username }},
+
+E-posta adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:
+
+{{ activate_url }}
+
+Bu işlemi siz yapmadıysanız bu e-postayı görmezden gelebilirsiniz.
+
+—
+RLP Rehber Ekibi
+{{ current_site.domain }}
