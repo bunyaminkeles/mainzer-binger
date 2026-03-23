@@ -11,7 +11,7 @@
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_rp_1\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_rp_1.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "RP-2",
@@ -103,7 +103,7 @@
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_rp_8\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_rp_8.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "RP-9",

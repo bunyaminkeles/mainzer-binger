@@ -264,14 +264,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Welches ist das Wappen der Bundesrepublik Deutschland?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Bild 1",
+      "B": "Bild 2",
+      "C": "Bild 3",
+      "D": "Bild 4"
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_21\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_021.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "22",
@@ -707,14 +707,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Was zeigt dieses Bild?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "den Bundestagssitz in Berlin",
+      "B": "das Bundesverfassungsgericht in Karlsruhe",
+      "C": "das Bundesratsgebäude in Berlin",
+      "D": "das Bundeskanzleramt in Berlin"
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_55\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_055.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "56",
@@ -903,14 +903,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Der deutsche Bundespräsident Gustav Heinemann gibt Helmut Schmidt 1974 die Ernennungsurkunde zum deutschen Bundeskanzler. Was gehört zu den Aufgaben des deutschen Bundespräsidenten / der deutschen Bundespräsidentin?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Sie/Er führt die Regierungsgeschäfte.",
+      "B": "Sie/Er kontrolliert die Regierungspartei.",
+      "C": "Sie/Er wählt die Ministerinnen/Minister aus.",
+      "D": "Sie/Er schlägt die Kanzlerin/den Kanzler zur Wahl vor."
     },
     "antwort": "D",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_70\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_070.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "71",
@@ -1684,14 +1684,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Welcher Stimmzettel wäre bei einer Bundestagswahl gültig?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "4"
     },
     "antwort": "A",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_130\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_130.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "131",
@@ -2283,14 +2283,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Wie waren die Besatzungszonen Deutschlands nach 1945 verteilt?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "1=Großbritannien, 2=Sowjetunion, 3=Frankreich, 4=USA",
+      "B": "1=Sowjetunion, 2=Großbritannien, 3=USA, 4=Frankreich",
+      "C": "1=Großbritannien, 2=Sowjetunion, 3=USA, 4=Frankreich",
+      "D": "1=Großbritannien, 2=USA, 3=Sowjetunion, 4=Frankreich"
     },
     "antwort": "C",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_176\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_176.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "177",
@@ -2349,14 +2349,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Was wollte Willy Brandt mit seinem Kniefall 1970 im ehemaligen jüdischen Ghetto in Warschau ausdrücken?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Er hat sich den ehemaligen Alliierten unterworfen.",
+      "B": "Er bat Polen und die polnischen Juden um Vergebung.",
+      "C": "Er zeigte seine Demut vor dem Warschauer Pakt.",
+      "D": "Er sprach ein Gebet am Grab des Unbekannten Soldaten."
     },
     "antwort": "B",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_181\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_181.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "182",
@@ -2428,14 +2428,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Welcher deutsche Staat hatte eine schwarz-rot-goldene Flagge mit Hammer, Zirkel und Ährenkranz?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Preußen",
+      "B": "Bundesrepublik Deutschland",
+      "C": "\"Drittes Reich\"",
+      "D": "DDR"
     },
     "antwort": "C",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_187\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_187.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "188",
@@ -2715,14 +2715,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Welches war das Wappen der Deutschen Demokratischen Republik?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Bild 1",
+      "B": "Bild 2",
+      "C": "Bild 3",
+      "D": "Bild 4"
     },
     "antwort": "D",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_209\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_209.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "210",
@@ -2807,14 +2807,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Welches Symbol ist im Plenarsaal des Deutschen Bundestages zu sehen?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "der Bundesadler",
+      "B": "die Fahne der Stadt Berlin",
+      "C": "der Reichsadler",
+      "D": "die Reichskrone"
     },
     "antwort": "B",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_216\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_216.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "217",
@@ -2938,14 +2938,14 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Welche ist die Flagge der Europäischen Union?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Bild 1",
+      "B": "Bild 2",
+      "C": "Bild 3",
+      "D": "Bild 4"
     },
-    "antwort": "A",
+    "antwort": "B",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_226\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_226.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "227",
@@ -3054,16 +3054,16 @@
   {
     "id": "235",
     "thema": "Leben in Deutschland — Genel",
-    "frage": "Der französische Staatspräsident François Mitterrand und der deutsche Bundeskanzler Helmut Kohl gedenken in Verdun gemeinsam der Toten beider Weltkriege. Welches Ziel der Europäischen Union wird bei diesem Treffen deutlich?",
+    "frage": "Der damalige französische Staatspräsident François Mitterrand und der damalige deutsche Bundeskanzler Helmut Kohl gedenken in Verdun gemeinsam der Toten beider Weltkriege. Welches Ziel der Europäischen Union wird bei diesem Treffen deutlich?",
     "optionen": {
-      "A": "Seçenek 1",
-      "B": "Seçenek 2",
-      "C": "Seçenek 3",
-      "D": "Seçenek 4"
+      "A": "Freundschaft zwischen England und Deutschland",
+      "B": "Reisefreiheit in alle Länder der EU",
+      "C": "Frieden und Sicherheit in den Ländern der EU",
+      "D": "einheitliche Feiertage in den Ländern der EU"
     },
     "antwort": "C",
     "erklaerung": "",
-    "lesetext": "<img src=\"frage_235\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
+    "lesetext": "<img src=\"/static/img/lid/frage_235.png\" style=\"max-width:100%;border-radius:8px;margin-bottom:0.5rem;\" alt=\"Sınav görseli\">"
   },
   {
     "id": "236",
