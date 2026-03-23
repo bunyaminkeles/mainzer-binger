@@ -27,26 +27,13 @@ Site.objects.update_or_create(id=1, defaults={'domain': domain, 'name': 'RLP Reh
 print(f'Site: {domain}')
 "
 
-echo "==> Blog yazilari..."
+echo "==> Seed veriler..."
 python blog_yazilari_ekle.py || true
-
-echo "==> Reklam paketleri..."
 python reklam_paketleri_seed.py || true
-
-echo "==> Linkler ve rehber seed..."
 python linkler_seed.py || true
-
-echo "==> Yerler seed..."
 python yerler_seed.py || true
-
-echo "==> Takvim seed..."
 python takvim_seed.py || true
-
-echo "==> Forum seed..."
 python forum_seed.py || true
 
-echo "==> RSS duyurular..."
-python manage.py rss_cek --sadece-rss || true
-
 echo "==> Gunicorn basliyor..."
-exec gunicorn config.wsgi --bind 0.0.0.0:8000 --workers 2 --log-file -
+exec gunicorn config.wsgi --bind 0.0.0.0:8000 --workers 2 --timeout 120 --log-file -
