@@ -184,6 +184,83 @@ YAZILAR = [
 </div>
 '''.strip(),
     },
+    {
+        'baslik': 'RLP\'de Hemşirelik Denkliği: Bilmeniz Gereken Her Şey',
+        'slug': 'rlpde-hemsirelik-denkligi-rehberi',
+        'kapak_resmi': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80',
+        'scope': 'eyalet',
+        'ozet': "Türkiye'de hemşire oldunuz, Rheinland-Pfalz'da çalışmak istiyorsunuz. Denklik başvurusu nereye yapılır, hangi belgeler gerekir, stratejik kısayollar nelerdir? İşte eksiksiz rehber.",
+        'icerik': '''
+<p class="lead">Türkiye'de hemşirelik diploması aldınız. Şimdi Rheinland-Pfalz'da çalışmak istiyorsunuz. Bunun için denklik (Anerkennung) almanız şart. Ama süreç sadece diploma göndermekten ibaret değil. Bilmeniz gereken önemli detaylar var.</p>
+
+<h4>1. Başvuru Nereye Yapılır?</h4>
+
+<p>RLP'de hemşirelik denkliği için tek yetkili kurum Landau'daki <strong>Landesamt für Soziales, Jugend und Versorgung</strong>'dur. Başvuru online değil, posta ile yapılıyor. Resmi formu doldurup ıslak imzanızla birlikte belgelerinizi kuruma göndermeniz gerekiyor.</p>
+
+<p>Önemli bir nokta: kurum dosyayı ancak belgeler eksiksizse incelemeye alıyor. Eksik evrakla göndermek süreci uzatır. Bu yüzden göndermeden önce güvendiğiniz bir kurumla ön kontrol yaptırmanızı öneririz.</p>
+
+<h4>2. Gerekli Belgeler</h4>
+
+<ul>
+  <li><strong>Kimlik / Pasaport:</strong> Basit fotokopi yeterli.</li>
+  <li><strong>Diploma ve Sağlık Bakanlığı Tescili:</strong> Diplomanızın ve Türkiye Sağlık Bakanlığı tescilinin (genellikle diplomanın arkasındaki kaşe) orijinal fotokopisi ve Almanca çevirisi.</li>
+  <li><strong>Transkript ve Müfredat:</strong> Okulunuzdan alacağınız; derslerin, ders saatlerinin ve klinik stajların teorik/pratik içeriklerini gösteren detaylı döküm. Orijinal fotokopi ve Almanca çevirisiyle birlikte.</li>
+  <li><strong>Çalışma Belgesi ve CV:</strong> Son 5 yılda en az 2 yıl çalıştıysanız nitelikli hizmet belgeniz ve mesleki deneyimlerinizi gösteren tablo şeklinde CV.</li>
+</ul>
+
+<div class="info-box">
+  <strong>⚠️ Çeviriler Hakkında</strong><br>
+  Tüm belgeler yeminli tercüman tarafından çevrilmek zorunda. Almanya'daki yeminli tercümanlara
+  <a href="http://www.justiz-dolmetscher.de" target="_blank" rel="noopener">www.justiz-dolmetscher.de</a>
+  adresinden ulaşabilirsiniz.
+</div>
+
+<h4>3. Maliyetler ve Maddi Destek</h4>
+
+<p>Eyalet Ofisi'nin dosya inceleme harcı <strong>50€ ile 300€</strong> arasında. Ama asıl maliyet buradan gelmiyor. Yüzlerce sayfalık hemşirelik müfredatının yeminli çevirisi çok daha yüksek bir fatura çıkarabiliyor.</p>
+
+<p>Neyse ki bu masraflar için <strong>Anerkennungszuschuss (Denklik Ödeneği)</strong> adında bir destek var. Başvuru detaylarına şuradan ulaşabilirsiniz:<br>
+<a href="https://www.anerkennung-in-deutschland.de/html/de/pro/anerkennungszuschuss.php" target="_blank" rel="noopener">anerkennung-in-deutschland.de — Anerkennungszuschuss</a></p>
+
+<div class="info-box">
+  <strong>🚨 Kritik Kural</strong><br>
+  Destek başvurusunu tercümanla anlaşmadan ve resmi başvuruyu yapmadan <strong>ÖNCE</strong> tamamlamak zorundasınız. Geriye dönük ödeme yapılmıyor.
+</div>
+
+<h4>4. Stratejik Kısayol: Eşdeğerlik İncelemesinden Feragat</h4>
+
+<p>Türkiye eğitimi incelendiğinde büyük ihtimalle "kısmen tanınır" sonucu çıkıyor. AB standartlarıyla fark özellikle yaşlı bakımı ve psikiyatri staj saatlerinde oluşuyor. Bu durumda sizden uyum kursu veya sınav isteniyor.</p>
+
+<p>Eğer saatlerinizin uyuşmadığını baştan biliyorsanız akıllı bir seçenek var: başvuru formunda <strong>eşdeğerlik incelemesinden (Gleichwertigkeitsprüfung) feragat edip doğrudan bilgi sınavına veya uyum kursuna girmeyi talep edebilirsiniz.</strong></p>
+
+<p>Bu sayede yüzlerce sayfalık müfredat çevirisi yaptırmanıza gerek kalmıyor. Hem para hem zaman kazanıyorsunuz.</p>
+
+<h4>5. Denklik Gelse de Yetmez: 3 Eksik Parça</h4>
+
+<p>Diploma onayınız gelse bile çalışma ruhsatını (Berufserlaubnis/Urkunde) alabilmek için şu üç şart daha gerekiyor:</p>
+
+<ol class="blog-steps">
+  <li>
+    <strong>B2 Seviye Almanca</strong><br>
+    Resmi ve tanınmış bir B2 dil sertifikası olmadan çalışamazsınız. Goethe, Telc veya ÖSD sertifikaları kabul ediliyor.
+  </li>
+  <li>
+    <strong>Sağlık Raporu</strong><br>
+    Mesleği yapmaya bedensel ve ruhsal olarak uygun olduğunuzu gösteren güncel doktor raporu.
+  </li>
+  <li>
+    <strong>Adli Sicil Kaydı</strong><br>
+    Hem Türkiye'den hem de Almanya'dan temiz sabıka kaydı gerekiyor.
+  </li>
+</ol>
+
+<div class="info-box mt-4">
+  <strong>🔗 Faydalı Linkler</strong><br>
+  <a href="http://www.justiz-dolmetscher.de" target="_blank" rel="noopener">Almanya Yeminli Tercümanlar — justiz-dolmetscher.de</a><br>
+  <a href="https://www.anerkennung-in-deutschland.de/html/de/pro/anerkennungszuschuss.php" target="_blank" rel="noopener">Denklik Ödeneği Başvurusu — anerkennung-in-deutschland.de</a>
+</div>
+'''.strip(),
+    },
 ]
 
 eklendi = guncellendi = 0
