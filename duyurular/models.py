@@ -20,7 +20,7 @@ class Duyuru(models.Model):
     baslik      = models.CharField(max_length=300)
     icerik      = models.TextField()
     kategori    = models.CharField(max_length=20, choices=KATEGORI_SECENEKLERI, default='genel')
-    kaynak_url  = models.URLField(blank=True)
+    kaynak_url  = models.URLField(blank=True, max_length=500)
     yayinda     = models.BooleanField(default=True)
     olusturulma = models.DateTimeField(auto_now_add=True)
 

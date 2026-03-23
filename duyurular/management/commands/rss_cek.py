@@ -22,6 +22,7 @@ RSS_KAYNAKLAR = [
         'kategori':   'belediye',
         'kaynak':     'Mainz-Bingen Landkreis',
         'stadt_slug': 'mainz-bingen',
+        'ssl_verify': False,
     },
     {
         'url':      'https://www.mfa.gov.tr/rss.tr.mfa',
@@ -151,7 +152,7 @@ class Command(BaseCommand):
         scope = 'stadt' if stadt else 'eyalet'
 
         try:
-            resp = requests.get(kaynak['url'], headers=HEADERS, timeout=15)
+            resp = requests.get(kaynak['url'], headers=HEADERS, timeout=15, verify=kaynak.get('ssl_verify', True))
             resp.raise_for_status()
             feed = feedparser.parse(resp.content)
 
