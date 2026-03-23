@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block content %}
+
+{# Kapak resmi #}
 {% if yer.kapak_resmi %}
 <div class="yer-kapak mb-0" style="height:340px;overflow:hidden;background:#222">
   <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
@@ -18,20 +20,72 @@
     <i class="bi bi-arrow-left me-1"></i>Geri
   </a>
 
-  <span class="badge bg-secondary mb-2">{{ yer.get_kategori_display }}</span>
+  <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+    <span class="badge bg-secondary">{{ yer.get_kategori_display }}</span>
+    {% if yer.paket == 'one_cikan' %}
+    <span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>Öne Çıkan</span>
+    {% elif yer.paket == 'standart' %}
+    <span class="badge bg-secondary">Standart</span>
+    {% endif %}
+  </div>
+
   <h2 class="mb-1">{{ yer.ad }}</h2>
   <p class="text-muted mb-3"><i class="bi bi-geo-alt me-1"></i>{{ yer.adres }}</p>
 
-  {% if yer.telefon %}
-  <p><i class="bi bi-telephone me-1 text-primary"></i>{{ yer.telefon }}</p>
-  {% endif %}
-
-  <div class="d-flex gap-2 flex-wrap mb-4">
-    {% if yer.maps_url %}<a href="{{ yer.maps_url }}" target="_blank" class="btn btn-sm btn-primary"><i class="bi bi-map me-1"></i>Google Maps</a>{% endif %}
-    {% if yer.website %}<a href="{{ yer.website }}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-globe me-1"></i>Web Sitesi</a>{% endif %}
-    {% if yer.wikipedia_url %}<a href="{{ yer.wikipedia_url }}" target="_blank" class="btn btn-sm btn-outline-dark"><i class="bi bi-wikipedia me-1"></i>Wikipedia</a>{% endif %}
+  {# İletişim bilgileri #}
+  <div class="d-flex gap-2 flex-wrap mb-3">
+    {% if yer.telefon %}
+    <a href="tel:{{ yer.telefon }}" class="btn btn-sm btn-outline-primary">
+      <i class="bi bi-telephone me-1"></i>{{ yer.telefon }}
+    </a>
+    {% endif %}
+    {% if yer.whatsapp %}
+    <a href="https://wa.me/{{ yer.whatsapp }}" target="_blank" rel="noopener" class="btn btn-sm btn-success">
+      <i class="bi bi-whatsapp me-1"></i>WhatsApp
+    </a>
+    {% endif %}
+    {% if yer.instagram_url %}
+    <a href="{{ yer.instagram_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-danger">
+      <i class="bi bi-instagram me-1"></i>Instagram
+    </a>
+    {% endif %}
+    {% if yer.maps_url %}
+    <a href="{{ yer.maps_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-primary">
+      <i class="bi bi-map me-1"></i>Google Maps
+    </a>
+    {% endif %}
+    {% if yer.website %}
+    <a href="{{ yer.website }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary">
+      <i class="bi bi-globe me-1"></i>Web Sitesi
+    </a>
+    {% endif %}
+    {% if yer.wikipedia_url %}
+    <a href="{{ yer.wikipedia_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark">
+      <i class="bi bi-wikipedia me-1"></i>Wikipedia
+    </a>
+    {% endif %}
   </div>
 
+  {# Çalışma saatleri #}
+  {% if yer.calisma_saati %}
+  <p class="text-muted mb-3"><i class="bi bi-clock me-1"></i>{{ yer.calisma_saati }}</p>
+  {% endif %}
+
+  {# Ek fotoğraflar (kapak hariç) #}
+  {% if fotolar %}
+  <div class="row g-2 mb-4">
+    {% for foto in fotolar %}
+    <div class="col-4 col-md-3">
+      <a href="{{ foto.url }}" target="_blank">
+        <img src="{{ foto.url }}" alt="{{ yer.ad }} fotoğraf {{ forloop.counter }}"
+             class="img-fluid rounded" style="height:120px;width:100%;object-fit:cover">
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {# İçerik / açıklama #}
   {% if yer.icerik %}
   <div class="blog-content">{{ yer.icerik|safe }}</div>
   {% elif yer.aciklama %}
