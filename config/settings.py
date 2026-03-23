@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     # Zamanlayıcı
     'django_crontab',
 
+    # SEO
+    'django.contrib.sitemaps',
+
     # Proje app'leri
     'stadt',
     'core',

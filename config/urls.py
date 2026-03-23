@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
+from django.contrib.sitemaps.views import sitemap
+from core.sitemaps import SITEMAPS
 
 # Eski URL'lerden /mainz/ prefix'li yeni URL'lere 301 redirect
 OLD_MAINZ_REDIRECTS = [
@@ -18,6 +20,9 @@ OLD_MAINZ_REDIRECTS = [
 ]
 
 urlpatterns = [
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    path('sitemap.xml', sitemap, {'sitemaps': SITEMAPS}, name='django.contrib.sitemaps.views.sitemap'),
+
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('accounts.urls')),
