@@ -207,6 +207,7 @@ def katalog(request, slug):
     return render(request, 'almanca/katalog.html', {
         'slug': slug, 'thema': thema, 'tr': tr,
         'sorular': sorular, 'toplam': len(sorular),
+        'son_guncelleme': engine.konu_son_guncelleme(slug),
     })
 
 

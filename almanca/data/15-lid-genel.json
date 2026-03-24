@@ -849,14 +849,14 @@
   {
     "id": "66",
     "thema": "Leben in Deutschland — Genel",
-    "frage": "Wer schrieb den Text zur deutschen Nationalhymne?",
+    "frage": "Welche Städte haben die größten jüdischen Gemeinden in Deutschland?",
     "optionen": {
-      "A": "Friedrich von Schiller",
-      "B": "Clemens Brentano",
-      "C": "Johann Wolfgang von Goethe",
-      "D": "Heinrich Hoffmann von Fallersleben"
+      "A": "Berlin und München",
+      "B": "Hamburg und Essen",
+      "C": "Nürnberg und Stuttgart",
+      "D": "Worms und Speyer"
     },
-    "antwort": "D",
+    "antwort": "A",
     "erklaerung": ""
   },
   {
@@ -928,12 +928,12 @@
   {
     "id": "72",
     "thema": "Leben in Deutschland — Genel",
-    "frage": "Wie heißt der jetzige Bundeskanzler / die jetzige Bundeskanzlerin von Deutschland?",
+    "frage": "Wie heißt die jetzige Bundeskanzlerin / der jetzige Bundeskanzler von Deutschland?",
     "optionen": {
       "A": "Gerhard Schröder",
       "B": "Angela Merkel",
-      "C": "Franziska Giffey",
-      "D": "Olaf Scholz"
+      "C": "Ursula von der Leyen",
+      "D": "Friedrich Merz"
     },
     "antwort": "D",
     "erklaerung": ""
@@ -943,10 +943,10 @@
     "thema": "Leben in Deutschland — Genel",
     "frage": "Die beiden größten Fraktionen im Deutschen Bundestag heißen zurzeit ...",
     "optionen": {
-      "A": "CDU/CSU und SPD.",
+      "A": "CDU/CSU und AfD.",
       "B": "Die Linke und Bündnis 90/Die Grünen.",
-      "C": "FDP und SPD.",
-      "D": "Die Linke und FDP."
+      "C": "Bündnis 90/Die Grünen und SPD.",
+      "D": "Die Linke und CDU/CSU."
     },
     "antwort": "A",
     "erklaerung": ""

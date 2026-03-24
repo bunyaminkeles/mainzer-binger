@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 
 
 ONERI_TUR = [
@@ -24,3 +25,21 @@ class Oneri(models.Model):
 
     def __str__(self):
         return f'{self.get_tur_display()} — {self.ad or "Anonim"} ({self.olusturulma:%d.%m.%Y})'
+
+
+class SiteZiyaret(models.Model):
+    """Toplam benzersiz ziyaretçi sayısını tutar (tek satır)."""
+    toplam = models.PositiveBigIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Site Ziyareti'
+
+    @classmethod
+    def sayac(cls) -> int:
+        obj, _ = cls.objects.get_or_create(id=1)
+        return obj.toplam
+
+    @classmethod
+    def artir(cls):
+        cls.objects.update_or_create(id=1, defaults={})
+        cls.objects.filter(id=1).update(toplam=F('toplam') + 1)

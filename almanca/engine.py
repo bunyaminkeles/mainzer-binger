@@ -11,6 +11,12 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).parent / 'data'
 
+# Son güncelleme tarihleri (slug → tarih)
+SON_GUNCELLEME: dict[str, str] = {
+    'lid-genel': 'Mart 2026',
+    'lid-rlp':   'Mart 2026',
+}
+
 # slug → (dosya adı, thema, türkçe ad, kategori)
 KONULAR: dict[str, tuple[str, str, str, str]] = {
     'zu-infinitiv':          ('1-zu_infinitiv.json',              'zu + Infinitiv',               'zu + Mastar',                  'Almanca Dilbilgisi'),
@@ -126,6 +132,11 @@ def konu_bilgi(slug: str) -> tuple[str, str] | None:
     if not entry:
         return None
     return entry[1], entry[2]
+
+
+def konu_son_guncelleme(slug: str) -> str:
+    """slug → son güncelleme tarihi döner."""
+    return SON_GUNCELLEME.get(slug, '')
 
 
 def soru_sayisi(slug: str) -> int:
