@@ -1,0 +1,19 @@
+name: Keep Alive - mainzer.onrender.com
+
+on:
+  schedule:
+    - cron: '*/12 * * * *'
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping mainzer.onrender.com
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://mainzer.onrender.com)
+          echo "HTTP Status: $response"
+          if [ "$response" != "200" ]; then
+            echo "UYARI: Site $response döndürdü!"
+          else
+            echo "OK: Site ayakta."
+          fi
