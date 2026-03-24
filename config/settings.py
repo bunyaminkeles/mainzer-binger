@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'core.middleware.ZiyaretSayaciMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -81,6 +82,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'stadt.context_processors.alle_staedte',
+                'core.context_processors.ziyaret_sayisi',
             ],
         },
     },
