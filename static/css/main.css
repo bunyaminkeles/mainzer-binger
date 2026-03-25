@@ -26,6 +26,13 @@ body {
   color: #fff !important;
   letter-spacing: 0.5px;
 }
+.navbar-brand-eyalet {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
 .navbar-nav .nav-link {
   color: rgba(255,255,255,0.85) !important;
   font-size: 0.9rem;

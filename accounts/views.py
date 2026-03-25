@@ -14,7 +14,7 @@ def dashboard(request):
     profil, _ = Profil.objects.get_or_create(kullanici=request.user)
 
     # Kullanıcının şehrini bul, yoksa ilk aktif şehri kullan
-    stadt = Stadt.objects.filter(aktiv=True).first()
+    stadt = Stadt.objects.select_related('eyalet').filter(aktiv=True).first()
 
     son_duyurular  = Duyuru.objects.filter(yayinda=True).order_by('-olusturulma')[:5]
     yaklasan       = Etkinlik.objects.filter(tarih__gte=timezone.now().date()).order_by('tarih')[:5]
@@ -22,9 +22,11 @@ def dashboard(request):
     son_konular    = Konu.objects.select_related('yazar', 'kategori').order_by('-guncelleme')[:5]
     son_bloglar    = BlogYazisi.objects.filter(yayinda=True).order_by('-olusturulma')[:3]
     benim_konularim = Konu.objects.filter(yazar=request.user).count()
+    eyalet_slug = stadt.eyalet.slug if stadt and stadt.eyalet else 'rlp'
     return render(request, 'core/dashboard.html', {
         'profil': profil,
         'stadt': stadt,
+        'eyalet_slug': eyalet_slug,
         'son_duyurular': son_duyurular,
         'yaklasan': yaklasan,
         'benim_ilanim': benim_ilanim,

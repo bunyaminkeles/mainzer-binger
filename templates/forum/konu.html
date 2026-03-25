@@ -45,7 +45,7 @@
   </div>
   {% elif not user.is_authenticated %}
   <div class="alert alert-light mt-3">
-    <a href="{% url 'account_login' %}">Giriş yapın</a> ve tartışmaya katılın.
+    <a href="{% url 'account_login' %}?next={{ request.path }}">Giriş yapın</a> ve tartışmaya katılın.
   </div>
   {% endif %}
 </div>

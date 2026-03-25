@@ -306,6 +306,62 @@
     }
     .auth-alt-link a:hover { text-decoration: underline; }
 
+    /* Forum Kuralları Kutusu */
+    .rules-box {
+      border: 1.5px solid #c6ede8;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .rules-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.9rem;
+      background: #f0faf8;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #2d6a62;
+      user-select: none;
+    }
+    .rules-box-header:hover { background: #e4f5f2; }
+    #rulesChevron { transition: transform 0.2s; font-size: 0.8rem; }
+    #rulesChevron.open { transform: rotate(180deg); }
+    .rules-list {
+      display: none;
+      margin: 0;
+      padding: 0.75rem 0.9rem 0.75rem 1.8rem;
+      font-size: 0.8rem;
+      color: #4a5568;
+      line-height: 1.65;
+      background: #fff;
+    }
+    .rules-list.open { display: block; }
+    .rules-list li { margin-bottom: 0.35rem; }
+    .rules-list li:last-child { margin-bottom: 0; }
+
+    /* Onay checkbox */
+    .rules-accept {
+      margin-bottom: 0.5rem;
+    }
+    .rules-accept-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: #2d3748;
+      cursor: pointer;
+    }
+    .rules-accept-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: #4A9E8F;
+      cursor: pointer;
+    }
+
     @media (max-width: 900px) {
       .auth-panel-left { display: none; }
       .auth-panel-right { flex: 1; max-width: 100%; padding: 2rem 1.5rem; }
@@ -507,13 +563,37 @@
         {% endif %}
       {% endfor %}
 
-      <button type="submit" class="auth-submit-btn">
+      <!-- Forum Kuralları -->
+      <div class="rules-box">
+        <div class="rules-box-header" onclick="toggleRules()" id="rulesHeader">
+          <span><i class="bi bi-shield-check me-2"></i>Topluluk Kuralları</span>
+          <i class="bi bi-chevron-down" id="rulesChevron"></i>
+        </div>
+        <ol class="rules-list" id="rulesList">
+          <li>Diğer üyelere saygılı ve nazik davranın; hakaret, aşağılama ve iftira kesinlikle yasaktır.</li>
+          <li>Kişisel bilgiler (adres, telefon, kimlik numarası vb.) paylaşmaktan ve başkasının bilgilerini izinsiz yaymaktan kaçının.</li>
+          <li>Spam, reklam amaçlı mesajlar ve art arda tekrarlanan içerikler yayınlamayın.</li>
+          <li>Nefret söylemi, ayrımcılık, şiddet çağrısı veya yasadışı içerik paylaşmak kesinlikle yasaktır.</li>
+          <li>Telif hakkı korumalı materyalleri izinsiz paylaşmayın; kaynaklarınızı belirtin.</li>
+          <li>Konu başlıklarını ilgili kategorilerde açın; konu dışı veya mükerrer başlık açmaktan kaçının.</li>
+          <li>Moderatör ve yöneticilerin uyarılarına uyun; ihlaller hesap askıya alma veya kalıcı yasakla sonuçlanabilir.</li>
+        </ol>
+      </div>
+
+      <!-- Zorunlu Onay -->
+      <div class="rules-accept" id="rulesAcceptWrapper">
+        <label class="rules-accept-label">
+          <input type="checkbox" id="rulesAccept" name="rules_accept" required>
+          <span>Topluluk kurallarını okudum ve kabul ediyorum.</span>
+        </label>
+        <div class="field-error d-none" id="rulesError">
+          <i class="bi bi-exclamation-circle"></i> Devam etmek için kuralları kabul etmeniz gerekiyor.
+        </div>
+      </div>
+
+      <button type="submit" class="auth-submit-btn" id="submitBtn">
         <i class="bi bi-person-plus me-2"></i>Ücretsiz Kayıt Ol
       </button>
-
-      <p class="terms-note">
-        Kayıt olarak topluluğun kurallarını kabul etmiş olursunuz.
-      </p>
     </form>
 
     <div class="auth-divider">zaten üye misin?</div>
@@ -526,5 +606,34 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleRules() {
+    const list = document.getElementById('rulesList');
+    const chevron = document.getElementById('rulesChevron');
+    list.classList.toggle('open');
+    chevron.classList.toggle('open');
+  }
+
+  document.querySelector('.auth-form').addEventListener('submit', function(e) {
+    const cb = document.getElementById('rulesAccept');
+    const err = document.getElementById('rulesError');
+    if (!cb.checked) {
+      e.preventDefault();
+      err.classList.remove('d-none');
+      // Kurallar kutusunu aç
+      const list = document.getElementById('rulesList');
+      const chevron = document.getElementById('rulesChevron');
+      list.classList.add('open');
+      chevron.classList.add('open');
+      document.getElementById('rulesAcceptWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  document.getElementById('rulesAccept').addEventListener('change', function() {
+    if (this.checked) {
+      document.getElementById('rulesError').classList.add('d-none');
+    }
+  });
+</script>
 </body>
 </html>

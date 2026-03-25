@@ -38,8 +38,8 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'core:anasayfa' %}">
-      <i class="bi bi-geo-alt-fill me-1"></i>Almanya Rehber
+    <a class="navbar-brand" href="{% if eyalet_slug %}/{{ eyalet_slug }}/{% else %}{% url 'core:anasayfa' %}{% endif %}">
+      <i class="bi bi-geo-alt-fill me-1"></i>Almanya Rehber{% if eyalet_slug %} <span class="navbar-brand-eyalet">{% for e in alle_eyaletler %}{% if e.slug == eyalet_slug %}{{ e.ad }}{% endif %}{% endfor %}</span>{% endif %}
     </a>
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <i class="bi bi-list text-white fs-4"></i>
@@ -171,7 +171,7 @@
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_login' %}"><i class="bi bi-box-arrow-in-right me-1"></i>Giriş</a>
+            <a class="nav-link" href="{% url 'account_login' %}?next={{ request.path }}"><i class="bi bi-box-arrow-in-right me-1"></i>Giriş</a>
           </li>
           <li class="nav-item">
             <a class="btn btn-accent btn-sm px-3 ms-1" href="{% url 'account_signup' %}">Kayıt Ol</a>
