@@ -17,6 +17,15 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# HTTPS güvenlik ayarları (production'da aktif)
+if not DEBUG:
+    SECURE_SSL_REDIRECT         = True
+    SECURE_PROXY_SSL_HEADER     = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE       = True
+    CSRF_COOKIE_SECURE          = True
+    SECURE_HSTS_SECONDS         = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -161,7 +170,7 @@ if config('RESEND_API_KEY', default=''):
     ANYMAIL = {
         'RESEND_API_KEY': config('RESEND_API_KEY'),
     }
-    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='RLP Rehber <info@analizus.com>')
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Almanyalı Rehber <info@almanyalirehber.com>')
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
