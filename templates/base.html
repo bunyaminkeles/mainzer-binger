@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="f882ed2d634aa7da">
   <meta name="msvalidate.01" content="ADBE180D182697D8DE663913B5C16744">
-  <title>{% block title %}{% if stadt %}{{ stadt.name }} — RLP Rehber{% else %}RLP Rehber{% endif %}{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}Rheinland-Pfalz'da yeni başlayanlar için Türkçe kaynak platformu.{% endblock %}">
+  <title>{% block title %}{% if stadt %}{{ stadt.name }} — Almanya Rehber{% else %}Almanya Rehber{% endif %}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Almanya'da yeni başlayanlar için Türkçe kaynak platformu.{% endblock %}">
   <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
   <!-- Open Graph -->
-  <meta property="og:site_name" content="RLP Rehber">
+  <meta property="og:site_name" content="Almanya Rehber">
   <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
-  <meta property="og:title" content="{% block og_title %}{% if stadt %}{{ stadt.name }} — RLP Rehber{% else %}RLP Rehber{% endif %}{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Rheinland-Pfalz'da yeni başlayanlar için Türkçe kaynak platformu.{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{% if stadt %}{{ stadt.name }} — Almanya Rehber{% else %}Almanya Rehber{% endif %}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Almanya'da yeni başlayanlar için Türkçe kaynak platformu.{% endblock %}">
   <meta property="og:type" content="website">
   {% block og_image %}{% endblock %}
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="{% block twitter_title %}{% if stadt %}{{ stadt.name }} — RLP Rehber{% else %}RLP Rehber{% endif %}{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Rheinland-Pfalz'da yeni başlayanlar için Türkçe kaynak platformu.{% endblock %}">
+  <meta name="twitter:title" content="{% block twitter_title %}{% if stadt %}{{ stadt.name }} — Almanya Rehber{% else %}Almanya Rehber{% endif %}{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Almanya'da yeni başlayanlar için Türkçe kaynak platformu.{% endblock %}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   {% load static %}
@@ -39,7 +39,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="{% url 'core:anasayfa' %}">
-      <i class="bi bi-geo-alt-fill me-1"></i>RLP Rehber
+      <i class="bi bi-geo-alt-fill me-1"></i>Almanya Rehber
     </a>
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <i class="bi bi-list text-white fs-4"></i>
@@ -79,47 +79,66 @@
       </ul>
 
 <ul class="navbar-nav ms-auto gap-1 align-items-center">
-        {# Şehir switcher #}
-        {% if stadt %}
+        {# Eyalet + Şehir switcher #}
+
+        {# Eyalet seç dropdown #}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-warning fw-semibold" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="bi bi-geo-fill me-1"></i>{{ stadt.name }}
+          <a class="nav-link dropdown-toggle {% if eyalet_slug and eyalet_slug != 'rlp' %}text-info fw-semibold{% endif %}"
+             href="#" role="button" data-bs-toggle="dropdown" id="eyaletDropdown">
+            <i class="bi bi-map me-1"></i>
+            {% if eyalet_slug %}
+              {% for e in alle_eyaletler %}{% if e.slug == eyalet_slug %}{{ e.ad }}{% endif %}{% endfor %}
+            {% else %}Eyalet Seç{% endif %}
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header">Şehir Değiştir</h6></li>
-            {% for s in alle_staedte %}
-              <li>
-                <a class="dropdown-item {% if s.slug == stadt.slug %}active{% endif %}" href="/{{ s.slug }}/">
-                  {{ s.name }}
-                  {% if s.typ == 'landkreis' %}<small class="text-muted ms-1">(Landkreis)</small>{% endif %}
-                </a>
-              </li>
+          <ul class="dropdown-menu dropdown-menu-end" style="min-width:200px">
+            <li><h6 class="dropdown-header">Eyalet Seçin</h6></li>
+            {% for e in alle_eyaletler %}
+            <li>
+              <a class="dropdown-item {% if e.slug == eyalet_slug %}active{% endif %}"
+                 href="/{{ e.slug }}/" data-eyalet="{{ e.slug }}">
+                <i class="bi bi-map-fill me-1 text-primary"></i>{{ e.ad }}
+                <small class="text-muted ms-1">({{ e.kod }})</small>
+              </a>
+            </li>
+            {% empty %}
+            <li><span class="dropdown-item text-muted">Henüz eyalet yok</span></li>
             {% endfor %}
+          </ul>
+        </li>
+
+        {# Şehir seç dropdown #}
+        <li class="nav-item dropdown" id="sehirDropdownLi"
+            data-aktif-eyalet="{{ eyalet_slug|default:'' }}">
+          <a class="nav-link dropdown-toggle {% if stadt %}text-warning fw-semibold{% endif %}"
+             href="#" role="button" data-bs-toggle="dropdown" id="sehirDropdownToggle">
+            <i class="bi {% if stadt %}bi-geo-fill{% else %}bi-geo-alt{% endif %} me-1"></i>
+            {% if stadt %}{{ stadt.name }}{% else %}Şehir Seç{% endif %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" id="sehirDropdownMenu" style="min-width:220px; max-height:360px; overflow-y:auto">
+            <li><h6 class="dropdown-header">Şehir Seçin</h6></li>
+            <li id="sehirPlaceholder" class="d-none">
+              <span class="dropdown-item text-muted fst-italic">
+                <i class="bi bi-arrow-left me-1"></i>Önce eyalet seçin
+              </span>
+            </li>
+            {% for s in alle_staedte %}
+            <li class="sehir-item" data-eyalet="{{ s.eyalet.slug|default:'' }}">
+              <a class="dropdown-item {% if s.slug == stadt.slug %}active{% endif %}"
+                 href="/{{ s.eyalet.slug|default:'rlp' }}/{{ s.slug }}/">
+                {% if s.typ == 'kreisfrei' %}🏙️{% else %}🗺️{% endif %}
+                {{ s.name }}
+                {% if s.eyalet %}<small class="text-muted ms-1">{{ s.eyalet.kod }}</small>{% endif %}
+              </a>
+            </li>
+            {% empty %}
+            <li><span class="dropdown-item text-muted">Henüz şehir yok</span></li>
+            {% endfor %}
+            {% if stadt %}
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'core:anasayfa' %}"><i class="bi bi-house me-1"></i>Ana Sayfa</a></li>
+            {% endif %}
           </ul>
         </li>
-        {% else %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="bi bi-geo-alt me-1"></i>Şehir Seç
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header">Şehir Seçin</h6></li>
-            {% for s in alle_staedte %}
-              <li>
-                <a class="dropdown-item" href="/{{ s.slug }}/">
-                  {% if s.typ == 'kreisfrei' %}🏙️{% else %}🗺️{% endif %}
-                  {{ s.name }}
-                  {% if s.typ == 'landkreis' %}<small class="text-muted ms-1">(Landkreis)</small>{% endif %}
-                </a>
-              </li>
-            {% empty %}
-              <li><span class="dropdown-item text-muted">Henüz şehir yok</span></li>
-            {% endfor %}
-          </ul>
-        </li>
-        {% endif %}
 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'core:hakkinda' %}"><i class="bi bi-info-circle me-1"></i>Hakkında</a>
@@ -198,8 +217,8 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6">
-        <strong class="text-white">RLP Rehber</strong> &mdash;
-        Rheinland-Pfalz'da yeni başlayanlar için kaynak platformu.
+        <strong class="text-white">Almanya Rehber</strong> &mdash;
+        Almanya'da yeni başlayanlar için kaynak platformu.
       </div>
       <div class="col-md-6 text-md-end mt-2 mt-md-0">
         <span class="opacity-75 small me-3"><i class="bi bi-people me-1"></i>{{ ziyaret_sayisi }} ziyaretçi</span>
@@ -212,6 +231,28 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function () {
+  const sehirItems  = document.querySelectorAll('#sehirDropdownMenu .sehir-item');
+  const placeholder = document.getElementById('sehirPlaceholder');
+  const aktifEyalet = (document.getElementById('sehirDropdownLi') || {}).dataset.aktifEyalet || '';
+
+  function filtreSehirler(slug) {
+    if (!slug) {
+      sehirItems.forEach(function (li) { li.style.display = 'none'; });
+      if (placeholder) placeholder.classList.remove('d-none');
+    } else {
+      if (placeholder) placeholder.classList.add('d-none');
+      sehirItems.forEach(function (li) {
+        li.style.display = (li.dataset.eyalet === slug) ? '' : 'none';
+      });
+    }
+  }
+
+  // Sayfa açılışında mevcut eyalete göre filtrele
+  filtreSehirler(aktifEyalet);
+})();
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>

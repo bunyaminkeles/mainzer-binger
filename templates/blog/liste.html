@@ -118,7 +118,7 @@
   <div class="row g-4">
     {% for y in yazilar %}
     <div class="col-sm-6 col-lg-4">
-      <a href="{% if stadt %}/{{ stadt.slug }}/blog/{{ y.slug }}/{% else %}/rlp/blog/{{ y.slug }}/{% endif %}" class="blog-card">
+      <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/blog/{{ y.slug }}/{% else %}/{{ eyalet_slug }}/blog/{{ y.slug }}/{% endif %}" class="blog-card">
         {% if y.kapak_resmi %}
           <img src="{{ y.kapak_resmi }}" alt="{{ y.baslik }}" class="blog-card-img" loading="lazy">
         {% else %}

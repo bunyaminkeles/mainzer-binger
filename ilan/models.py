@@ -27,6 +27,7 @@ ARANIYOR_KATEGORILER = {'arac_araniyor', 'ev_araniyor', 'is_araniyor', 'eleman_a
 
 
 class Ilan(models.Model):
+    eyalet      = models.ForeignKey('stadt.Eyalet', null=True, blank=True, on_delete=SET_NULL, related_name='ilanlar', verbose_name='Eyalet')
     stadt       = models.ForeignKey('stadt.Stadt', null=True, blank=True, on_delete=SET_NULL, verbose_name='Şehir')
     scope       = models.CharField(max_length=10, choices=SCOPE_SECENEKLERI, default='stadt', verbose_name='Kapsam')
     sahip       = models.ForeignKey(User, on_delete=models.CASCADE)

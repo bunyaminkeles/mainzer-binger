@@ -10,24 +10,24 @@ def _get_stadt(stadt_slug):
     return get_object_or_404(Stadt, slug=stadt_slug, aktiv=True)
 
 
-def _base_qs(stadt):
+def _base_qs(stadt, eyalet_slug='rlp'):
     if stadt:
         return Yer.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet'),
+            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
             aktif=True
         )
-    return Yer.objects.filter(aktif=True)
+    return Yer.objects.filter(scope='eyalet', eyalet__slug=eyalet_slug, aktif=True)
 
 
 # ── Önemli Yerler ────────────────────────────────────────────────────────────
 
-def liste(request, stadt_slug=None):
+def liste(request, eyalet_slug='rlp', stadt_slug=None):
     stadt = _get_stadt(stadt_slug)
     kategori = request.GET.get('kategori', '')
 
     yer_kategorileri = list(YerKategori.objects.filter(tur='yer').order_by('sira', 'ad'))
     yer_kodlari = [k.slug for k in yer_kategorileri]
-    base_qs = _base_qs(stadt).filter(tur='yer', kategori__in=yer_kodlari)
+    base_qs = _base_qs(stadt, eyalet_slug).filter(tur='yer', kategori__in=yer_kodlari)
 
     kategoriler = {}
     for k in yer_kategorileri:
@@ -38,16 +38,17 @@ def liste(request, stadt_slug=None):
             kategoriler[k.slug] = {'ad': k.ad, 'yerler': yerler}
 
     return render(request, 'yerler/liste.html', {
-        'kategoriler': kategoriler,
-        'secili': kategori,
+        'kategoriler':    kategoriler,
+        'secili':         kategori,
         'tum_kategoriler': [(k.slug, k.ad) for k in yer_kategorileri],
-        'stadt': stadt,
+        'stadt':          stadt,
+        'eyalet_slug':    eyalet_slug,
     })
 
 
 # ── İşletmeler ───────────────────────────────────────────────────────────────
 
-def isletmeler(request, stadt_slug=None):
+def isletmeler(request, eyalet_slug='rlp', stadt_slug=None):
     stadt = _get_stadt(stadt_slug)
     kategori = request.GET.get('kategori', '')
 
@@ -61,7 +62,7 @@ def isletmeler(request, stadt_slug=None):
 
     isletme_kategorileri = list(YerKategori.objects.filter(tur='isletme').order_by('sira', 'ad'))
     isletme_kodlari = [k.slug for k in isletme_kategorileri]
-    base_qs = _base_qs(stadt).filter(
+    base_qs = _base_qs(stadt, eyalet_slug).filter(
         tur='isletme', kategori__in=isletme_kodlari
     ).annotate(paket_sira=paket_sira).order_by('paket_sira', 'ad')
 
@@ -76,33 +77,36 @@ def isletmeler(request, stadt_slug=None):
     paketler = ReklamPaketi.objects.filter(aktif=True)
 
     return render(request, 'yerler/isletmeler.html', {
-        'kategoriler': kategoriler,
-        'secili': kategori,
+        'kategoriler':    kategoriler,
+        'secili':         kategori,
         'tum_kategoriler': [(k.slug, k.ad) for k in isletme_kategorileri],
-        'stadt': stadt,
-        'paketler': paketler,
+        'stadt':          stadt,
+        'paketler':       paketler,
+        'eyalet_slug':    eyalet_slug,
     })
 
 
 # ── Detay (ortak) ────────────────────────────────────────────────────────────
 
-def detay(request, pk, stadt_slug=None):
+def detay(request, pk, eyalet_slug='rlp', stadt_slug=None):
     stadt = _get_stadt(stadt_slug) if stadt_slug else None
     yer = get_object_or_404(Yer, pk=pk, aktif=True)
     fotolar = yer.fotolar.all()
     return render(request, 'yerler/detay.html', {
-        'yer': yer,
-        'stadt': stadt,
-        'fotolar': fotolar,
+        'yer':         yer,
+        'stadt':       stadt,
+        'fotolar':     fotolar,
+        'eyalet_slug': eyalet_slug,
     })
 
 
 # ── Reklam Paketleri ─────────────────────────────────────────────────────────
 
-def paketler(request):
+def paketler(request, eyalet_slug='rlp'):
     paket_listesi = ReklamPaketi.objects.filter(aktif=True)
     iletisim_notu = paket_listesi.exclude(iletisim_notu='').values_list('iletisim_notu', flat=True).first()
     return render(request, 'yerler/paketler.html', {
-        'paketler': paket_listesi,
+        'paketler':      paket_listesi,
         'iletisim_notu': iletisim_notu,
+        'eyalet_slug':   eyalet_slug,
     })

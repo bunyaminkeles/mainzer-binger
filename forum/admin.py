@@ -5,8 +5,8 @@ admin.site.register(ForumKategori)
 
 @admin.register(Konu)
 class KonuAdmin(admin.ModelAdmin):
-    list_display = ['baslik', 'kategori', 'stadt', 'scope', 'yazar', 'sabitlendi', 'kapali', 'olusturulma']
-    list_filter  = ['kategori', 'sabitlendi', 'kapali', 'stadt', 'scope']
+    list_display = ['baslik', 'kategori', 'eyalet', 'stadt', 'scope', 'yazar', 'sabitlendi', 'kapali', 'olusturulma']
+    list_filter  = ['kategori', 'sabitlendi', 'kapali', 'eyalet', 'stadt', 'scope']
 
 @admin.register(Yorum)
 class YorumAdmin(admin.ModelAdmin):

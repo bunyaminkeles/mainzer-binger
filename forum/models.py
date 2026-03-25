@@ -21,6 +21,7 @@ class ForumKategori(models.Model):
         return self.ad
 
 class Konu(models.Model):
+    eyalet      = models.ForeignKey('stadt.Eyalet', null=True, blank=True, on_delete=SET_NULL, related_name='forum_konulari', verbose_name='Eyalet')
     stadt       = models.ForeignKey('stadt.Stadt', null=True, blank=True, on_delete=SET_NULL, verbose_name='Şehir')
     scope       = models.CharField(max_length=10, choices=SCOPE_SECENEKLERI, default='eyalet', verbose_name='Kapsam')
     kategori    = models.ForeignKey(ForumKategori, on_delete=models.CASCADE, related_name='konular')

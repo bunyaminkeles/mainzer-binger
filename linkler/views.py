@@ -3,17 +3,17 @@ from django.db.models import Q
 from .models import OnemliLink, LINK_KATEGORI
 
 
-def liste(request, stadt_slug=None):
+def liste(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
     if stadt:
         base_qs = OnemliLink.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet'),
+            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
             aktif=True
         )
     else:
-        base_qs = OnemliLink.objects.filter(aktif=True)
+        base_qs = OnemliLink.objects.filter(scope='eyalet', eyalet__slug=eyalet_slug, aktif=True)
 
     kategoriler = {}
     for k, v in LINK_KATEGORI:
@@ -24,12 +24,13 @@ def liste(request, stadt_slug=None):
             kategoriler[k] = {'ad': v, 'linkler': linkler}
 
     return render(request, 'linkler/liste.html', {
-        'kategoriler': kategoriler,
+        'kategoriler':    kategoriler,
         'tum_kategoriler': LINK_KATEGORI,
-        'stadt': stadt,
+        'stadt':          stadt,
+        'eyalet_slug':    eyalet_slug,
     })
 
 
-def git(request, pk, stadt_slug=None):
+def git(request, pk, eyalet_slug='rlp', stadt_slug=None):
     link = get_object_or_404(OnemliLink, pk=pk, aktif=True)
     return render(request, 'linkler/git.html', {'link': link})

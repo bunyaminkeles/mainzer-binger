@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}{{ tr }} Quiz | RLP Rehber{% endblock %}
-{% block meta_description %}{{ tr }} konusunda ücretsiz Almanca quiz — RLP Rehber{% endblock %}
-{% block og_title %}{{ tr }} Quiz | RLP Rehber{% endblock %}
-{% block og_description %}{{ tr }} konusunda ücretsiz Almanca quiz — RLP Rehber{% endblock %}
-{% block twitter_title %}{{ tr }} Quiz | RLP Rehber{% endblock %}
-{% block twitter_description %}{{ tr }} konusunda ücretsiz Almanca quiz — RLP Rehber{% endblock %}
+{% block title %}{{ tr }} Quiz | Almanya Rehber{% endblock %}
+{% block meta_description %}{{ tr }} konusunda ücretsiz Almanca quiz — Almanya Rehber{% endblock %}
+{% block og_title %}{{ tr }} Quiz | Almanya Rehber{% endblock %}
+{% block og_description %}{{ tr }} konusunda ücretsiz Almanca quiz — Almanya Rehber{% endblock %}
+{% block twitter_title %}{{ tr }} Quiz | Almanya Rehber{% endblock %}
+{% block twitter_description %}{{ tr }} konusunda ücretsiz Almanca quiz — Almanya Rehber{% endblock %}
 
 {% block content %}
 <div class="container py-4" style="max-width:720px">
@@ -12,7 +12,7 @@
   <!-- Başlık & istatistik -->
   <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div>
-      <a href="{% url 'almanca:liste' %}" class="text-muted small me-2"><i class="bi bi-arrow-left"></i> Konular</a>
+      <a href="/{{ eyalet_slug }}/almanca/" class="text-muted small me-2"><i class="bi bi-arrow-left"></i> Konular</a>
       <span class="fw-bold">{{ thema }}</span>
       <span class="text-muted small ms-1">({{ tr }})</span>
     </div>
@@ -39,7 +39,7 @@
       {% endif %}
 
       <!-- Katalog -->
-      <a href="{% url 'almanca:katalog' slug %}" class="btn btn-outline-secondary btn-sm" title="Soru kataloğu">
+      <a href="/{{ eyalet_slug }}/almanca/{{ slug }}/katalog/" class="btn btn-outline-secondary btn-sm" title="Soru kataloğu">
         <i class="bi bi-list-ol"></i>
       </a>
 
@@ -136,7 +136,7 @@
   <!-- Navigasyon -->
   <div class="d-flex justify-content-between align-items-center" id="nav-alan">
     {% if mevcut_idx > 0 %}
-    <a href="{% url 'almanca:quiz' slug %}?goto={{ mevcut_idx|add:'-1' }}&mod={{ mod }}" class="btn btn-outline-secondary btn-sm" id="onceki-btn">
+    <a href="/{{ eyalet_slug }}/almanca/{{ slug }}/?goto={{ mevcut_idx|add:'-1' }}&mod={{ mod }}" class="btn btn-outline-secondary btn-sm" id="onceki-btn">
       <i class="bi bi-arrow-left me-1"></i>Önceki Soru
     </a>
     {% else %}
@@ -145,16 +145,16 @@
 
     {% if already_answered %}
       {% if mevcut_idx < gecmis_sayisi|add:'-1' %}
-      <a href="{% url 'almanca:quiz' slug %}?goto={{ mevcut_idx|add:'1' }}&mod={{ mod }}" class="btn btn-primary btn-sm px-4">
+      <a href="/{{ eyalet_slug }}/almanca/{{ slug }}/?goto={{ mevcut_idx|add:'1' }}&mod={{ mod }}" class="btn btn-primary btn-sm px-4">
         Sonraki Soru <i class="bi bi-arrow-right ms-1"></i>
       </a>
       {% else %}
-      <a href="{% url 'almanca:quiz' slug %}?mod={{ mod }}" class="btn btn-primary btn-sm px-4">
+      <a href="/{{ eyalet_slug }}/almanca/{{ slug }}/?mod={{ mod }}" class="btn btn-primary btn-sm px-4">
         Yeni Soru <i class="bi bi-arrow-right ms-1"></i>
       </a>
       {% endif %}
     {% else %}
-    <a href="{% url 'almanca:quiz' slug %}?atla=1&mod={{ mod }}" class="btn btn-primary px-4" id="sonraki-btn">
+    <a href="/{{ eyalet_slug }}/almanca/{{ slug }}/?atla=1&mod={{ mod }}" class="btn btn-primary px-4" id="sonraki-btn">
       Sonraki Soru <i class="bi bi-arrow-right ms-1"></i>
     </a>
     {% endif %}
@@ -187,9 +187,9 @@
 
 {% if not already_answered %}
 <script>
-const CEVAPLA_URL = "{% url 'almanca:cevapla' slug %}";
+const CEVAPLA_URL = "/{{ eyalet_slug }}/almanca/{{ slug }}/cevapla/";
 const CSRF = "{{ csrf_token }}";
-const QUIZ_URL = "{% url 'almanca:quiz' slug %}?mod={{ mod }}";
+const QUIZ_URL = "/{{ eyalet_slug }}/almanca/{{ slug }}/?mod={{ mod }}";
 const MEVCUT_IDX = {{ mevcut_idx }};
 
 document.querySelectorAll('.secim-btn').forEach(btn => {

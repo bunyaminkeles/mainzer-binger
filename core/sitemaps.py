@@ -16,7 +16,6 @@ class StatikSitemap(Sitemap):
             'core:anasayfa',
             'core:hakkinda',
             'core:iletisim',
-            'almanca:liste',
         ]
 
     def location(self, item):
@@ -28,10 +27,11 @@ class StadtSitemap(Sitemap):
     priority = 0.8
 
     def items(self):
-        return Stadt.objects.filter(aktiv=True)
+        return Stadt.objects.filter(aktiv=True).select_related('eyalet')
 
     def location(self, obj):
-        return f'/{obj.slug}/'
+        eyalet_slug = obj.eyalet.slug if obj.eyalet else 'rlp'
+        return f'/{eyalet_slug}/{obj.slug}/'
 
 
 class AlmancaSitemap(Sitemap):
@@ -42,7 +42,7 @@ class AlmancaSitemap(Sitemap):
         return [k['slug'] for k in konu_listesi()]
 
     def location(self, slug):
-        return reverse('almanca:quiz', kwargs={'slug': slug})
+        return f'/rlp/almanca/{slug}/'
 
 
 class BlogSitemap(Sitemap):
@@ -56,7 +56,7 @@ class BlogSitemap(Sitemap):
         return obj.olusturulma
 
     def location(self, obj):
-        return reverse('rlp-blog:detay', kwargs={'slug': obj.slug})
+        return '/rlp/blog/{}/'.format(obj.slug)
 
 
 class StadtBlogSitemap(Sitemap):
@@ -64,15 +64,16 @@ class StadtBlogSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return BlogYazisi.objects.filter(yayinda=True, scope='stadt').select_related('stadt')
+        return BlogYazisi.objects.filter(yayinda=True, scope='stadt').select_related('stadt__eyalet')
 
     def lastmod(self, obj):
         return obj.olusturulma
 
     def location(self, obj):
         if obj.stadt:
-            return f'/{obj.stadt.slug}/blog/{obj.slug}/'
-        return reverse('rlp-blog:detay', kwargs={'slug': obj.slug})
+            eyalet_slug = obj.stadt.eyalet.slug if obj.stadt.eyalet else 'rlp'
+            return f'/{eyalet_slug}/{obj.stadt.slug}/blog/{obj.slug}/'
+        return '/rlp/blog/{}/'.format(obj.slug)
 
 
 class RehberSitemap(Sitemap):
@@ -86,14 +87,14 @@ class RehberSitemap(Sitemap):
         return obj.guncelleme
 
     def location(self, obj):
-        return reverse('rlp-rehber:detay', kwargs={'slug': obj.slug})
+        return '/rlp/rehber/{}/'.format(obj.slug)
 
 
 SITEMAPS = {
-    'statik': StatikSitemap,
-    'staedte': StadtSitemap,
-    'almanca': AlmancaSitemap,
-    'blog': BlogSitemap,
+    'statik':     StatikSitemap,
+    'staedte':    StadtSitemap,
+    'almanca':    AlmancaSitemap,
+    'blog':       BlogSitemap,
     'stadt-blog': StadtBlogSitemap,
-    'rehber': RehberSitemap,
+    'rehber':     RehberSitemap,
 }

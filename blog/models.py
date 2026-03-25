@@ -8,6 +8,7 @@ SCOPE_SECENEKLERI = [
 ]
 
 class BlogYazisi(models.Model):
+    eyalet        = models.ForeignKey('stadt.Eyalet', null=True, blank=True, on_delete=SET_NULL, related_name='blog_yazilari', verbose_name='Eyalet')
     stadt         = models.ForeignKey('stadt.Stadt', null=True, blank=True, on_delete=SET_NULL, verbose_name='Şehir')
     scope         = models.CharField(max_length=10, choices=SCOPE_SECENEKLERI, default='eyalet', verbose_name='Kapsam')
     baslik        = models.CharField(max_length=200)

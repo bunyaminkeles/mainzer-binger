@@ -5,10 +5,10 @@ from django.views.decorators.http import require_POST
 from . import engine
 
 
-def liste(request):
+def liste(request, eyalet_slug='rlp'):
     """Konu seçim sayfası."""
     konular = engine.konu_listesi()
-    return render(request, 'almanca/liste.html', {'konular': konular})
+    return render(request, 'almanca/liste.html', {'konular': konular, 'eyalet_slug': eyalet_slug})
 
 
 def _yanlis_listesi(slug, yanlis_ids, cevaplar):
@@ -27,7 +27,7 @@ def _yanlis_listesi(slug, yanlis_ids, cevaplar):
     return result
 
 
-def quiz(request, slug):
+def quiz(request, slug, eyalet_slug='rlp'):
     """Bir soruyu göster; sıralı/rastgele mod, navigasyon ve sıfırlama desteği."""
     bilgi = engine.konu_bilgi(slug)
     if not bilgi:
@@ -55,50 +55,42 @@ def quiz(request, slug):
     cevaplar   = request.session.get(f'alm_cevaplar_{slug}', {})
     yanlis_ids = request.session.get(f'alm_yanlis_ids_{slug}', [])
 
+    ctx_base = {
+        'slug': slug, 'thema': thema, 'tr': tr,
+        'gorulmus': len(gorulmus), 'toplam': toplam,
+        'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
+        'gecmis_sayisi': len(gecmis),
+        'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
+        'mod': mod,
+        'eyalet_slug': eyalet_slug,
+    }
+
     # Geçmiş navigasyon: ?goto=N
     goto_str = request.GET.get('goto')
     if goto_str is not None and gecmis:
         try:
             idx = max(0, min(int(goto_str), len(gecmis) - 1))
         except ValueError:
-            return redirect('almanca:quiz', slug=slug)
+            return redirect(f'/{eyalet_slug}/almanca/{slug}/')
 
         uid = gecmis[idx]
         soru = engine.soru_by_uid(slug, uid)
         if not soru:
-            return redirect('almanca:quiz', slug=slug)
+            return redirect(f'/{eyalet_slug}/almanca/{slug}/')
 
         cv = cevaplar.get(uid, {})
-        # Atlanmış soru (cevaplanmamış): yanıtlanabilir şekilde göster
         if not cv:
             request.session[f'alm_soru_{slug}'] = {
-                'uid': soru.uid,
-                'dogru_harf': soru.dogru_harf,
-                'erklaerung': soru.erklaerung,
-                'mod': mod,
-                'optionen': soru.optionen,
+                'uid': soru.uid, 'dogru_harf': soru.dogru_harf,
+                'erklaerung': soru.erklaerung, 'mod': mod, 'optionen': soru.optionen,
             }
             return render(request, 'almanca/quiz.html', {
-                'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
-                'gorulmus': len(gorulmus), 'toplam': toplam,
-                'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
-                'already_answered': False,
-                'mevcut_idx': idx,
-                'gecmis_sayisi': len(gecmis),
-                'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
-                'mod': mod,
+                **ctx_base, 'soru': soru, 'already_answered': False, 'mevcut_idx': idx,
             })
         return render(request, 'almanca/quiz.html', {
-            'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
-            'gorulmus': len(gorulmus), 'toplam': toplam,
-            'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
-            'already_answered': True,
+            **ctx_base, 'soru': soru, 'already_answered': True, 'mevcut_idx': idx,
             'secilen_harf': cv.get('secilen_harf'),
             'dogru_harf_goster': cv.get('dogru_harf', soru.dogru_harf),
-            'mevcut_idx': idx,
-            'gecmis_sayisi': len(gecmis),
-            'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
-            'mod': mod,
         })
 
     # Cevap vermeden atlama: ?atla=1
@@ -130,34 +122,18 @@ def quiz(request, slug):
             idx = gecmis.index(uid_param) if uid_param in gecmis else len(gecmis) - 1
             cv = cevaplar[uid_param]
             return render(request, 'almanca/quiz.html', {
-                'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
-                'gorulmus': len(gorulmus), 'toplam': toplam,
-                'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
-                'already_answered': True,
+                **ctx_base, 'soru': soru, 'already_answered': True, 'mevcut_idx': idx,
                 'secilen_harf': cv.get('secilen_harf'),
                 'dogru_harf_goster': cv.get('dogru_harf', soru.dogru_harf),
-                'mevcut_idx': idx,
-                'gecmis_sayisi': len(gecmis),
-                'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
-                'mod': mod,
             })
         else:
             request.session[f'alm_soru_{slug}'] = {
-                'uid': soru.uid,
-                'dogru_harf': soru.dogru_harf,
-                'erklaerung': soru.erklaerung,
-                'mod': mod,
-                'optionen': soru.optionen,
+                'uid': soru.uid, 'dogru_harf': soru.dogru_harf,
+                'erklaerung': soru.erklaerung, 'mod': mod, 'optionen': soru.optionen,
             }
             return render(request, 'almanca/quiz.html', {
-                'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
-                'gorulmus': len(gorulmus), 'toplam': toplam,
-                'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
-                'already_answered': False,
+                **ctx_base, 'soru': soru, 'already_answered': False,
                 'mevcut_idx': len(gecmis),
-                'gecmis_sayisi': len(gecmis),
-                'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
-                'mod': mod,
             })
 
     # Yeni soru — sıralı veya rastgele mod
@@ -173,30 +149,21 @@ def quiz(request, slug):
         return render(request, 'almanca/bitti.html', {
             'slug': slug, 'thema': thema, 'tr': tr,
             'dogru': dogru_sayi, 'yanlis': yanlis_sayi, 'toplam': toplam,
-            'mod': mod,
+            'mod': mod, 'eyalet_slug': eyalet_slug,
         })
 
     request.session[f'alm_soru_{slug}'] = {
-        'uid': soru.uid,
-        'dogru_harf': soru.dogru_harf,
-        'erklaerung': soru.erklaerung,
-        'mod': mod,
-        'optionen': soru.optionen,
+        'uid': soru.uid, 'dogru_harf': soru.dogru_harf,
+        'erklaerung': soru.erklaerung, 'mod': mod, 'optionen': soru.optionen,
     }
 
     return render(request, 'almanca/quiz.html', {
-        'slug': slug, 'thema': thema, 'tr': tr, 'soru': soru,
-        'gorulmus': gorulmus_sayi, 'toplam': toplam,
-        'dogru': dogru_sayi, 'yanlis': yanlis_sayi,
-        'already_answered': False,
-        'mevcut_idx': len(gecmis),
-        'gecmis_sayisi': len(gecmis),
-        'yanlis_sorular': _yanlis_listesi(slug, yanlis_ids, cevaplar),
-        'mod': mod,
+        **ctx_base, 'soru': soru, 'already_answered': False,
+        'gorulmus': gorulmus_sayi, 'mevcut_idx': len(gecmis),
     })
 
 
-def katalog(request, slug):
+def katalog(request, slug, eyalet_slug='rlp'):
     """Tüm soruları sıralı göster: numara, soru, doğru cevap."""
     bilgi = engine.konu_bilgi(slug)
     if not bilgi:
@@ -208,11 +175,12 @@ def katalog(request, slug):
         'slug': slug, 'thema': thema, 'tr': tr,
         'sorular': sorular, 'toplam': len(sorular),
         'son_guncelleme': engine.konu_son_guncelleme(slug),
+        'eyalet_slug': eyalet_slug,
     })
 
 
 @require_POST
-def cevapla(request, slug):
+def cevapla(request, slug, eyalet_slug='rlp'):
     """AJAX: kullanıcının cevabını kontrol et, JSON döndür."""
     if not engine.konu_bilgi(slug):
         from django.http import Http404
@@ -231,24 +199,20 @@ def cevapla(request, slug):
     mod        = kayit.get('mod', 'rastgele')
     optionen   = kayit.get('optionen', {})
 
-    # Görülmüş listesi
     gorulmus = request.session.get(f'alm_gorulmus_{slug}', [])
     if uid not in gorulmus:
         gorulmus.append(uid)
         request.session[f'alm_gorulmus_{slug}'] = gorulmus
 
-    # Sıralı modda index'i ilerlet
     if mod == 'sirali':
         idx = request.session.get(f'alm_index_{slug}', 0)
         request.session[f'alm_index_{slug}'] = idx + 1
 
-    # Sıralı geçmiş (navigasyon için)
     gecmis = request.session.get(f'alm_gecmis_{slug}', [])
     if uid not in gecmis:
         gecmis.append(uid)
         request.session[f'alm_gecmis_{slug}'] = gecmis
 
-    # Cevap kaydı
     cevaplar = request.session.get(f'alm_cevaplar_{slug}', {})
     cevaplar[uid] = {
         'secilen_harf': secilen,

@@ -7,7 +7,31 @@ STADT_TYP = [
 ]
 
 
+class Eyalet(models.Model):
+    ad = models.CharField(max_length=100, verbose_name='Eyalet Adı')
+    slug = models.SlugField(unique=True, verbose_name='URL Slug')
+    kod = models.CharField(max_length=4, unique=True, verbose_name='Kısaltma (BY, NW…)')
+    baskent = models.CharField(max_length=100, blank=True, verbose_name='Başkent')
+    aktif = models.BooleanField(default=False, verbose_name='Aktif')
+
+    class Meta:
+        ordering = ['ad']
+        verbose_name = 'Eyalet'
+        verbose_name_plural = 'Eyaletler'
+
+    def __str__(self):
+        return f'{self.ad} ({self.kod})'
+
+
 class Stadt(models.Model):
+    eyalet = models.ForeignKey(
+        Eyalet,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='sehirler',
+        verbose_name='Eyalet',
+    )
     name = models.CharField(max_length=100, verbose_name='Şehir Adı')
     slug = models.SlugField(unique=True, verbose_name='URL Slug')
     typ = models.CharField(max_length=20, choices=STADT_TYP, default='kreisfrei', verbose_name='Tür')

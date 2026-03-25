@@ -3,8 +3,8 @@ from .models import Duyuru
 
 @admin.register(Duyuru)
 class DuyuruAdmin(admin.ModelAdmin):
-    list_display  = ['baslik', 'kaynak_tipi', 'yazar', 'stadt', 'scope', 'yayinda', 'olusturulma']
-    list_filter   = ['kaynak_tipi', 'yayinda', 'stadt', 'scope']
+    list_display  = ['baslik', 'kaynak_tipi', 'yazar', 'eyalet', 'stadt', 'scope', 'yayinda', 'olusturulma']
+    list_filter   = ['kaynak_tipi', 'yayinda', 'eyalet', 'stadt', 'scope']
     search_fields = ['baslik']
     actions       = ['yayinla']
 

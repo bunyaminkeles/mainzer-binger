@@ -6,32 +6,33 @@ from .models import Duyuru
 from accounts.utils import email_dogrulandi_mi
 
 
-def _kapsam_filtresi(stadt):
+def _kapsam_filtresi(stadt, eyalet_slug):
     if stadt:
-        return Q(stadt=stadt, scope='stadt') | Q(scope='eyalet')
-    return Q(scope='eyalet')
+        return Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug)
+    return Q(scope='eyalet', eyalet__slug=eyalet_slug)
 
 
-def liste(request, stadt_slug=None):
+def liste(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
-    temel = Duyuru.objects.filter(_kapsam_filtresi(stadt), yayinda=True)
+    temel = Duyuru.objects.filter(_kapsam_filtresi(stadt, eyalet_slug), yayinda=True)
 
     konsolosluk = temel.filter(kaynak_tipi='konsolosluk').order_by('-olusturulma')[:20]
     belediye    = temel.filter(kaynak_tipi='belediye').order_by('-olusturulma')[:20] if stadt else []
     kullanici   = temel.filter(kaynak_tipi='kullanici').order_by('-olusturulma')[:20]
 
     return render(request, 'duyurular/liste.html', {
-        'konsolosluk': konsolosluk,
-        'belediye':    belediye,
-        'kullanici':   kullanici,
-        'stadt':       stadt,
+        'konsolosluk':  konsolosluk,
+        'belediye':     belediye,
+        'kullanici':    kullanici,
+        'stadt':        stadt,
+        'eyalet_slug':  eyalet_slug,
     })
 
 
 @login_required
-def duyuru_ekle(request, stadt_slug=None):
+def duyuru_ekle(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
@@ -45,6 +46,8 @@ def duyuru_ekle(request, stadt_slug=None):
         if not baslik or not icerik:
             messages.error(request, 'Başlık ve içerik zorunludur.')
         else:
+            from stadt.models import Eyalet
+            eyalet = Eyalet.objects.filter(slug=eyalet_slug).first()
             Duyuru.objects.create(
                 yazar=request.user,
                 kaynak_tipi='kullanici',
@@ -53,22 +56,28 @@ def duyuru_ekle(request, stadt_slug=None):
                 resim=request.FILES.get('resim'),
                 kategori='genel',
                 stadt=stadt,
+                eyalet=eyalet,
                 scope='stadt' if stadt else 'eyalet',
                 yayinda=False,
             )
             messages.success(request, 'Duyurunuz alındı, inceleme sonrası yayınlanacaktır.')
+
         if stadt_slug:
-            return redirect('duyurular:liste', stadt_slug=stadt_slug)
-        return redirect('duyurular:liste')
+            return redirect(f'/{eyalet_slug}/{stadt_slug}/duyurular/')
+        return redirect(f'/{eyalet_slug}/duyurular/')
 
-    return render(request, 'duyurular/duyuru_ekle.html', {'stadt': stadt})
+    return render(request, 'duyurular/duyuru_ekle.html', {
+        'stadt':       stadt,
+        'eyalet_slug': eyalet_slug,
+    })
 
 
-def detay(request, pk, stadt_slug=None):
+def detay(request, pk, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     duyuru = get_object_or_404(Duyuru, pk=pk, yayinda=True)
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
     return render(request, 'duyurular/detay.html', {
-        'duyuru': duyuru,
-        'stadt': stadt,
+        'duyuru':      duyuru,
+        'stadt':       stadt,
+        'eyalet_slug': eyalet_slug,
     })

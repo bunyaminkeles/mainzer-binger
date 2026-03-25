@@ -7,7 +7,7 @@ from linkler.models import OnemliLink
 from accounts.utils import email_dogrulandi_mi
 
 
-def liste(request, stadt_slug=None):
+def liste(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
@@ -15,11 +15,11 @@ def liste(request, stadt_slug=None):
 
     if stadt:
         qs = Ilan.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet'),
+            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
             aktif=True, onaylandi=True
         )
     else:
-        qs = Ilan.objects.filter(aktif=True, onaylandi=True)
+        qs = Ilan.objects.filter(scope='eyalet', eyalet__slug=eyalet_slug, aktif=True, onaylandi=True)
 
     if kategori:
         qs = qs.filter(kategori=kategori)
@@ -29,11 +29,11 @@ def liste(request, stadt_slug=None):
 
     if stadt:
         platformlar = OnemliLink.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet'),
+            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
             kategori='ilan', aktif=True
         ).order_by('sira')
     else:
-        platformlar = OnemliLink.objects.filter(kategori='ilan', aktif=True).order_by('sira')
+        platformlar = OnemliLink.objects.filter(scope='eyalet', eyalet__slug=eyalet_slug, kategori='ilan', aktif=True).order_by('sira')
 
     return render(request, 'ilan/liste.html', {
         'satilik':              satilik,
@@ -44,21 +44,23 @@ def liste(request, stadt_slug=None):
         'secili':               kategori,
         'platformlar':          platformlar,
         'stadt':                stadt,
+        'eyalet_slug':          eyalet_slug,
     })
 
 
-def detay(request, pk, stadt_slug=None):
+def detay(request, pk, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     ilan = get_object_or_404(Ilan, pk=pk, aktif=True, onaylandi=True)
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
     return render(request, 'ilan/detay.html', {
-        'ilan': ilan,
-        'stadt': stadt,
+        'ilan':        ilan,
+        'stadt':       stadt,
+        'eyalet_slug': eyalet_slug,
     })
 
 
 @login_required
-def ilan_ver(request, stadt_slug=None):
+def ilan_ver(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
@@ -66,6 +68,8 @@ def ilan_ver(request, stadt_slug=None):
         if not email_dogrulandi_mi(request.user):
             messages.error(request, 'İlan verebilmek için e-posta adresinizi doğrulamanız gerekiyor.')
             return redirect('account_email')
+        from stadt.models import Eyalet
+        eyalet = Eyalet.objects.filter(slug=eyalet_slug).first()
         ilan = Ilan(
             sahip=request.user,
             baslik=request.POST['baslik'],
@@ -74,6 +78,7 @@ def ilan_ver(request, stadt_slug=None):
             iletisim=request.POST['iletisim'],
             resim=request.FILES.get('resim'),
             stadt=stadt,
+            eyalet=eyalet,
             scope='stadt' if stadt else 'eyalet',
         )
         fiyat = request.POST.get('fiyat')
@@ -82,11 +87,11 @@ def ilan_ver(request, stadt_slug=None):
         ilan.save()
         messages.success(request, 'İlanınız alındı, inceleme sonrası yayınlanacaktır.')
         if stadt_slug:
-            return redirect('ilan:liste', stadt_slug=stadt_slug)
-        return redirect('ilan:liste')
-
+            return redirect(f'/{eyalet_slug}/{stadt_slug}/ilan/')
+        return redirect(f'/{eyalet_slug}/ilan/')
 
     return render(request, 'ilan/ilan_ver.html', {
         'kategoriler': ILAN_KATEGORI,
-        'stadt': stadt,
+        'stadt':       stadt,
+        'eyalet_slug': eyalet_slug,
     })
