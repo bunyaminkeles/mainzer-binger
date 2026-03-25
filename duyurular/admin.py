@@ -3,6 +3,11 @@ from .models import Duyuru
 
 @admin.register(Duyuru)
 class DuyuruAdmin(admin.ModelAdmin):
-    list_display = ['baslik', 'kategori', 'stadt', 'scope', 'yayinda', 'olusturulma']
-    list_filter  = ['kategori', 'yayinda', 'stadt', 'scope']
+    list_display  = ['baslik', 'kaynak_tipi', 'yazar', 'stadt', 'scope', 'yayinda', 'olusturulma']
+    list_filter   = ['kaynak_tipi', 'yayinda', 'stadt', 'scope']
     search_fields = ['baslik']
+    actions       = ['yayinla']
+
+    @admin.action(description='Seçili duyuruları yayınla')
+    def yayinla(self, request, queryset):
+        queryset.update(yayinda=True)

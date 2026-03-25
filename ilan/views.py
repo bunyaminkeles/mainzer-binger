@@ -72,6 +72,7 @@ def ilan_ver(request, stadt_slug=None):
             icerik=request.POST['icerik'],
             kategori=request.POST['kategori'],
             iletisim=request.POST['iletisim'],
+            resim=request.FILES.get('resim'),
             stadt=stadt,
             scope='stadt' if stadt else 'eyalet',
         )

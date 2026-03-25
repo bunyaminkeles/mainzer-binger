@@ -1,23 +1,95 @@
 {% extends 'base.html' %}
 {% block title %}Duyurular{% endblock %}
 {% block content %}
-<div class="container mt-4">
-  <h4 class="mb-3"><i class="bi bi-megaphone me-2 text-primary"></i>Duyurular</h4>
-  <div class="row g-3">
-    {% for d in duyurular %}
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-body">
-          <span class="badge-duyuru mb-2 d-inline-block">{{ d.get_kategori_display }}</span>
-          <h6 class="card-title"><a href="/{{ stadt.slug }}/duyurular/{{ d.pk }}/" class="text-dark text-decoration-none">{{ d.baslik }}</a></h6>
-          <p class="card-text text-muted small">{{ d.icerik|truncatechars:120 }}</p>
-          <small class="text-muted">{{ d.olusturulma|date:"d.m.Y" }}</small>
+<div class="container-fluid mt-4 px-3">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h4 class="mb-0"><i class="bi bi-megaphone me-2 text-primary"></i>Duyurular</h4>
+    {% if user.is_authenticated %}
+    <a href="{% if stadt %}{% url 'duyurular:duyuru_ekle' stadt_slug=stadt.slug %}{% else %}{% url 'duyurular:duyuru_ekle' %}{% endif %}"
+       class="btn btn-sm btn-primary">
+      <i class="bi bi-plus-lg me-1"></i>Duyuru Ekle
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="row g-3" style="height: calc(100vh - 140px);">
+
+    <!-- Sol: Konsolosluk -->
+    <div class="col-md-4 d-flex flex-column h-100">
+      <div class="card flex-grow-1 border-0 shadow-sm">
+        <div class="card-header bg-danger text-white fw-semibold py-2">
+          <i class="bi bi-flag me-2"></i>T.C. Konsolosluk
+        </div>
+        <div class="card-body p-0 overflow-y-auto" style="max-height: calc(100vh - 200px);">
+          {% for d in konsolosluk %}
+          <a href="{% if stadt %}{% url 'duyurular:detay' pk=d.pk stadt_slug=stadt.slug %}{% else %}{% url 'duyurular:detay' pk=d.pk %}{% endif %}"
+             class="d-block text-decoration-none text-dark border-bottom p-3 duyuru-item">
+            <div class="small fw-semibold lh-sm mb-1">{{ d.baslik|truncatechars:90 }}</div>
+            <div class="text-muted" style="font-size:.75rem;">{{ d.olusturulma|date:"d.m.Y" }}</div>
+          </a>
+          {% empty %}
+          <p class="text-muted p-3 small">Henüz duyuru yok.</p>
+          {% endfor %}
         </div>
       </div>
     </div>
-    {% empty %}
-    <div class="col-12"><p class="text-muted">Henüz duyuru yok.</p></div>
-    {% endfor %}
+
+    <!-- Orta: Belediye -->
+    <div class="col-md-4 d-flex flex-column h-100">
+      <div class="card flex-grow-1 border-0 shadow-sm">
+        <div class="card-header bg-primary text-white fw-semibold py-2">
+          <i class="bi bi-building me-2"></i>Belediye
+          {% if stadt %}<span class="fw-normal opacity-75">— {{ stadt.name }}</span>{% endif %}
+        </div>
+        <div class="card-body p-0 overflow-y-auto" style="max-height: calc(100vh - 200px);">
+          {% for d in belediye %}
+          <a href="{% if stadt %}{% url 'duyurular:detay' pk=d.pk stadt_slug=stadt.slug %}{% else %}{% url 'duyurular:detay' pk=d.pk %}{% endif %}"
+             class="d-block text-decoration-none text-dark border-bottom p-3 duyuru-item">
+            <div class="small fw-semibold lh-sm mb-1">{{ d.baslik|truncatechars:90 }}</div>
+            <div class="text-muted" style="font-size:.75rem;">{{ d.olusturulma|date:"d.m.Y" }}</div>
+          </a>
+          {% empty %}
+          <p class="text-muted p-3 small">Henüz duyuru yok.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Sağ: Kullanıcı Duyuruları -->
+    <div class="col-md-4 d-flex flex-column h-100">
+      <div class="card flex-grow-1 border-0 shadow-sm">
+        <div class="card-header bg-success text-white fw-semibold py-2">
+          <i class="bi bi-people me-2"></i>Topluluk Duyuruları
+        </div>
+        <div class="card-body p-0 overflow-y-auto" style="max-height: calc(100vh - 200px);">
+          {% for d in kullanici %}
+          <a href="{% if stadt %}{% url 'duyurular:detay' pk=d.pk stadt_slug=stadt.slug %}{% else %}{% url 'duyurular:detay' pk=d.pk %}{% endif %}"
+             class="d-block text-decoration-none text-dark border-bottom p-3 duyuru-item">
+            <div class="small fw-semibold lh-sm mb-1">{{ d.baslik|truncatechars:90 }}</div>
+            <div class="text-muted" style="font-size:.75rem;">
+              {{ d.olusturulma|date:"d.m.Y" }}
+              {% if d.yazar %}<span class="ms-2">· {{ d.yazar.username }}</span>{% endif %}
+            </div>
+          </a>
+          {% empty %}
+          <div class="p-3 text-center text-muted small">
+            <i class="bi bi-chat-dots d-block mb-2" style="font-size:1.5rem;"></i>
+            Henüz topluluk duyurusu yok.<br>
+            {% if user.is_authenticated %}
+            <a href="{% if stadt %}{% url 'duyurular:duyuru_ekle' stadt_slug=stadt.slug %}{% else %}{% url 'duyurular:duyuru_ekle' %}{% endif %}"
+               class="btn btn-sm btn-outline-success mt-2">İlk duyuruyu ekle</a>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<style>
+.duyuru-item:hover { background-color: #f8f9fa; }
+.overflow-y-auto { overflow-y: auto; }
+</style>
 {% endblock %}

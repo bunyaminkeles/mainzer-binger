@@ -34,6 +34,7 @@ class Ilan(models.Model):
     icerik      = models.TextField()
     kategori    = models.CharField(max_length=20, choices=ILAN_KATEGORI)
     fiyat       = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    resim       = models.ImageField(upload_to='ilan/', blank=True, null=True, verbose_name='Resim')
     iletisim    = models.EmailField()
     aktif       = models.BooleanField(default=True)
     onaylandi   = models.BooleanField(default=False)
