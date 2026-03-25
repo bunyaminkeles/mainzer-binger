@@ -27,7 +27,6 @@ class Konu(models.Model):
     yazar       = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     baslik      = models.CharField(max_length=200)
     icerik      = models.TextField()
-    resim       = models.ImageField(upload_to='forum/konular/', blank=True, null=True, verbose_name='Resim')
     sabitlendi  = models.BooleanField(default=False)
     kapali      = models.BooleanField(default=False)
     olusturulma = models.DateTimeField(auto_now_add=True)
@@ -45,7 +44,6 @@ class Yorum(models.Model):
     konu        = models.ForeignKey(Konu, on_delete=models.CASCADE, related_name='yorumlar')
     yazar       = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     icerik      = models.TextField()
-    resim       = models.ImageField(upload_to='forum/yorumlar/', blank=True, null=True, verbose_name='Resim')
     olusturulma = models.DateTimeField(auto_now_add=True)
 
     class Meta:

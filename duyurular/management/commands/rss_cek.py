@@ -12,32 +12,36 @@ from duyurular.models import Duyuru
 # stadt_slug yok → scope='eyalet' (her şehre görünür)
 RSS_KAYNAKLAR = [
     {
-        'url':        'https://www.mainz.de/pressemeldungen/?sp%3Aout=rss',
-        'kategori':   'belediye',
-        'kaynak':     'Mainz Belediyesi',
-        'stadt_slug': 'mainz',
+        'url':         'https://www.mainz.de/pressemeldungen/?sp%3Aout=rss',
+        'kategori':    'belediye',
+        'kaynak_tipi': 'belediye',
+        'kaynak':      'Mainz Belediyesi',
+        'stadt_slug':  'mainz',
     },
     {
-        'url':        'https://www.kreis-mainz-bingen.de/pressemitteilungen/?sp%3Aout=rss',
-        'kategori':   'belediye',
-        'kaynak':     'Mainz-Bingen Landkreis',
-        'stadt_slug': 'mainz-bingen',
-        'ssl_verify': False,
+        'url':         'https://www.kreis-mainz-bingen.de/pressemitteilungen/?sp%3Aout=rss',
+        'kategori':    'belediye',
+        'kaynak_tipi': 'belediye',
+        'kaynak':      'Mainz-Bingen Landkreis',
+        'stadt_slug':  'mainz-bingen',
+        'ssl_verify':  False,
     },
     {
-        'url':      'https://www.mfa.gov.tr/rss.tr.mfa',
-        'kategori': 'genel',
-        'kaynak':   'T.C. Dışişleri Bakanlığı',
+        'url':         'https://www.mfa.gov.tr/rss.tr.mfa',
+        'kategori':    'genel',
+        'kaynak_tipi': 'konsolosluk',
+        'kaynak':      'T.C. Dışişleri Bakanlığı',
     },
 ]
 
 SCRAPE_KAYNAKLAR = [
     {
-        'url':        'https://mainz-bk.mfa.gov.tr/Mission/Announcements',
-        'kategori':   'genel',
-        'kaynak':     'T.C. Mainz Başkonsolosluğu',
-        'link_base':  'https://mainz-bk.mfa.gov.tr',
-        'link_match': '/Mission/ShowAnnouncement/',
+        'url':         'https://mainz-bk.mfa.gov.tr/Mission/Announcements',
+        'kategori':    'genel',
+        'kaynak_tipi': 'konsolosluk',
+        'kaynak':      'T.C. Mainz Başkonsolosluğu',
+        'link_base':   'https://mainz-bk.mfa.gov.tr',
+        'link_match':  '/Mission/ShowAnnouncement/',
     },
 ]
 
@@ -177,12 +181,13 @@ class Command(BaseCommand):
                 _, created = Duyuru.objects.get_or_create(
                     baslik=baslik,
                     defaults={
-                        'icerik':     icerik[:3000],
-                        'kategori':   kaynak['kategori'],
-                        'kaynak_url': link,
-                        'yayinda':    True,
-                        'stadt':      stadt,
-                        'scope':      scope,
+                        'icerik':      icerik[:3000],
+                        'kategori':    kaynak['kategori'],
+                        'kaynak_tipi': kaynak.get('kaynak_tipi', 'belediye'),
+                        'kaynak_url':  link,
+                        'yayinda':     True,
+                        'stadt':       stadt,
+                        'scope':       scope,
                     }
                 )
                 if created:
@@ -248,12 +253,13 @@ class Command(BaseCommand):
                 _, created = Duyuru.objects.get_or_create(
                     baslik=baslik,
                     defaults={
-                        'icerik':     icerik[:3000],
-                        'kategori':   kaynak['kategori'],
-                        'kaynak_url': href,
-                        'yayinda':    True,
-                        'stadt':      stadt,
-                        'scope':      scope,
+                        'icerik':      icerik[:3000],
+                        'kategori':    kaynak['kategori'],
+                        'kaynak_tipi': kaynak.get('kaynak_tipi', 'belediye'),
+                        'kaynak_url':  href,
+                        'yayinda':     True,
+                        'stadt':       stadt,
+                        'scope':       scope,
                     }
                 )
                 if created:
