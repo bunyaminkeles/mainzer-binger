@@ -64,10 +64,11 @@ def ilan_ver(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
+    if not email_dogrulandi_mi(request.user):
+        messages.error(request, 'İlan verebilmek için e-posta adresinizi doğrulamanız gerekiyor.')
+        return redirect('account_email')
+
     if request.method == 'POST':
-        if not email_dogrulandi_mi(request.user):
-            messages.error(request, 'İlan verebilmek için e-posta adresinizi doğrulamanız gerekiyor.')
-            return redirect('account_email')
         from stadt.models import Eyalet
         eyalet = Eyalet.objects.filter(slug=eyalet_slug).first()
         ilan = Ilan(

@@ -36,10 +36,11 @@ def duyuru_ekle(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
+    if not email_dogrulandi_mi(request.user):
+        messages.error(request, 'Duyuru eklemek için e-posta adresinizi doğrulamanız gerekiyor.')
+        return redirect('account_email')
+
     if request.method == 'POST':
-        if not email_dogrulandi_mi(request.user):
-            messages.error(request, 'Duyuru eklemek için e-posta adresinizi doğrulamanız gerekiyor.')
-            return redirect('account_email')
 
         baslik = request.POST.get('baslik', '').strip()
         icerik = request.POST.get('icerik', '').strip()

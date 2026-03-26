@@ -71,10 +71,11 @@ def konu_ac(request, kategori_pk, eyalet_slug='rlp', stadt_slug=None):
     kategori = get_object_or_404(ForumKategori, pk=kategori_pk)
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
+    if not email_dogrulandi_mi(request.user):
+        messages.error(request, 'Konu açabilmek için e-posta adresinizi doğrulamanız gerekiyor.')
+        return redirect('account_email')
+
     if request.method == 'POST':
-        if not email_dogrulandi_mi(request.user):
-            messages.error(request, 'Konu açabilmek için e-posta adresinizi doğrulamanız gerekiyor.')
-            return redirect('account_email')
         eyalet = Eyalet.objects.filter(slug=eyalet_slug).first()
         konu = Konu.objects.create(
             kategori=kategori,
