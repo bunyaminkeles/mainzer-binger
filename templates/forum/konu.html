@@ -2,7 +2,7 @@
 {% block title %}{{ konu.baslik }}{% endblock %}
 {% block content %}
 <div class="container mt-4" style="max-width:800px">
-  <a href="/{{ stadt.slug }}/forum/" class="btn btn-sm btn-outline-secondary mb-3">
+  <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/forum/{% else %}/{{ eyalet_slug }}/forum/{% endif %}" class="btn btn-sm btn-outline-secondary mb-3">
     <i class="bi bi-arrow-left me-1"></i>Forum
   </a>
   <div class="card mb-3">
@@ -34,7 +34,7 @@
   {% if user.is_authenticated and not konu.kapali %}
   <div class="card mt-3">
     <div class="card-body p-4">
-      <form method="post" action="/{{ stadt.slug }}/forum/konu/{{ konu.pk }}/yorum/">
+      <form method="post" action="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/forum/konu/{{ konu.pk }}/yorum/{% else %}/{{ eyalet_slug }}/forum/konu/{{ konu.pk }}/yorum/{% endif %}">
         {% csrf_token %}
         <textarea name="icerik" class="form-control mb-2" rows="3" placeholder="Yanıtınızı yazın..." required></textarea>
         <button type="submit" class="btn btn-primary btn-sm">
