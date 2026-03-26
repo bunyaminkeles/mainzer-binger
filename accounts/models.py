@@ -7,6 +7,8 @@ class Profil(models.Model):
     sehir         = models.CharField(max_length=100, blank=True, default='Mainz')
     gelis_tarihi  = models.DateField(null=True, blank=True)
     olusturulma   = models.DateTimeField(auto_now_add=True)
+    biyografi_gizli = models.BooleanField(default=False)
+    sehir_gizli     = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Profil'

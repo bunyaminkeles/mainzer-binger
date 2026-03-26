@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Kullanıcılar{% endblock %}
+{% block content %}
+<div class="container mt-4" style="max-width:700px">
+  <h4 class="mb-4"><i class="bi bi-people me-2 text-primary"></i>Kullanıcılar</h4>
+
+  <form method="get" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="q" class="form-control" placeholder="Kullanıcı adı ara..." value="{{ q }}">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+    </div>
+  </form>
+
+  {% for u in kullanicilar %}
+  <a href="{% url 'accounts:kullanici_profil' u.username %}" class="d-flex align-items-center p-3 mb-2 border rounded text-decoration-none text-dark bg-white">
+    <div class="me-3">
+      <i class="bi bi-person-circle fs-4 text-secondary"></i>
+    </div>
+    <div class="flex-grow-1">
+      <div class="fw-semibold">{{ u.username }}</div>
+      {% with p=u.profil %}
+        {% if p and not p.sehir_gizli and p.sehir %}
+          <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ p.sehir }}</small>
+        {% endif %}
+      {% endwith %}
+    </div>
+    <i class="bi bi-chevron-right text-muted"></i>
+  </a>
+  {% empty %}
+  <p class="text-muted">Kullanıcı bulunamadı.</p>
+  {% endfor %}
+</div>
+{% endblock %}

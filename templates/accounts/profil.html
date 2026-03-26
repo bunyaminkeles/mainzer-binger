@@ -7,13 +7,25 @@
     <div class="card-body p-4">
       <form method="post">
         {% csrf_token %}
-        <div class="mb-3">
+        <div class="mb-2">
           <label class="form-label fw-semibold">Şehir</label>
           <input type="text" name="sehir" class="form-control" value="{{ profil.sehir }}">
         </div>
         <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="sehir_gizli" id="sehir_gizli" {% if profil.sehir_gizli %}checked{% endif %}>
+            <label class="form-check-label text-muted small" for="sehir_gizli">Şehrimi gizle</label>
+          </div>
+        </div>
+        <div class="mb-2">
           <label class="form-label fw-semibold">Biyografi <span class="text-muted fw-normal">— opsiyonel</span></label>
           <textarea name="biyografi" class="form-control" rows="4">{{ profil.biyografi }}</textarea>
+        </div>
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="biyografi_gizli" id="biyografi_gizli" {% if profil.biyografi_gizli %}checked{% endif %}>
+            <label class="form-check-label text-muted small" for="biyografi_gizli">Biyografimi gizle</label>
+          </div>
         </div>
         <button type="submit" class="btn btn-primary w-100">
           <i class="bi bi-check2 me-2"></i>Kaydet

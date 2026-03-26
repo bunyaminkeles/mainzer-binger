@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Profil
 from ilan.models import Ilan
 from django.utils import timezone
@@ -39,8 +40,30 @@ def dashboard(request):
 def profil(request):
     p, _ = Profil.objects.get_or_create(kullanici=request.user)
     if request.method == 'POST':
-        p.biyografi = request.POST.get('biyografi', '')
-        p.sehir     = request.POST.get('sehir', 'Mainz')
+        p.biyografi       = request.POST.get('biyografi', '')
+        p.sehir           = request.POST.get('sehir', 'Mainz')
+        p.biyografi_gizli = 'biyografi_gizli' in request.POST
+        p.sehir_gizli     = 'sehir_gizli' in request.POST
         p.save()
         return redirect('accounts:dashboard')
     return render(request, 'accounts/profil.html', {'profil': p})
+
+
+def kullanici_listesi(request):
+    q = request.GET.get('q', '').strip()
+    kullanicilar = User.objects.filter(is_active=True).select_related('profil').order_by('username')
+    if q:
+        kullanicilar = kullanicilar.filter(username__icontains=q)
+    return render(request, 'accounts/kullanici_listesi.html', {
+        'kullanicilar': kullanicilar,
+        'q': q,
+    })
+
+
+def kullanici_profil(request, kullanici_adi):
+    hedef = get_object_or_404(User, username=kullanici_adi, is_active=True)
+    profil, _ = Profil.objects.get_or_create(kullanici=hedef)
+    return render(request, 'accounts/kullanici_profil.html', {
+        'hedef': hedef,
+        'profil': profil,
+    })

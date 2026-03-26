@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ hedef.username }}{% endblock %}
+{% block content %}
+<div class="container mt-4" style="max-width:560px">
+  <div class="card">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-person-circle fs-1 text-secondary me-3"></i>
+        <div>
+          <h5 class="mb-0">{{ hedef.username }}</h5>
+          {% if not profil.sehir_gizli and profil.sehir %}
+            <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ profil.sehir }}</small>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if not profil.biyografi_gizli and profil.biyografi %}
+        <p class="text-muted mb-3">{{ profil.biyografi }}</p>
+      {% endif %}
+
+      {% if user.is_authenticated and user != hedef %}
+        <a href="{% url 'mesajlar:baslat' hedef.username %}" class="btn btn-primary w-100">
+          <i class="bi bi-chat-dots me-2"></i>Mesaj Gönder
+        </a>
+      {% elif not user.is_authenticated %}
+        <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-outline-primary w-100">
+          Mesaj göndermek için giriş yapın
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
