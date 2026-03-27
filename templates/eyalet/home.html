@@ -52,7 +52,7 @@
             <small class="text-muted">{{ k.yazar.username }} · {{ k.olusturulma|date:"d.m.Y" }}</small>
           </a>
           {% empty %}
-          <div class="list-group-item text-muted small py-4 text-center">Henüz konu yok.</div>
+          <div class="list-group-item text-muted small py-4 text-center">Henüz konu yok — ilk konuyu sen aç!</div>
           {% endfor %}
         </div>
       </div>
@@ -73,7 +73,7 @@
             <small class="text-muted">{{ d.olusturulma|date:"d.m.Y" }}</small>
           </a>
           {% empty %}
-          <div class="list-group-item text-muted small py-3 text-center">Henüz duyuru yok.</div>
+          <div class="list-group-item text-muted small py-3 text-center">Henüz duyuru yok — toplulukla paylaş!</div>
           {% endfor %}
         </div>
       </div>
@@ -118,7 +118,7 @@
             <small class="text-muted">{{ y.olusturulma|date:"d.m.Y" }}</small>
           </a>
           {% empty %}
-          <div class="list-group-item text-muted small py-3 text-center">Henüz yazı yok.</div>
+          <div class="list-group-item text-muted small py-3 text-center">Henüz yazı yok — deneyimlerini paylaş!</div>
           {% endfor %}
         </div>
       </div>
@@ -136,7 +136,7 @@
             <small class="text-muted">{{ i.get_kategori_display }}{% if i.fiyat %} · {{ i.fiyat }} €{% endif %}</small>
           </a>
           {% empty %}
-          <div class="list-group-item text-muted small py-3 text-center">Henüz ilan yok.</div>
+          <div class="list-group-item text-muted small py-3 text-center">Henüz ilan yok — ilk ilanını ver!</div>
           {% endfor %}
         </div>
       </div>
