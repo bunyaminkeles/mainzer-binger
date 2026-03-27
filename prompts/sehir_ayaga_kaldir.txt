@@ -180,10 +180,10 @@ class Migration(migrations.Migration):
 ADIM 3 — KAYNAK MİGRASYONU (rehber app)
 ====================================================================
 
-DOSYA ADI: rehber/migrations/0022_seed_{city_slug}_kaynaklar.py
+DOSYA ADI: rehber/migrations/0023_seed_{city_slug}_kaynaklar.py
 
 BAĞIMLILIK (dependencies):
-  ('rehber', '0021_seed_stuttgart_kaynaklar'),
+  ('rehber', '0022_fix_stuttgart_kaynaklar_urls'),
   ('stadt', '0010_seed_baskentler'),
 
 KATEGORİLER VE DOLDURULACAK KAYNAK SAYISI:
@@ -250,7 +250,7 @@ def seed(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('rehber', '0021_seed_stuttgart_kaynaklar'),
+        ('rehber', '0022_fix_stuttgart_kaynaklar_urls'),
         ('stadt', '0001_initial'),
     ]
 

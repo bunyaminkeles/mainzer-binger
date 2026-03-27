@@ -2,11 +2,11 @@ from django.db import migrations
 
 KAYNAKLAR = [
     dict(kategori='resmi', baslik='Stuttgart Bürgerbüro — Online Termin',
-         url='https://www.stuttgart.de/buergerbuero/',
+         url='https://stuttgart.konsentas.de/form/1/?signup_new=1',
          ozet='Nüfus tescili, pasaport ve kimlik kartı işlemleri için Stuttgart Bürgerbüro\'ya çevrimiçi randevu alın.',
          icon='bi-calendar-check', sira=1),
     dict(kategori='resmi', baslik='Stuttgart Ausländerbehörde',
-         url='https://www.stuttgart.de/auslaenderbehoerde',
+         url='https://stuttgart.konsentas.de/form/7/?signup_new=1',
          ozet='Oturma izni, çalışma izni ve diğer yabancılar hukuku işlemleri için Stuttgart Yabancılar Dairesi.',
          icon='bi-building-fill', sira=2),
     dict(kategori='resmi', baslik='Caritas Stuttgart — Göçmen Danışmanlığı',
