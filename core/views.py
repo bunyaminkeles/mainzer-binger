@@ -68,9 +68,9 @@ def anasayfa(request):
     return render(request, 'core/anasayfa.html', {
         'sehirler':      sehirler,
         'son_konular':   son_konular,
-        'son_duyurular': son_duyurular,
         'son_satilik':   son_satilik,
         'son_araniyor':  son_araniyor,
+        'tagesschau':    _tagesschau_haberleri(),
     })
 
 
