@@ -49,6 +49,31 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav me-auto ms-3 gap-1">
+        {# Almanya Kaynakları dropdown — her zaman görünür #}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-globe2 me-1"></i>Almanya
+          </a>
+          <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header small text-uppercase" style="letter-spacing:.05em">Resmi Kurumlar</h6></li>
+            <li><a class="dropdown-item" href="https://www.bamf.de" target="_blank" rel="noopener">
+              <i class="bi bi-building me-1 text-primary"></i>BAMF Ana Sayfası</a></li>
+            <li><a class="dropdown-item" href="https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/Kursnet/kursnet-node.html" target="_blank" rel="noopener">
+              <i class="bi bi-map me-1 text-primary"></i>Entegrasyon Kursu & Harita</a></li>
+            <li><a class="dropdown-item" href="https://www.kmk.org/zab/" target="_blank" rel="noopener">
+              <i class="bi bi-award me-1 text-primary"></i>ZAB — Denkleştirme Merkezi</a></li>
+            <li><a class="dropdown-item" href="https://www.kmk.org/zab/zab-anerkennungsberatung.html" target="_blank" rel="noopener">
+              <i class="bi bi-diagram-3 me-1 text-primary"></i>ZAB Akış Şeması</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><h6 class="dropdown-header small text-uppercase" style="letter-spacing:.05em">İş & Kariyer</h6></li>
+            <li><a class="dropdown-item" href="https://www.make-it-in-germany.com/tr" target="_blank" rel="noopener">
+              <i class="bi bi-briefcase me-1 text-success"></i>Make it in Germany</a></li>
+            <li><a class="dropdown-item" href="https://www.anerkennung-in-deutschland.de/de/interest" target="_blank" rel="noopener">
+              <i class="bi bi-patch-check me-1 text-success"></i>Tanınma Portalı</a></li>
+            <li><a class="dropdown-item" href="https://www.arbeitsagentur.de" target="_blank" rel="noopener">
+              <i class="bi bi-people me-1 text-success"></i>Bundesagentur für Arbeit</a></li>
+          </ul>
+        </li>
         {% if stadt %}
           {# Kaynaklar dropdown #}
           <li class="nav-item dropdown">

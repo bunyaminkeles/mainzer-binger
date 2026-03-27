@@ -149,6 +149,62 @@
 
   </div>
 
+  <!-- Eğitim & Staj Duyuruları -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="fw-semibold"><i class="bi bi-mortarboard me-2 text-warning"></i>Eğitim & Staj Duyuruları</span>
+          <small class="text-muted">Almanya genelinde mesleki eğitim ve staj fırsatları</small>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <a href="https://praktikumswoche.de/berufsfelder" target="_blank" rel="noopener"
+                 class="d-block p-3 border rounded text-decoration-none text-dark h-100 duyuru-dis-link">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-calendar-event text-warning me-2 fs-5"></i>
+                  <strong class="small">Praktikumswoche</strong>
+                </div>
+                <div class="text-muted" style="font-size:.78rem">Mesleklere göre staj haftası etkinlikleri</div>
+              </a>
+            </div>
+            <div class="col-md-3">
+              <a href="https://suche.ausbildung.nrw/" target="_blank" rel="noopener"
+                 class="d-block p-3 border rounded text-decoration-none text-dark h-100 duyuru-dis-link">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-search text-primary me-2 fs-5"></i>
+                  <strong class="small">Ausbildung NRW</strong>
+                </div>
+                <div class="text-muted" style="font-size:.78rem">NRW'de çıraklık ve meslek eğitimi arama</div>
+              </a>
+            </div>
+            <div class="col-md-3">
+              <a href="https://www.ihk.de/rheinhessen/bim-rheinhessen" target="_blank" rel="noopener"
+                 class="d-block p-3 border rounded text-decoration-none text-dark h-100 duyuru-dis-link">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-buildings text-success me-2 fs-5"></i>
+                  <strong class="small">IHK Rheinhessen</strong>
+                </div>
+                <div class="text-muted" style="font-size:.78rem">Rheinhessen'de çıraklık ve iş yerleştirme</div>
+              </a>
+            </div>
+            <div class="col-md-3">
+              <a href="https://machdeinhandwerk.de/vermittlung-von-ausbildung-und-praktika/" target="_blank" rel="noopener"
+                 class="d-block p-3 border rounded text-decoration-none text-dark h-100 duyuru-dis-link">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-tools text-danger me-2 fs-5"></i>
+                  <strong class="small">Mach dein Handwerk</strong>
+                </div>
+                <div class="text-muted" style="font-size:.78rem">Zanaatçılık eğitimi ve staj aracılığı</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {% if ulusal_kaynaklar %}
   <!-- Tüm Almanya için Kaynaklar -->
   <div class="row mt-2">
@@ -192,4 +248,10 @@
   {% endif %}
 
 </div>
+
+{% block extra_css %}
+<style>
+.duyuru-dis-link:hover { background-color: #f8f9fa; border-color: #0d6efd !important; }
+</style>
+{% endblock %}
 {% endblock %}
