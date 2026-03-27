@@ -43,6 +43,15 @@ SCRAPE_KAYNAKLAR = [
         'link_base':   'https://mainz-bk.mfa.gov.tr',
         'link_match':  '/Mission/ShowAnnouncement/',
     },
+    {
+        'url':         'https://essen-bk.mfa.gov.tr/Mission/Announcements',
+        'kategori':    'genel',
+        'kaynak_tipi': 'konsolosluk',
+        'kaynak':      'T.C. Essen Başkonsolosluğu',
+        'link_base':   'https://essen-bk.mfa.gov.tr',
+        'link_match':  '/Mission/ShowAnnouncement/',
+        'stadt_slug':  'wiesbaden',
+    },
 ]
 
 MAX_HABER = 15
@@ -63,7 +72,7 @@ NAV_BLACKLIST = {
 def _temizle_baslik(text: str) -> str:
     """Başlıklardaki kurumsal imza artıklarını temizler."""
     import re
-    text = re.sub(r'Türkisches Generalkonsulat\s+Mainz\s*[\d.]*', '', text)
+    text = re.sub(r'Türkisches Generalkonsulat\s+\w+\s*[\d.]*', '', text)
     return text.strip()
 
 
