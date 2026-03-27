@@ -4,7 +4,7 @@ from .models import Yer, YerFoto, ReklamPaketi, YerKategori
 
 # Yerler sekmesi → gösterilecek Kaynak kategorileri
 YER_TAB_KAYNAK = {
-    'resmi_kurum': [('resmi', 'Resmi İşlemler & Kurumlar'), ('is', 'İş & Kariyer')],
+    'resmi_kurum': [],
     'egitim':      [('egitim', 'Eğitim'), ('almanca', 'Almanca Öğrenimi')],
     'saglik':      [('saglik', 'Sağlık')],
     'gezi':        [('gezi', 'Gezi & Kültür')],
