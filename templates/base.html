@@ -50,45 +50,20 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav me-auto ms-3 gap-1">
         {% if stadt %}
-          {# Rehber mega-dropdown #}
+          {# Kaynaklar dropdown #}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               <i class="bi bi-grid me-1"></i>Kaynaklar
             </a>
-            <div class="dropdown-menu rehber-mega p-3">
-              <div class="row g-1">
-                <div class="col-4">
-                  <a href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=resmi_kurum" class="rehber-mega-item">
-                    <i class="bi bi-building"></i><span>Resmi İşlemler</span>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=egitim" class="rehber-mega-item">
-                    <i class="bi bi-mortarboard"></i><span>Eğitim</span>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=saglik" class="rehber-mega-item">
-                    <i class="bi bi-heart-pulse"></i><span>Sağlık</span>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/rehber/belgeler/#konut" class="rehber-mega-item">
-                    <i class="bi bi-house"></i><span>Konut</span>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=gezi" class="rehber-mega-item">
-                    <i class="bi bi-map"></i><span>Gezi & Kültür</span>
-                  </a>
-                </div>
-              </div>
-              <div class="border-top mt-2 pt-2">
-                <a href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/rehber/belgeler/" class="small fw-semibold d-block text-center" style="color:var(--primary)">
-                  <i class="bi bi-file-earmark-text me-1"></i>Gerekli Dokümanlar
-                </a>
-              </div>
-            </div>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=resmi_kurum"><i class="bi bi-building me-1"></i>Resmi İşlemler</a></li>
+              <li><a class="dropdown-item" href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=egitim"><i class="bi bi-mortarboard me-1"></i>Eğitim</a></li>
+              <li><a class="dropdown-item" href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=saglik"><i class="bi bi-heart-pulse me-1"></i>Sağlık</a></li>
+              <li><a class="dropdown-item" href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/rehber/belgeler/#konut"><i class="bi bi-house me-1"></i>Konut</a></li>
+              <li><a class="dropdown-item" href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/yerler/?kategori=gezi"><i class="bi bi-map me-1"></i>Gezi & Kültür</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/{{ stadt.eyalet.slug }}/{{ stadt.slug }}/rehber/belgeler/"><i class="bi bi-file-earmark-text me-1"></i>Gerekli Dokümanlar</a></li>
+            </ul>
           </li>
           {# Topluluk dropdown #}
           <li class="nav-item dropdown">
