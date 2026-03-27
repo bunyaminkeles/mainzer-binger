@@ -3,7 +3,8 @@ from django.db.models import SET_NULL
 
 SCOPE_SECENEKLERI = [
     ('stadt', 'Şehre Özel'),
-    ('eyalet', 'RLP Geneli'),
+    ('eyalet', 'Eyalet Geneli'),
+    ('almanya', 'Tüm Almanya'),
 ]
 
 KAYNAK_KATEGORI = [

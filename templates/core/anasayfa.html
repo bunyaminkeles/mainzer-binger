@@ -148,5 +148,48 @@
     </div>
 
   </div>
+
+  {% if ulusal_kaynaklar %}
+  <!-- Tüm Almanya için Kaynaklar -->
+  <div class="row mt-2">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <span class="fw-semibold"><i class="bi bi-globe2 me-2 text-primary"></i>Tüm Almanya İçin Kaynaklar</span>
+          <small class="text-muted ms-2">Şehirden bağımsız, herkese gerekli resmi bağlantılar</small>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row g-3">
+            {% for grup in ulusal_kaynaklar %}
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="fw-semibold small text-muted text-uppercase mb-2" style="font-size:.7rem;letter-spacing:.05em">
+                {{ grup.ad }}
+              </div>
+              <div class="list-group list-group-flush">
+                {% for k in grup.kaynaklar %}
+                {% if k.tip == 'link' %}
+                <a href="{{ k.url }}" target="_blank" rel="noopener"
+                   class="list-group-item list-group-item-action px-0 py-2 border-0 border-bottom">
+                  <i class="{{ k.icon }} me-2 text-primary" style="font-size:.85rem"></i>
+                  <span class="small">{{ k.baslik }}</span>
+                {% else %}
+                <a href="/rlp/mainz/rehber/{{ k.slug }}/"
+                   class="list-group-item list-group-item-action px-0 py-2 border-0 border-bottom">
+                  <i class="{{ k.icon }} me-2 text-primary" style="font-size:.85rem"></i>
+                  <span class="small">{{ k.baslik }}</span>
+                {% endif %}
+                  {% if k.ozet %}<div class="text-muted ms-4" style="font-size:.7rem">{{ k.ozet|truncatechars:70 }}</div>{% endif %}
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
 </div>
 {% endblock %}

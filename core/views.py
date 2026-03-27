@@ -8,6 +8,7 @@ from ilan.models import Ilan
 from takvim.models import Etkinlik
 from forum.models import Konu
 from ilan.models import SATILIK_KATEGORILER, ARANIYOR_KATEGORILER
+from rehber.models import Kaynak
 
 
 def _tagesschau_haberleri():
@@ -65,13 +66,31 @@ def anasayfa(request):
         .select_related('stadt')
         .order_by('-olusturulma')[:4]
     )
+
+    from collections import defaultdict
+    from rehber.models import KAYNAK_KATEGORI
+    _kat_display = dict(KAYNAK_KATEGORI)
+    _kaynaklar_qs = (
+        Kaynak.objects
+        .filter(scope='almanya', yayinda=True)
+        .order_by('kategori', 'sira')
+    )
+    _gruplar = defaultdict(list)
+    for k in _kaynaklar_qs:
+        _gruplar[k.kategori].append(k)
+    ulusal_kaynaklar = [
+        {'ad': _kat_display.get(kat, kat), 'kaynaklar': items}
+        for kat, items in _gruplar.items()
+    ]
+
     return render(request, 'core/anasayfa.html', {
-        'sehirler':      sehirler,
-        'son_konular':   son_konular,
-        'son_duyurular': son_duyurular,
-        'son_satilik':   son_satilik,
-        'son_araniyor':  son_araniyor,
-        'tagesschau':    _tagesschau_haberleri(),
+        'sehirler':         sehirler,
+        'son_konular':      son_konular,
+        'son_duyurular':    son_duyurular,
+        'son_satilik':      son_satilik,
+        'son_araniyor':     son_araniyor,
+        'tagesschau':       _tagesschau_haberleri(),
+        'ulusal_kaynaklar': ulusal_kaynaklar,
     })
 
 

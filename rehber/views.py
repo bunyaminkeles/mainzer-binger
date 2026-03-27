@@ -22,12 +22,12 @@ def belgeler(request, eyalet_slug='rlp', stadt_slug=None):
 
     if stadt:
         qs = Kaynak.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
+            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug) | Q(scope='almanya'),
             yayinda=True, kategori__in=belge_kat_list,
         ).order_by('sira')
     else:
         qs = Kaynak.objects.filter(
-            scope='eyalet', eyalet__slug=eyalet_slug,
+            Q(scope='eyalet', eyalet__slug=eyalet_slug) | Q(scope='almanya'),
             yayinda=True, kategori__in=belge_kat_list,
         ).order_by('sira')
 

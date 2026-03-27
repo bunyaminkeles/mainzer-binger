@@ -4,7 +4,7 @@ from .models import Yer, YerFoto, ReklamPaketi, YerKategori
 
 # Yerler sekmesi → gösterilecek Kaynak kategorileri
 YER_TAB_KAYNAK = {
-    'resmi_kurum': [],
+    'resmi_kurum': [('resmi', 'Resmi Bağlantılar'), ('is', 'İş & Kariyer'), ('konut', 'Konut & Belgeler')],
     'egitim':      [('egitim', 'Eğitim'), ('almanca', 'Almanca Öğrenimi')],
     'saglik':      [('saglik', 'Sağlık')],
     'gezi':        [('gezi', 'Gezi & Kültür')],
@@ -50,12 +50,12 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
     tum_kaynak_kat = list({k for gruplari in YER_TAB_KAYNAK.values() for k, _ in gruplari})
     if stadt:
         kaynak_qs = Kaynak.objects.filter(
-            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
+            Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug) | Q(scope='almanya'),
             yayinda=True, kategori__in=tum_kaynak_kat,
         ).order_by('sira')
     else:
         kaynak_qs = Kaynak.objects.filter(
-            scope='eyalet', eyalet__slug=eyalet_slug,
+            Q(scope='eyalet', eyalet__slug=eyalet_slug) | Q(scope='almanya'),
             yayinda=True, kategori__in=tum_kaynak_kat,
         ).order_by('sira')
 
