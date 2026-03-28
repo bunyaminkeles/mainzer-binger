@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
-from .models import Ilan, ILAN_KATEGORI, SATILIK_KATEGORILER, ARANIYOR_KATEGORILER
+from .models import Ilan, IlanYorum, ILAN_KATEGORI, SATILIK_KATEGORILER, ARANIYOR_KATEGORILER
 from linkler.models import OnemliLink
 from accounts.utils import email_dogrulandi_mi, dogrulama_maili_gonder
 
@@ -52,8 +52,16 @@ def detay(request, pk, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     ilan = get_object_or_404(Ilan, pk=pk, aktif=True, onaylandi=True)
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
+
+    if request.method == 'POST' and request.user.is_authenticated:
+        icerik = request.POST.get('icerik', '').strip()
+        if icerik:
+            IlanYorum.objects.create(ilan=ilan, yazar=request.user, icerik=icerik)
+        return redirect(request.path)
+
     return render(request, 'ilan/detay.html', {
         'ilan':        ilan,
+        'yorumlar':    ilan.yorumlar.select_related('yazar').all(),
         'stadt':       stadt,
         'eyalet_slug': eyalet_slug,
     })

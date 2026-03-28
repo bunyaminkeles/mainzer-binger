@@ -48,3 +48,18 @@ class Ilan(models.Model):
 
     def __str__(self):
         return self.baslik
+
+
+class IlanYorum(models.Model):
+    ilan        = models.ForeignKey(Ilan, on_delete=models.CASCADE, related_name='yorumlar')
+    yazar       = models.ForeignKey(User, on_delete=models.CASCADE)
+    icerik      = models.TextField(max_length=1000)
+    olusturulma = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['olusturulma']
+        verbose_name = 'İlan Yorumu'
+        verbose_name_plural = 'İlan Yorumları'
+
+    def __str__(self):
+        return f'{self.yazar.username} → {self.ilan.baslik[:40]}'
