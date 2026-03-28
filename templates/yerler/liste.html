@@ -19,42 +19,45 @@
 <div class="container mt-4">
   <h4 class="mb-4"><i class="bi bi-geo-alt me-2 text-primary"></i>{{ stadt.name }}'da Önemli Yerler</h4>
 
-  <!-- Mobil için Yandan Açılan Panel (Offcanvas) -->
-  <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="kategoriOffcanvas" aria-labelledby="kategoriOffcanvasLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="kategoriOffcanvasLabel"><i class="bi bi-list me-2"></i>Kategoriler</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  <!-- Mobil için Yüzen Tetikleyici Buton (FAB) -->
+  <button class="btn btn-primary rounded-pill shadow-lg position-fixed d-lg-none" 
+          type="button" 
+          data-bs-toggle="offcanvas" 
+          data-bs-target="#offcanvasSehirMenusu" 
+          style="bottom: 20px; right: 20px; z-index: 1050; padding: 15px 20px;">
+      <i class="bi bi-list-ul fs-5"></i>
+      <span class="ms-1 fw-medium">Kategoriler</span>
+  </button>
+
+  <!-- Mobilde Yandan Açılan Panel (Offcanvas) -->
+  <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="offcanvasSehirMenusu" aria-labelledby="offcanvasSehirMenusuLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title fw-bold" id="offcanvasSehirMenusuLabel">
+            <i class="bi bi-list me-2"></i>Kategoriler
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-      <ul class="nav flex-column gap-1">
-        {% for k, v in tum_kategoriler %}
-        <li class="nav-item">
-          <a href="#kategori-{{ k }}" class="nav-link" data-bs-dismiss="offcanvas">{{ v }}</a>
-        </li>
-        {% endfor %}
-      </ul>
+    <div class="offcanvas-body p-0">
+        <div class="list-group list-group-flush">
+            {% for k, v in tum_kategoriler %}
+            <a href="#kategori-{{ k }}" class="list-group-item list-group-item-action px-4 py-3" data-bs-dismiss="offcanvas">{{ v }}</a>
+            {% endfor %}
+        </div>
     </div>
   </div>
 
-  <!-- Mobil için Yüzen Eylem Butonu (FAB) -->
-  <button class="btn btn-primary rounded-circle p-3 d-lg-none shadow-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#kategoriOffcanvas" aria-controls="kategoriOffcanvas" style="position: fixed; bottom: 20px; right: 20px; z-index: 1050;">
-    <i class="bi bi-list-ul fs-4 lh-1"></i>
-  </button>
-
   <div class="row g-4 align-items-start">
 
-    <!-- Masaüstü için Sticky Sidebar (sadece masaüstünde görünür) -->
-    <div class="col-lg-3 d-none d-lg-block align-self-start position-sticky" style="top: 100px;">
-      <nav id="sidebar-nav" class="sidebar-nav">
-        <p class="text-uppercase fw-bold text-muted small mb-2 ps-2">Kategoriler</p>
-        <ul class="nav flex-column gap-1">
-          {% for k, v in tum_kategoriler %}
-          <li class="nav-item">
-            <a href="#kategori-{{ k }}" class="nav-link">{{ v }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </nav>
+    <!-- Masaüstü için Sabit Menü (Sticky Sidebar) -->
+    <div class="col-lg-3 d-none d-lg-block">
+        <div class="sticky-top" style="top: 100px;">
+            <h5 class="fw-bold mb-3">Kategoriler</h5>
+            <div class="list-group list-group-flush">
+                {% for k, v in tum_kategoriler %}
+                <a href="#kategori-{{ k }}" class="list-group-item list-group-item-action">{{ v }}</a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
     <!-- Sağ İçerik Kolonu -->
