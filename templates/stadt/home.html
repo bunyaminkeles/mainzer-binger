@@ -264,7 +264,9 @@
 </div>{# /container #}
 
 <script>
-  new bootstrap.ScrollSpy(document.body, { target: '#sidebar-nav', offset: 100 });
+  if (document.getElementById('sidebar-nav')) {
+    new bootstrap.ScrollSpy(document.body, { target: '#sidebar-nav', offset: 100 });
+  }
 
   // ── Mobil kategori akışı ──────────────────────────────────────
   const btnAc    = document.getElementById('mobil-kat-ac');
