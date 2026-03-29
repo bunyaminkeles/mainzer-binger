@@ -38,6 +38,25 @@
 </head>
 <body>
 
+<!-- Konum İzni Banner'ı -->
+<div id="konum-izni-banner" class="d-none" style="position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:9999;max-width:420px;width:calc(100% - 2rem);">
+    <div class="card shadow-lg border-0" style="background:#1E293B;color:#F1F5F9;border-radius:12px;">
+        <div class="card-body py-3 px-4">
+            <div class="d-flex align-items-start gap-3">
+                <i class="bi bi-geo-alt-fill fs-4 mt-1" style="color:#60A5FA;flex-shrink:0;"></i>
+                <div>
+                    <div class="fw-semibold mb-1" style="font-size:.9rem;">Ezan vakitleri için konum</div>
+                    <div class="opacity-75" style="font-size:.8rem;">Bulunduğunuz şehre göre doğru ezan vakitlerini gösterebilmek için konumunuza ihtiyacımız var. Reddederseniz Mainz vakitleri gösterilir.</div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button id="konum-izni-kabul" class="btn btn-sm" style="background:#2563EB;color:#fff;border-radius:8px;font-size:.8rem;padding:.3rem .9rem;">İzin Ver</button>
+                        <button id="konum-izni-ret" class="btn btn-sm" style="background:transparent;color:#94A3B8;border:1px solid #334155;border-radius:8px;font-size:.8rem;padding:.3rem .9rem;">Hayır, Mainz yeterli</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bilgi Şeridi (Ticker) -->
 <div class="py-1" style="background-color: #0F172A;">
     <div class="container d-flex justify-content-center align-items-center">
@@ -240,7 +259,7 @@
                 }
             };
 
-            if ('geolocation' in navigator) {
+            const loadKonum = () => {
                 navigator.geolocation.getCurrentPosition(
                     async ({ coords }) => {
                         try {
@@ -256,6 +275,30 @@
                     async () => { await loadMainz(); },
                     { timeout: 6000, maximumAge: 600000 }
                 );
+            };
+
+            if ('geolocation' in navigator) {
+                const tercih = localStorage.getItem('konum_tercihi');
+                if (tercih === 'kabul') {
+                    loadKonum();
+                } else if (tercih === 'ret') {
+                    await loadMainz();
+                } else {
+                    // İlk ziyaret — açıklama banner'ını göster
+                    const banner = document.getElementById('konum-izni-banner');
+                    if (banner) banner.classList.remove('d-none');
+
+                    document.getElementById('konum-izni-kabul').addEventListener('click', () => {
+                        localStorage.setItem('konum_tercihi', 'kabul');
+                        banner.classList.add('d-none');
+                        loadKonum();
+                    });
+                    document.getElementById('konum-izni-ret').addEventListener('click', async () => {
+                        localStorage.setItem('konum_tercihi', 'ret');
+                        banner.classList.add('d-none');
+                        await loadMainz();
+                    });
+                }
             } else {
                 await loadMainz();
             }
