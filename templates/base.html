@@ -218,7 +218,7 @@
                 if (bugun) return bugun;
                 // Tüm vakitler geçti → yarının İmsak'ı
                 const t2 = await getTimings(tomorrowUrl);
-                return { ad: 'İmsak (yarın)', saat: t2.Imsak };
+                return { ad: 'İmsak', saat: t2.Imsak };
             };
 
             const renderVakit = (sonraki, konumlu) => {
