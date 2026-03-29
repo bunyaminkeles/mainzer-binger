@@ -101,6 +101,7 @@ def anasayfa(request):
     ]
 
     son_blog_yazilari = BlogYazisi.objects.filter(yayinda=True).order_by('-olusturulma')[:3]
+    son_belgeler = Belge.objects.filter(yayinda=True, stadt__isnull=True).order_by('kategori', 'sira')[:6]
 
     return render(request, 'core/anasayfa.html', {
         'sehirler':           sehirler,
@@ -112,6 +113,7 @@ def anasayfa(request):
         'tagesschau':       _tagesschau_haberleri(),
         'dw_turkce':        _dw_turkce_haberleri(),
         'ulusal_kaynaklar': ulusal_kaynaklar,
+        'son_belgeler':     son_belgeler,
     })
 
 
