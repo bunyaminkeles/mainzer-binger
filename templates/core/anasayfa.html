@@ -300,6 +300,73 @@
     </div>
 
 
+    <!-- CANLI AKIŞ: İlanlar + Forum -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sol: Güncel İlanlar -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold mb-0" style="font-size: 0.9375rem; color: #111827;">
+                            <i class="bi bi-tags me-2" style="color: #059669;"></i>Güncel İlanlar
+                        </h5>
+                        <a href="/rlp/mainz/ilan/" class="text-decoration-none" style="font-size: 0.8rem; color: #9ca3af;">Tümünü gör →</a>
+                    </div>
+                    <div class="vstack gap-0">
+                        {% for ilan in son_satilik|slice:":4" %}
+                        <a href="/{{ ilan.eyalet.slug|default:'rlp' }}/ilan/{{ ilan.pk }}/"
+                           class="d-flex justify-content-between align-items-center py-3 text-decoration-none"
+                           style="border-bottom: 1px solid #f3f4f6; color: inherit;">
+                            <div>
+                                <p class="fw-semibold mb-0" style="font-size: 0.875rem; color: #111827; line-height: 1.4;">{{ ilan.baslik|truncatechars:48 }}</p>
+                                <span style="font-size: 0.72rem; color: #9ca3af;">
+                                    {{ ilan.eyalet.kod|default:'RLP' }}{% if ilan.stadt %} · {{ ilan.stadt.name|truncatechars:10 }}{% endif %}
+                                    · {{ ilan.olusturulma|timesince }} önce
+                                </span>
+                            </div>
+                            {% if ilan.fiyat %}
+                            <span class="fw-bold ms-3 flex-shrink-0" style="font-size: 0.875rem; color: #059669;">{{ ilan.fiyat }} €</span>
+                            {% endif %}
+                        </a>
+                        {% empty %}
+                        <p style="font-size: 0.875rem; color: #9ca3af;">Henüz ilan yok.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Sağ: Topluluktan Son Sorular -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold mb-0" style="font-size: 0.9375rem; color: #111827;">
+                            <i class="bi bi-chat-text me-2" style="color: #6366f1;"></i>Topluluktan Son Sorular
+                        </h5>
+                        <a href="/rlp/mainz/forum/" class="text-decoration-none" style="font-size: 0.8rem; color: #9ca3af;">Foruma git →</a>
+                    </div>
+                    <div class="vstack gap-0">
+                        {% for konu in son_konular|slice:":4" %}
+                        <a href="/{% if konu.stadt %}{{ konu.stadt.eyalet.slug|default:'rlp' }}/{{ konu.stadt.slug }}/{% elif konu.eyalet %}{{ konu.eyalet.slug }}/mainz/{% else %}rlp/mainz/{% endif %}forum/konu/{{ konu.pk }}/"
+                           class="d-flex align-items-start py-3 text-decoration-none"
+                           style="border-bottom: 1px solid #f3f4f6;">
+                            <i class="bi bi-chat-dots me-3 flex-shrink-0 mt-1" style="font-size: 0.8rem; color: #c4b5fd;"></i>
+                            <div>
+                                <p class="fw-semibold mb-0" style="font-size: 0.875rem; color: #111827; line-height: 1.4;">{{ konu.baslik|truncatechars:55 }}</p>
+                                <span style="font-size: 0.72rem; color: #9ca3af;">
+                                    {% if konu.yazar %}{{ konu.yazar.username }}{% else %}anonim{% endif %}
+                                    · {{ konu.olusturulma|timesince }} önce
+                                </span>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p style="font-size: 0.875rem; color: #9ca3af;">Henüz soru yok.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- BÜLTEN: Dönüşüm Hunisi -->
     <section class="py-5 bulten-section" style="margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
         <div class="container">
