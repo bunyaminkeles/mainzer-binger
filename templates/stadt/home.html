@@ -254,31 +254,20 @@
     setActivePill(kat);
   }
 
-  // ── Başlangıç durumu ──────────────────────────────────────────
-  if (isMobile()) {
-    // Mobil: ilk kategoriyi göster
-    const first = sections[0];
-    if (first) showSection(first.dataset.kat);
-  } else {
-    // Masaüstü: tümünü göster
-    sections.forEach(s => s.style.display = '');
-    if (pills[0]) pills[0].classList.add('active');
-  }
+  // ── Başlangıç: ilk kategoriyi göster (her ekranda) ──────────
+  const first = sections[0];
+  if (first) showSection(first.dataset.kat);
 
   // ── Pill tıklama ──────────────────────────────────────────────
   pills.forEach(pill => {
     pill.addEventListener('click', e => {
-      if (isMobile()) {
-        e.preventDefault();
-        showSection(pill.dataset.kat);
-        document.getElementById('kat-pill-nav').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } else {
-        setActivePill(pill.dataset.kat);
-      }
+      e.preventDefault();
+      showSection(pill.dataset.kat);
+      document.getElementById('kat-pill-nav').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   });
 
-  // ── Geri butonları (mobil section içi) ───────────────────────
+  // ── Geri butonları (section içi) ─────────────────────────────
   document.querySelectorAll('.mobil-geri').forEach(btn => {
     btn.addEventListener('click', () => {
       sections.forEach(s => s.style.display = 'none');
@@ -286,10 +275,5 @@
       document.getElementById('kat-pill-nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-
-  // ── Masaüstü scrollspy ────────────────────────────────────────
-  if (!isMobile()) {
-    new bootstrap.ScrollSpy(document.body, { target: '#kat-pill-nav', offset: 100 });
-  }
 </script>
 {% endblock %}
