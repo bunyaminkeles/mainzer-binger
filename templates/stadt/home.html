@@ -14,11 +14,7 @@
   .sidebar-nav-link:hover { background: #f1f3f5; color: #212529; }
   /* Sağ alt yüzen buton (FAB) */
   .fab-kategoriler { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; z-index: 1045; display: flex; align-items: center; justify-content: center; }
-  @media (max-width: 991.98px) {
-    .mobil-kat-section { display: none; }
-    .mobil-kat-section.mobil-aktif { display: block; }
-    .mobil-kat-liste-gizli { display: none; }
-  }
+  .mobil-kat-liste-gizli { display: none; }
 </style>
 
 <!-- BÖLÜM 1: Hero -->
@@ -155,7 +151,7 @@
 
       {% for k, grup in kategoriler.items %}
 
-      <div class="mobil-kat-section" data-kat="{{ k }}">
+      <div class="mobil-kat-section" data-kat="{{ k }}" style="display:none">
 
         <h3 id="kategori-{{ k }}" class="fw-bold mt-3 mb-3 border-bottom pb-2">
           <!-- Mobil: geri butonu -->
@@ -271,13 +267,18 @@
     new bootstrap.ScrollSpy(document.body, { target: '#sidebar-nav', offset: 100 });
   }
 
+  // ── Masaüstünde tüm section'ları göster ──────────────────────
+  const sections = document.querySelectorAll('.mobil-kat-section');
+  if (window.innerWidth >= 992) {
+    sections.forEach(s => s.style.display = '');
+  }
+
   // ── Mobil kategori akışı ──────────────────────────────────────
   const btnAc    = document.getElementById('mobil-kat-ac');
   const katListe = document.getElementById('mobil-kat-liste');
-  const sections = document.querySelectorAll('.mobil-kat-section');
 
   function hideAllSections() {
-    sections.forEach(s => s.classList.remove('mobil-aktif'));
+    sections.forEach(s => s.style.display = 'none');
   }
 
   btnAc.addEventListener('click', () => {
@@ -291,7 +292,7 @@
       hideAllSections();
       const target = document.querySelector(`.mobil-kat-section[data-kat="${kat}"]`);
       if (target) {
-        target.classList.add('mobil-aktif');
+        target.style.display = 'block';
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
