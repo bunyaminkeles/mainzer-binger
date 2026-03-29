@@ -24,7 +24,7 @@ ADIM 2 — MİGRASYON ÜRETİMİ
 ====================================================================
 
 DOSYA ADI: stadt/migrations/XXXX_update_city_action_links.py
-(XXXX = mevcut en son migrasyon numarasının bir fazlası. Şu an son migrasyon: 0014_add_rss_duyuru_url)
+(XXXX = mevcut en son migrasyon numarasının bir fazlası. Şu an son migrasyon: 0019_koblenz_action_links)
 
 PYTHON ŞABLONU:
 
