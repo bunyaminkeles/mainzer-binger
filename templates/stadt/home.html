@@ -15,7 +15,8 @@
   /* Sağ alt yüzen buton (FAB) */
   .fab-kategoriler { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; z-index: 1045; display: flex; align-items: center; justify-content: center; }
   @media (max-width: 991.98px) {
-    .mobil-kat-section { display: none; }
+    .mobil-kat-section { display: none !important; }
+    .mobil-kat-section.mobil-aktif { display: block !important; }
   }
 </style>
 
@@ -122,7 +123,7 @@
   </div>
 
   <!-- Mobil: Inline Kategori Listesi (başta gizli) -->
-  <div id="mobil-kat-liste" class="d-lg-none mb-3" style="display:none!important">
+  <div id="mobil-kat-liste" class="d-none mb-3">
     <div class="list-group list-group-flush">
       {% for k, v in tum_kategoriler %}
       <button type="button" class="list-group-item list-group-item-action fw-medium mobil-kat-item" data-kat="{{ k }}">
@@ -269,22 +270,24 @@
   const katListe = document.getElementById('mobil-kat-liste');
   const sections = document.querySelectorAll('.mobil-kat-section');
 
+  function hideAllSections() {
+    sections.forEach(s => s.classList.remove('mobil-aktif'));
+  }
+
   // Kategoriler butonuna tıkla → listeyi göster/gizle
   btnAc.addEventListener('click', () => {
-    const visible = katListe.style.display === 'block';
-    katListe.style.display = visible ? 'none' : 'block';
+    katListe.classList.toggle('d-none');
   });
 
   // Kategori seçildi → listeyi gizle, ilgili section'ı göster
   document.querySelectorAll('.mobil-kat-item').forEach(btn => {
     btn.addEventListener('click', () => {
       const kat = btn.dataset.kat;
-      katListe.style.display = 'none';
-      // Hepsini CSS ile gizle (inline override ile)
-      sections.forEach(s => s.style.display = 'none');
+      katListe.classList.add('d-none');
+      hideAllSections();
       const target = document.querySelector(`.mobil-kat-section[data-kat="${kat}"]`);
       if (target) {
-        target.style.display = 'block';
+        target.classList.add('mobil-aktif');
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
@@ -293,8 +296,8 @@
   // Geri butonuna tıkla → section'ı gizle, Kategoriler butonuna dön
   document.querySelectorAll('.mobil-geri').forEach(btn => {
     btn.addEventListener('click', () => {
-      sections.forEach(s => s.style.display = 'none');
-      katListe.style.display = 'none';
+      hideAllSections();
+      katListe.classList.add('d-none');
       btnAc.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
