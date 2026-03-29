@@ -1,5 +1,5 @@
 """
-Belge havuzu — SADECE doğrudan indirilebilir PDF/DOCX dosyalar.
+Belge havuzu — SADECE doğrulanmış, doğrudan indirilebilir PDF dosyalar.
 Bilgi sayfaları veya web portalları bu modele EKLENMEMELİDİR.
 """
 from django.db import migrations
@@ -8,46 +8,22 @@ FEDERAL_BELGELER = [
     {
         'baslik': 'Kindergeld Ana Başvuru Formu (KG1)',
         'kategori': 'aile',
-        'harici_link': 'https://www.arbeitsagentur.de/datei/kg1-antrag-kindergeld_ba043063.pdf',
+        'harici_link': 'https://www.arbeitsagentur.de/datei/kg1-antrag-kindergeld_ba036550.pdf',
         'ozet': 'Çocuk parası (Kindergeld) için resmi başvuru formu.',
     },
     {
-        'baslik': 'Kindergeld — Banka Hesap Değişikliği (KG105)',
-        'kategori': 'aile',
-        'harici_link': 'https://www.arbeitsagentur.de/datei/kg105-aenderung-bankverbindung_ba013533.pdf',
-        'ozet': 'Kindergeld ödemelerinin aktarılacağı banka hesabını değiştirme formu.',
-    },
-    {
-        'baslik': 'Elterngeld Başvuru Formu',
-        'kategori': 'aile',
-        'harici_link': 'https://www.arbeitsagentur.de/datei/elterngeld-antrag_ba036071.pdf',
-        'ozet': 'Doğum sonrası ebeveyn yardımı (Elterngeld) başvuru formu.',
-    },
-    {
-        'baslik': 'SEPA Otomatik Ödeme Talimatı (Lastschriftmandat)',
+        'baslik': 'SEPA-Lastschriftmandat — Araç Vergisi Otomatik Ödeme',
         'kategori': 'genel',
-        'harici_link': 'https://www.arbeitsagentur.de/datei/sepa-lastschriftmandat_ba014022.pdf',
-        'ozet': 'Kurumlarla otomatik ödeme talimatı vermek için SEPA formu.',
-    },
-    {
-        'baslik': 'Wohnungsgeberbestätigung — Ev Sahibi Onay Belgesi (Federal Şablon)',
-        'kategori': 'konut',
-        'harici_link': 'https://www.bundesregierung.de/resource/blob/974430/2185598/wohnungsgeberbestaetigung_muster.pdf',
-        'ozet': 'İkametgah kaydı için ev sahibinden alınacak onay belgesi şablonu.',
-    },
-    {
-        'baslik': 'Vollmacht — Genel Vekaletname Şablonu',
-        'kategori': 'genel',
-        'harici_link': 'https://www.bundesjustizamt.de/SharedDocs/Downloads/DE/Formulare/Vollmacht.pdf',
-        'ozet': 'Resmi işlemlerde kullanılabilecek genel vekaletname formu.',
+        'harici_link': 'https://www.zoll.de/SharedDocs/Downloads/DE/FormulareMerkblaetter/Verkehrsteuern/Formular_032021.pdf?__blob=publicationFile',
+        'ozet': 'Kfz-Steuer (araç vergisi) için otomatik ödeme talimatı (SEPA) formu.',
     },
 ]
 
 MAINZ_BELGELER = [
     {
-        'baslik': 'Wohnungsgeberbestätigung (Ev Sahibi Onay Belgesi) — Mainz',
+        'baslik': 'Wohnungsgeberbestätigung — Ev Sahibi Onay Belgesi (Mainz)',
         'kategori': 'konut',
-        'harici_link': 'https://www.mainz.de/vv/medien/internet/Wohnungsgeberbestaetigung.pdf',
+        'harici_link': 'https://www.mainz.de/vv/medien/internet/Wohnungsgebende-Bescheinigung-Formular.pdf',
         'ozet': 'Mainz Bürgerbüro için ev sahibinden alınacak ikamet onay formu.',
     },
     {
@@ -59,7 +35,7 @@ MAINZ_BELGELER = [
     {
         'baslik': 'Vollmacht Kfz-Zulassung — Araç Kayıt Vekaletnamesi (Mainz)',
         'kategori': 'genel',
-        'harici_link': 'https://www.mainz.de/vv/medien/internet/Vollmacht-Kfz-Zulassung.pdf',
+        'harici_link': 'https://www.mainz.de/vv/medien/internet/Zulassungsstelle-Antragstellung-Abholung-Fahrzeugpapiere-Vollmacht.pdf',
         'ozet': 'Mainz araç tescili için başkasına verilebilecek vekaletname formu.',
     },
 ]
