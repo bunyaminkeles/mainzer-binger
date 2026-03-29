@@ -186,41 +186,66 @@
             }
         }
 
-        // Sıradaki ezan vakti — Mainz, Diyanet metodu (13)
+        // Sıradaki ezan vakti — konum varsa kullanıcı konumu, yoksa Mainz
         const prayerEl = document.getElementById('next-prayer');
         if (prayerEl) {
-            try {
-                const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Mainz&country=Germany&method=13');
+            async function fetchVakit(url) {
+                const res = await fetch(url);
                 const json = await res.json();
                 const t = json.data.timings;
-
                 const VAKİTLER = [
-                    { ad: 'İmsak',  saat: t.Fajr    },
+                    { ad: 'İmsak',  saat: t.Imsak   },
                     { ad: 'Güneş',  saat: t.Sunrise  },
                     { ad: 'Öğle',   saat: t.Dhuhr   },
                     { ad: 'İkindi', saat: t.Asr     },
                     { ad: 'Akşam',  saat: t.Maghrib },
                     { ad: 'Yatsı',  saat: t.Isha    },
                 ];
-
                 const now = new Date();
                 const nowMin = now.getHours() * 60 + now.getMinutes();
-
-                const sonraki = VAKİTLER.find(v => {
+                return VAKİTLER.find(v => {
                     const [h, m] = v.saat.split(':').map(Number);
                     return (h * 60 + m) > nowMin;
                 });
+            }
 
-                if (sonraki) {
-                    prayerEl.innerHTML =
-                        `<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>` +
-                        `Mainz — <strong>${sonraki.ad} ${sonraki.saat}</strong>`;
-                }
-                // Tüm vakitler geçtiyse (gece yarısından sonra) gizli bırak
-            } catch {
+            function renderVakit(sonraki, konumlu) {
+                if (!sonraki) return;
                 prayerEl.innerHTML =
                     `<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>` +
-                    `Mainz — <strong>--:--</strong>`;
+                    (konumlu ? `<i class="bi bi-geo-alt me-1" style="opacity:.7; font-size:.65rem;"></i>` : `Mainz — `) +
+                    `<strong>${sonraki.ad} ${sonraki.saat}</strong>`;
+            }
+
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    async ({ coords }) => {
+                        try {
+                            const url = `https://api.aladhan.com/v1/timings?latitude=${coords.latitude}&longitude=${coords.longitude}&method=13`;
+                            const sonraki = await fetchVakit(url);
+                            renderVakit(sonraki, true);
+                        } catch {
+                            // Konum başarısız → Mainz fallback
+                            try {
+                                const sonraki = await fetchVakit('https://api.aladhan.com/v1/timingsByCity/today?city=Mainz&country=Germany&method=13');
+                                renderVakit(sonraki, false);
+                            } catch { prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--'; }
+                        }
+                    },
+                    async () => {
+                        // Konum reddedildi → Mainz
+                        try {
+                            const sonraki = await fetchVakit('https://api.aladhan.com/v1/timingsByCity/today?city=Mainz&country=Germany&method=13');
+                            renderVakit(sonraki, false);
+                        } catch { prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--'; }
+                    },
+                    { timeout: 5000 }
+                );
+            } else {
+                try {
+                    const sonraki = await fetchVakit('https://api.aladhan.com/v1/timingsByCity/today?city=Mainz&country=Germany&method=13');
+                    renderVakit(sonraki, false);
+                } catch { prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--'; }
             }
         }
     }
