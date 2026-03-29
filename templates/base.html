@@ -189,11 +189,16 @@
         // Sıradaki ezan vakti — konum varsa kullanıcı konumu, yoksa Mainz
         const prayerEl = document.getElementById('next-prayer');
         if (prayerEl) {
-            async function fetchVakit(url) {
-                const res = await fetch(url);
+            const todayStr = (() => {
+                const d = new Date();
+                return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
+            })();
+
+            const getSonraki = async (url) => {
+                const res  = await fetch(url);
                 const json = await res.json();
-                const t = json.data.timings;
-                const VAKİTLER = [
+                const t    = json.data.timings;
+                const LIST = [
                     { ad: 'İmsak',  saat: t.Imsak   },
                     { ad: 'Güneş',  saat: t.Sunrise  },
                     { ad: 'Öğle',   saat: t.Dhuhr   },
@@ -201,51 +206,49 @@
                     { ad: 'Akşam',  saat: t.Maghrib },
                     { ad: 'Yatsı',  saat: t.Isha    },
                 ];
-                const now = new Date();
-                const nowMin = now.getHours() * 60 + now.getMinutes();
-                return VAKİTLER.find(v => {
+                const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
+                return LIST.find(v => {
                     const [h, m] = v.saat.split(':').map(Number);
                     return (h * 60 + m) > nowMin;
-                });
-            }
+                }) || null;
+            };
 
-            function renderVakit(sonraki, konumlu) {
-                if (!sonraki) return;
+            const renderVakit = (sonraki, konumlu) => {
+                if (!sonraki) {
+                    prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i><strong>Tüm vakitler geçti</strong>';
+                    return;
+                }
                 prayerEl.innerHTML =
                     `<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>` +
-                    (konumlu ? `<i class="bi bi-geo-alt me-1" style="opacity:.7; font-size:.65rem;"></i>` : `Mainz — `) +
+                    (konumlu ? '' : 'Mainz — ') +
                     `<strong>${sonraki.ad} ${sonraki.saat}</strong>`;
-            }
+            };
+
+            const mainzUrl = `https://api.aladhan.com/v1/timingsByCity/${todayStr}?city=Mainz&country=Germany&method=13`;
+
+            const loadMainz = async () => {
+                try {
+                    renderVakit(await getSonraki(mainzUrl), false);
+                } catch {
+                    prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--';
+                }
+            };
 
             if ('geolocation' in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     async ({ coords }) => {
                         try {
-                            const url = `https://api.aladhan.com/v1/timings?latitude=${coords.latitude}&longitude=${coords.longitude}&method=13`;
-                            const sonraki = await fetchVakit(url);
-                            renderVakit(sonraki, true);
+                            const url = `https://api.aladhan.com/v1/timings/${todayStr}?latitude=${coords.latitude}&longitude=${coords.longitude}&method=13`;
+                            renderVakit(await getSonraki(url), true);
                         } catch {
-                            // Konum başarısız → Mainz fallback
-                            try {
-                                const sonraki = await fetchVakit('https://api.aladhan.com/v1/timingsByCity/today?city=Mainz&country=Germany&method=13');
-                                renderVakit(sonraki, false);
-                            } catch { prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--'; }
+                            await loadMainz();
                         }
                     },
-                    async () => {
-                        // Konum reddedildi → Mainz
-                        try {
-                            const sonraki = await fetchVakit('https://api.aladhan.com/v1/timingsByCity/today?city=Mainz&country=Germany&method=13');
-                            renderVakit(sonraki, false);
-                        } catch { prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--'; }
-                    },
-                    { timeout: 5000 }
+                    async () => { await loadMainz(); },
+                    { timeout: 6000, maximumAge: 600000 }
                 );
             } else {
-                try {
-                    const sonraki = await fetchVakit('https://api.aladhan.com/v1/timingsByCity/today?city=Mainz&country=Germany&method=13');
-                    renderVakit(sonraki, false);
-                } catch { prayerEl.innerHTML = '<i class="bi bi-moon-stars me-1" style="opacity:.7;"></i>--:--'; }
+                await loadMainz();
             }
         }
     }
