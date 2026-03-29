@@ -9,3 +9,6 @@ media/
 *.log
 .DS_Store
 Hetzner-Cheatsheet.odt
+.~lock.Hetzner-Cheatsheet.odt#
+prompts/sehir_ayaga_kaldir.txt
+prompts/Ultrathink Master.md
