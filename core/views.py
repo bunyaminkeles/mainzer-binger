@@ -8,7 +8,7 @@ from ilan.models import Ilan
 from takvim.models import Etkinlik
 from forum.models import Konu
 from ilan.models import SATILIK_KATEGORILER, ARANIYOR_KATEGORILER
-from rehber.models import Kaynak
+from rehber.models import Kaynak, Belge
 from almanca import engine as almanca_engine
 from blog.models import BlogYazisi
 
