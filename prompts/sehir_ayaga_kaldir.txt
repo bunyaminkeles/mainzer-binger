@@ -27,7 +27,7 @@ ADIM 2 — MİGRASYON ÜRETİMİ
 
 --------------------------------------------------------------------
 DOSYA 1: stadt/migrations/XXXX_<sehir_slug>_action_links.py
-(XXXX = mevcut en son migrasyon numarasının bir fazlası. Şu an son migrasyon: 0024_ludwigshafen_aktiv — bir sonraki çift: 0025 + 0026)
+(XXXX = mevcut en son migrasyon numarasının bir fazlası. Şu an son migrasyon: 0026_trier_aktiv — bir sonraki çift: 0027 + 0028)
 
 from django.db import migrations
 
