@@ -100,8 +100,24 @@ seed() fonksiyonunda MUTLAKA şunu yaz:
     eyalet = Eyalet.objects.get(kod='RLP')   ✅ DOĞRU
     eyalet = Eyalet.objects.get(kod='RP')    ❌ YANLIŞ — sessizce hiçbir şey eklemez!
 
-Diğer eyaletler: BW (Baden-Württemberg), BY (Bayern), NW (NRW), HE (Hessen), vb.
-Tam liste: python manage.py shell -c "from stadt.models import Eyalet; print(list(Eyalet.objects.values_list('kod', flat=True)))"
+Tüm eyalet kodları (kesin liste — tahmin etme):
+  RLP — Rheinland-Pfalz       ⚠️ 'RP' veya 'NRW' YAZMA
+  NW  — Nordrhein-Westfalen   ⚠️ 'NRW' veya 'NR' YAZMA
+  BW  — Baden-Württemberg
+  BY  — Bayern
+  HE  — Hessen
+  NI  — Niedersachsen
+  SL  — Saarland
+  SN  — Sachsen
+  ST  — Sachsen-Anhalt
+  TH  — Thüringen
+  BB  — Brandenburg
+  BE  — Berlin
+  HB  — Bremen
+  HH  — Hamburg
+  MV  — Mecklenburg-Vorpommern
+  SH  — Schleswig-Holstein
+Doğrulama: python manage.py shell -c "from stadt.models import Eyalet; [print(e.kod, e) for e in Eyalet.objects.order_by('kod')]"
 
 --------------------------------------------------------------------
 Şehir ayağa kaldırıldıktan sonra ÜÇÜNCÜ dosya üretilecek:
