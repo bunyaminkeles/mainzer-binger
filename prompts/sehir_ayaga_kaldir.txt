@@ -89,3 +89,84 @@ class Migration(migrations.Migration):
 
 --------------------------------------------------------------------
 KURAL: Çıktı olarak SADECE doğrulanmış linklerle dolu bu iki Python dosyasını ver.
+
+====================================================================
+ADIM 3 — ÖNEMLİ YERLER SEED MİGRASYONU (ZORUNLU)
+====================================================================
+
+⚠️ KRİTİK UYARI — EYALET KODU HATASI:
+Rheinland-Pfalz eyaleti için kod 'RP' DEĞİL, 'RLP'dir.
+seed() fonksiyonunda MUTLAKA şunu yaz:
+    eyalet = Eyalet.objects.get(kod='RLP')   ✅ DOĞRU
+    eyalet = Eyalet.objects.get(kod='RP')    ❌ YANLIŞ — sessizce hiçbir şey eklemez!
+
+Diğer eyaletler: BW (Baden-Württemberg), BY (Bayern), NW (NRW), HE (Hessen), vb.
+Tam liste: python manage.py shell -c "from stadt.models import Eyalet; print(list(Eyalet.objects.values_list('kod', flat=True)))"
+
+--------------------------------------------------------------------
+Şehir ayağa kaldırıldıktan sonra ÜÇÜNCÜ dosya üretilecek:
+
+DOSYA 3: yerler/migrations/XXXX_seed_<sehir_slug>_yerler.py
+
+Kapsanması gereken kategoriler (mevcut YerKategori slug'ları):
+  resmi_kurum, ibadet, tuv, saglik, egitim, gezi, alisveris
+  (+ turk_market, yeme_icme, werkstatt — veri varsa)
+
+Şablon:
+--------------------------------------------------------------------
+from django.db import migrations
+
+RESMI_KURUM = [ { 'ad': '...', 'adres': '...', 'aciklama': '...', 'website': '...', 'maps_url': '...', 'kapak_resmi': '', 'icerik': '' }, ... ]
+IBADET      = [ ... ]
+TUV         = [ ... ]
+SAGLIK      = [ ... ]
+EGITIM      = [ ... ]
+GEZI        = [ ... ]
+ALISVERIS   = [ ... ]
+
+def seed(apps, schema_editor):
+    Eyalet = apps.get_model('stadt', 'Eyalet')
+    Stadt  = apps.get_model('stadt', 'Stadt')
+    Yer    = apps.get_model('yerler', 'Yer')
+    try:
+        eyalet = Eyalet.objects.get(kod='<DOĞRU_KOD>')  # ⚠️ RLP, BW, BY vb. — 'RP' YAZMA!
+        sehir  = Stadt.objects.get(slug='<slug>')
+    except (Eyalet.DoesNotExist, Stadt.DoesNotExist):
+        return
+    for kategori_slug, veriler in [
+        ('resmi_kurum', RESMI_KURUM), ('ibadet', IBADET), ('tuv', TUV),
+        ('saglik', SAGLIK), ('egitim', EGITIM), ('gezi', GEZI), ('alisveris', ALISVERIS),
+    ]:
+        for veri in veriler:
+            Yer.objects.get_or_create(
+                ad=veri['ad'], stadt=sehir,
+                defaults={
+                    'eyalet': eyalet, 'scope': 'stadt', 'tur': 'yer',
+                    'kategori': kategori_slug, 'sehir': '<Şehir Adı>',
+                    'adres': veri['adres'], 'aciklama': veri['aciklama'],
+                    'kapak_resmi': veri.get('kapak_resmi', ''), 'website': veri.get('website', ''),
+                    'maps_url': veri.get('maps_url', ''), 'icerik': veri.get('icerik', ''),
+                    'aktif': True,
+                }
+            )
+
+def unseed(apps, schema_editor):
+    Yer = apps.get_model('yerler', 'Yer')
+    adlar = [v['ad'] for liste in [RESMI_KURUM, IBADET, TUV, SAGLIK, EGITIM, GEZI, ALISVERIS] for v in liste]
+    Yer.objects.filter(ad__in=adlar, sehir='<Şehir Adı>').delete()
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ('yerler', '<bir önceki yerler migrasyonu>'),
+        ('stadt',  '<sehir_slug>_aktiv'),
+    ]
+    operations = [ migrations.RunPython(seed, unseed) ]
+--------------------------------------------------------------------
+
+Migration çalıştırıldıktan sonra doğrulama komutu:
+python manage.py shell -c "
+from yerler.models import Yer; from stadt.models import Stadt
+s = Stadt.objects.get(slug='<slug>')
+for k in ['resmi_kurum','ibadet','tuv','saglik','egitim','gezi','alisveris']:
+    print(k, Yer.objects.filter(stadt=s, kategori=k, aktif=True).count())
+"
