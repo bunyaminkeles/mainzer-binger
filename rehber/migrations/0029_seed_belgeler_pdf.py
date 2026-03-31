@@ -17,6 +17,18 @@ FEDERAL_BELGELER = [
         'harici_link': 'https://www.zoll.de/SharedDocs/Downloads/DE/FormulareMerkblaetter/Verkehrsteuern/Formular_032021.pdf?__blob=publicationFile',
         'ozet': 'Kfz-Steuer (araç vergisi) için otomatik ödeme talimatı (SEPA) formu.',
     },
+    {
+        'baslik': 'Almanya Meslekler Listesi (Berufe in Deutschland)',
+        'kategori': 'genel',
+        'harici_link': '/media/belgeler/Berufe_List_in_Deutschland-1.pdf',
+        'ozet': 'Almanya\'daki resmi mesleklerin listesi ve detayları.',
+    },
+    {
+        'baslik': 'Staj Haftası Çalışma Kağıdı (Praktikumswoche)',
+        'kategori': 'genel',
+        'harici_link': '/media/belgeler/arbeitsblatt-praktikumswoche.pdf',
+        'ozet': 'Öğrenciler ve yeni mezunlar için staj (Praktikum) haftası değerlendirme formu.',
+    },
 ]
 
 MAINZ_BELGELER = [
