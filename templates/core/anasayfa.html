@@ -350,7 +350,8 @@
                             <div>
                                 <p class="fw-semibold mb-0" style="font-size: 0.875rem; color: #111827; line-height: 1.4;">{{ konu.baslik|truncatechars:50 }}</p>
                                 <span style="font-size: 0.72rem; color: #9ca3af;">
-                                    {% if konu.yazar %}{{ konu.yazar.username }}{% else %}anonim{% endif %}
+                                    {% if konu.scope == 'stadt' and konu.stadt %}{{ konu.stadt.eyalet.kod|default:'RLP' }} · {{ konu.stadt.name }}{% elif konu.eyalet %}{{ konu.eyalet.kod }}{% else %}RLP{% endif %}
+                                    · {% if konu.yazar %}{{ konu.yazar.username }}{% else %}anonim{% endif %}
                                     · {{ konu.olusturulma|timesince }} önce
                                 </span>
                             </div>
@@ -377,7 +378,8 @@
                             <div>
                                 <p class="fw-semibold mb-0" style="font-size: 0.875rem; color: #111827; line-height: 1.4;">{{ d.baslik|truncatechars:50 }}</p>
                                 <span style="font-size: 0.72rem; color: #9ca3af;">
-                                    {{ d.get_kategori_display }} · {{ d.olusturulma|timesince }} önce
+                                    {% if d.scope == 'stadt' and d.stadt %}{{ d.stadt.eyalet.kod|default:'RLP' }} · {{ d.stadt.name }}{% elif d.eyalet %}{{ d.eyalet.kod }}{% else %}RLP{% endif %}
+                                    · {{ d.olusturulma|timesince }} önce
                                 </span>
                             </div>
                         </a>

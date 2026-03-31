@@ -23,11 +23,9 @@
           </div>
           <div class="d-flex align-items-center gap-2 mt-1">
             <small class="text-muted">{{ konu.yazar.username }} &bull; {{ konu.olusturulma|date:"d.m.Y" }}</small>
-            {% if genel %}
             <span class="badge bg-light text-secondary border" style="font-size:.65rem;">
               {% if konu.scope == 'global' %}Genel{% elif konu.scope == 'stadt' and konu.stadt %}{{ konu.stadt.eyalet.kod|default:'RLP' }} · {{ konu.stadt.name }}{% else %}{{ konu.eyalet.kod|default:'RLP' }}{% endif %}
             </span>
-            {% endif %}
           </div>
         </div>
         <span class="badge bg-light text-muted">{{ konu.yorumlar.count }} yorum</span>
