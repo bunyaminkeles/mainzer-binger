@@ -25,5 +25,33 @@ Gereksiz kibarlıklar, giriş/çıkış cümleleri veya uzun felsefi açıklamal
 - **Taş (Sabit) vs Su (Akışkan):** Resmi/Admin içerikleri (KdU, Formlar) ağırbaşlı statik kartlar; ilanlar, RSS haberleri ve UGC (Kullanıcı içerikleri) ise sayfa altında akan, temiz grid'ler halinde tasarlanacak.
 - **Gürültüyü Sil:** Eğer bir özellik karmaşa yaratıyorsa, onu koda ekleme. Sadeliği dayat. Karar felci (Choice Paralysis) yaratma.
 
+### 4. Ana Sayfa Sabit Bölüm Kalıpları
+
+#### Kariyer Kart Grid (templates/core/anasayfa.html)
+"Kariyer ve Gelecek İnşası" bölümünde kartlar `row-cols-lg-4` grid'indedir.
+**İlk 4 kart** her zaman görünür. **5. kart ve sonrası** `kariyer-gizli d-none` class'ı taşır; "Tümünü Göster" butonu JS ile açar.
+
+Yeni kart eklerken kullanılacak şablon (copy-paste ready):
+```html
+<div class="col kariyer-gizli d-none">
+    <a href="https://..." target="_blank" rel="noopener"
+       class="d-block h-100 text-decoration-none card-hover rounded-3 p-4"
+       style="border: 1px solid #e5e7eb; background: #fff;">
+        <div class="d-flex align-items-center gap-3 mb-2">
+            <i class="bi bi-<ikon>" style="color: #<renk>; font-size: 1rem;"></i>
+            <p class="fw-semibold mb-0" style="font-size: 0.875rem; color: #111827;">Başlık</p>
+        </div>
+        <p class="mb-0" style="font-size: 0.8rem; color: #9ca3af;">
+            Açıklama — 2-3 cümle, ne işe yaradığını anlat.
+        </p>
+    </a>
+</div>
+```
+- `d-none` kaldırılırsa kart her zaman görünür (ilk 4 için)
+- `h-100` eşit yükseklik için zorunlu
+- İkon renk paleti: turuncu `#d97706` · mavi `#3b82f6` · yeşil `#059669` · kırmızı `#dc2626` · mor `#7c3aed`
+
+---
+
 **ONAY BEKLENTİSİ:**
 Bu talimatları anladıysan sadece şunu söyle: "Ultrathink Master Prompt kabul edildi. Hangi modülü veya view'ı inşa ediyoruz?" ve benden gelecek ilk görevi bekle.
