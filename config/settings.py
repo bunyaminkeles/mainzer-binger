@@ -182,6 +182,9 @@ CRONJOBS = [
 
     # Her Cuma 10:00 — Haftalık bülteni gönder
     ('0 10 * * 5', 'django.core.management.call_command', ['bulten_gonder', 'Haftalık Bülten', 'rehber/email/bulten_icerik.html']),
+
+    # Her gece 03:00 — Süresi dolan ilanları/duyuruları kapat, eski forum konularını sil
+    ('0 3 * * *', 'django.core.management.call_command', ['icerik_temizle']),
 ]
 
 LOGGING = {

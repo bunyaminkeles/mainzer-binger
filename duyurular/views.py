@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.utils import timezone
 from .models import Duyuru
 from accounts.utils import email_dogrulandi_mi, dogrulama_maili_gonder
 
@@ -16,7 +17,8 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
-    temel = Duyuru.objects.filter(_kapsam_filtresi(stadt, eyalet_slug), yayinda=True)
+    bugun = timezone.localdate()
+    temel = Duyuru.objects.filter(_kapsam_filtresi(stadt, eyalet_slug), yayinda=True, yayin_bitis__gte=bugun)
 
     konsolosluk = temel.filter(kaynak_tipi='konsolosluk').order_by('-olusturulma')[:20]
     belediye    = temel.filter(kaynak_tipi='belediye').order_by('-olusturulma')[:20] if stadt else []
@@ -45,8 +47,11 @@ def duyuru_ekle(request, eyalet_slug='rlp', stadt_slug=None):
 
         baslik = request.POST.get('baslik', '').strip()
         icerik = request.POST.get('icerik', '').strip()
+        yayin_bitis = request.POST.get('yayin_bitis', '').strip()
         if not baslik or not icerik:
             messages.error(request, 'Başlık ve içerik zorunludur.')
+        elif not yayin_bitis:
+            messages.error(request, 'Yayın bitiş tarihi zorunludur.')
         else:
             from stadt.models import Eyalet
             eyalet = Eyalet.objects.filter(slug=eyalet_slug).first()
@@ -61,6 +66,7 @@ def duyuru_ekle(request, eyalet_slug='rlp', stadt_slug=None):
                 eyalet=eyalet,
                 scope='stadt' if stadt else 'eyalet',
                 yayinda=False,
+                yayin_bitis=yayin_bitis,
             )
             messages.success(request, 'Duyurunuz alındı, inceleme sonrası yayınlanacaktır.')
 
@@ -76,7 +82,8 @@ def duyuru_ekle(request, eyalet_slug='rlp', stadt_slug=None):
 
 def detay(request, pk, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
-    duyuru = get_object_or_404(Duyuru, pk=pk, yayinda=True)
+    bugun = timezone.localdate()
+    duyuru = get_object_or_404(Duyuru, pk=pk, yayinda=True, yayin_bitis__gte=bugun)
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
     return render(request, 'duyurular/detay.html', {
         'duyuru':      duyuru,

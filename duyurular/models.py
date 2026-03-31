@@ -33,6 +33,7 @@ class Duyuru(models.Model):
     resim       = models.ImageField(upload_to='duyurular/', blank=True, null=True, verbose_name='Resim')
     kaynak_url  = models.URLField(blank=True, max_length=500)
     yayinda     = models.BooleanField(default=True)
+    yayin_bitis = models.DateField(null=True, verbose_name='Yayın Bitiş Tarihi')
     olusturulma = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.utils import timezone
 from .models import Ilan, IlanYorum, ILAN_KATEGORI, SATILIK_KATEGORILER, ARANIYOR_KATEGORILER
 from linkler.models import OnemliLink
 from accounts.utils import email_dogrulandi_mi, dogrulama_maili_gonder
@@ -13,13 +14,14 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
 
     kategori = request.GET.get('kategori', '')
 
+    bugun = timezone.localdate()
     if stadt:
         qs = Ilan.objects.filter(
             Q(stadt=stadt, scope='stadt') | Q(scope='eyalet', eyalet__slug=eyalet_slug),
-            aktif=True, onaylandi=True
+            aktif=True, onaylandi=True, yayin_bitis__gte=bugun
         )
     else:
-        qs = Ilan.objects.filter(scope='eyalet', eyalet__slug=eyalet_slug, aktif=True, onaylandi=True)
+        qs = Ilan.objects.filter(scope='eyalet', eyalet__slug=eyalet_slug, aktif=True, onaylandi=True, yayin_bitis__gte=bugun)
 
     if kategori:
         qs = qs.filter(kategori=kategori)
@@ -50,7 +52,8 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
 
 def detay(request, pk, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
-    ilan = get_object_or_404(Ilan, pk=pk, aktif=True, onaylandi=True)
+    bugun = timezone.localdate()
+    ilan = get_object_or_404(Ilan, pk=pk, aktif=True, onaylandi=True, yayin_bitis__gte=bugun)
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
     if request.method == 'POST' and request.user.is_authenticated:
@@ -78,6 +81,14 @@ def ilan_ver(request, eyalet_slug='rlp', stadt_slug=None):
         return redirect('account_email')
 
     if request.method == 'POST':
+        yayin_bitis = request.POST.get('yayin_bitis', '').strip()
+        if not yayin_bitis:
+            messages.error(request, 'Yayın bitiş tarihi zorunludur.')
+            return render(request, 'ilan/ilan_ver.html', {
+                'kategoriler': ILAN_KATEGORI,
+                'stadt': stadt,
+                'eyalet_slug': eyalet_slug,
+            })
         from stadt.models import Eyalet
         eyalet = Eyalet.objects.filter(slug=eyalet_slug).first()
         ilan = Ilan(
@@ -90,6 +101,7 @@ def ilan_ver(request, eyalet_slug='rlp', stadt_slug=None):
             stadt=stadt,
             eyalet=eyalet,
             scope='stadt' if stadt else 'eyalet',
+            yayin_bitis=yayin_bitis,
         )
         fiyat = request.POST.get('fiyat')
         if fiyat:

@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.utils import timezone
+from datetime import timedelta
 from .models import ForumKategori, Konu, Yorum
 from accounts.utils import email_dogrulandi_mi, dogrulama_maili_gonder
 
@@ -9,12 +11,13 @@ from accounts.utils import email_dogrulandi_mi, dogrulama_maili_gonder
 # ── Global (tüm şehir/eyalet) forum ──────────────────────────────────────────
 
 def genel_liste(request):
+    iki_ay_once = timezone.now() - timedelta(days=60)
     kategoriler_qs = ForumKategori.objects.all()
     kategoriler = []
     for kat in kategoriler_qs:
         konular = (
             Konu.objects
-            .filter(kategori=kat)
+            .filter(Q(sabitlendi=True) | Q(olusturulma__gte=iki_ay_once), kategori=kat)
             .select_related('eyalet', 'stadt__eyalet')
             .order_by('-sabitlendi', '-guncelleme')
         )
@@ -77,12 +80,14 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
     from stadt.models import Stadt
     stadt = get_object_or_404(Stadt, slug=stadt_slug, aktiv=True) if stadt_slug else None
 
+    iki_ay_once = timezone.now() - timedelta(days=60)
     kategoriler_qs = ForumKategori.objects.all()
 
     if stadt:
         kategoriler = []
         for kat in kategoriler_qs:
             konular = Konu.objects.filter(
+                Q(sabitlendi=True) | Q(olusturulma__gte=iki_ay_once),
                 stadt=stadt, scope='stadt', kategori=kat
             ).order_by('-sabitlendi', '-guncelleme')
             kategoriler.append({'kategori': kat, 'konular': konular})
@@ -91,6 +96,7 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
             {
                 'kategori': kat,
                 'konular': Konu.objects.filter(
+                    Q(sabitlendi=True) | Q(olusturulma__gte=iki_ay_once),
                     scope='eyalet', eyalet__slug=eyalet_slug, kategori=kat
                 ).order_by('-sabitlendi', '-guncelleme')
             }

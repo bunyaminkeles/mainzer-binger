@@ -39,6 +39,7 @@ class Ilan(models.Model):
     iletisim    = models.EmailField()
     aktif       = models.BooleanField(default=True)
     onaylandi   = models.BooleanField(default=False)
+    yayin_bitis = models.DateField(null=True, verbose_name='Yayın Bitiş Tarihi')
     olusturulma = models.DateTimeField(auto_now_add=True)
 
     class Meta:
