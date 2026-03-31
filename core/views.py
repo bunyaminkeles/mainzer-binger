@@ -67,20 +67,14 @@ def anasayfa(request):
     )
     son_duyurular = (
         Duyuru.objects
-        .filter(yayinda=True, kaynak_tipi='kullanici')
+        .filter(yayinda=True, kaynak_tipi='kullanici', yayin_bitis__gte=timezone.localdate())
         .select_related('stadt__eyalet')
         .order_by('-olusturulma')[:5]
     )
-    son_satilik = (
+    son_ilanlar = (
         Ilan.objects
-        .filter(aktif=True, kategori__in=SATILIK_KATEGORILER)
-        .select_related('stadt')
-        .order_by('-olusturulma')[:4]
-    )
-    son_araniyor = (
-        Ilan.objects
-        .filter(aktif=True, kategori__in=ARANIYOR_KATEGORILER)
-        .select_related('stadt')
+        .filter(aktif=True, onaylandi=True, yayin_bitis__gte=timezone.localdate())
+        .select_related('stadt', 'eyalet')
         .order_by('-olusturulma')[:4]
     )
 
@@ -108,8 +102,7 @@ def anasayfa(request):
         'son_konular':        son_konular,
         'son_blog_yazilari':  son_blog_yazilari,
         'son_duyurular':    son_duyurular,
-        'son_satilik':      son_satilik,
-        'son_araniyor':     son_araniyor,
+        'son_ilanlar':        son_ilanlar,
         'tagesschau':       _tagesschau_haberleri(),
         'dw_turkce':        _dw_turkce_haberleri(),
         'ulusal_kaynaklar': ulusal_kaynaklar,
