@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('stadt_name', type=str, help='İnşa edilecek şehrin adı (Örn: Mainz)')
-        parser.add_argument('--eyalet', type=str, default='nrw', help='Bağlı olduğu eyalet slug (Örn: nrw)')
+        parser.add_argument('--eyalet', type=str, default='nw', help='Bağlı olduğu eyalet slug (Örn: nw)')
 
     def handle(self, *args, **options):
         # 1. Girdi Temizliği (Kullanıcı hatasını tolere et)
