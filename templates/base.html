@@ -211,13 +211,22 @@
             dateElement.textContent = new Intl.DateTimeFormat('tr-TR', options).format(today);
         }
 
+        const KUR_TTL = 60 * 60 * 1000; // 1 saat
+
         // Euro kuru
         const euroElement = document.getElementById('live-euro');
         if (euroElement) {
             try {
-                const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json');
-                const data = await response.json();
-                euroElement.textContent = `${data.eur.try.toFixed(2)} ₺`;
+                const cached = JSON.parse(localStorage.getItem('kur_euro') || 'null');
+                if (cached && (Date.now() - cached.ts) < KUR_TTL) {
+                    euroElement.textContent = cached.val;
+                } else {
+                    const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json');
+                    const data = await response.json();
+                    const val = `${data.eur.try.toFixed(2)} ₺`;
+                    euroElement.textContent = val;
+                    localStorage.setItem('kur_euro', JSON.stringify({ val, ts: Date.now() }));
+                }
             } catch {
                 euroElement.textContent = '-- ₺';
             }
@@ -227,10 +236,17 @@
         const altinElement = document.getElementById('live-altin');
         if (altinElement) {
             try {
-                const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/xau.json');
-                const data = await response.json();
-                const gramTry = data.xau.try / 31.1035;
-                altinElement.textContent = gramTry.toLocaleString('tr-TR', { maximumFractionDigits: 0 });
+                const cached = JSON.parse(localStorage.getItem('kur_altin') || 'null');
+                if (cached && (Date.now() - cached.ts) < KUR_TTL) {
+                    altinElement.textContent = cached.val;
+                } else {
+                    const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/xau.json');
+                    const data = await response.json();
+                    const gramTry = data.xau.try / 31.1035;
+                    const val = gramTry.toLocaleString('tr-TR', { maximumFractionDigits: 0 });
+                    altinElement.textContent = val;
+                    localStorage.setItem('kur_altin', JSON.stringify({ val, ts: Date.now() }));
+                }
             } catch {
                 altinElement.textContent = '--';
             }
