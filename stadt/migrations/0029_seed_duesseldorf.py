@@ -4,7 +4,7 @@ Düsseldorf şehri tam kurulum: Stadt güncelleme, Yerler ve Kaynaklar.
 from django.db import migrations
 
 DUESSELDORF_YERLER = [
-    {'kategori': 'resmi_kurum', 'ad': 'Ausländerbehörde Düsseldorf',      'adres': 'Willi-Becker-Allee 7, 40227 Düsseldorf',   'website': 'https://www.duesseldorf.de/auslaenderbehoerde', 'maps_url': 'https://maps.google.com/?q=Willi-Becker-Allee+7,+40227+D%C3%BCsseldorf'},
+    {'kategori': 'resmi_kurum', 'ad': 'Ausländerbehörde Düsseldorf',      'adres': 'Willi-Becker-Allee 7, 40227 Düsseldorf',   'website': 'https://www.duesseldorf.de/auslaenderamt', 'maps_url': 'https://maps.google.com/?q=Willi-Becker-Allee+7,+40227+D%C3%BCsseldorf'},
     {'kategori': 'resmi_kurum', 'ad': 'Jobcenter Düsseldorf',              'adres': 'Willi-Becker-Allee 15, 40227 Düsseldorf',  'website': 'https://www.jobcenter-duesseldorf.de',          'maps_url': 'https://maps.google.com/?q=Willi-Becker-Allee+15,+40227+D%C3%BCsseldorf'},
     {'kategori': 'resmi_kurum', 'ad': 'Agentur für Arbeit Düsseldorf',    'adres': 'Willi-Becker-Allee 15, 40227 Düsseldorf',  'website': 'https://www.arbeitsagentur.de/vor-ort/duesseldorf', 'maps_url': 'https://maps.google.com/?q=Willi-Becker-Allee+15,+40227+D%C3%BCsseldorf'},
     {'kategori': 'resmi_kurum', 'ad': 'Bürgeramt Düsseldorf — Stadtmitte','adres': 'Willi-Becker-Allee 7, 40227 Düsseldorf',   'website': 'https://www.duesseldorf.de/buergerbuero',       'maps_url': 'https://maps.google.com/?q=Willi-Becker-Allee+7,+40227+D%C3%BCsseldorf'},
@@ -21,7 +21,7 @@ DUESSELDORF_YERLER = [
 ]
 
 DUESSELDORF_KAYNAKLAR = [
-    {'kategori': 'resmi',  'baslik': 'Ausländerbehörde Düsseldorf',               'url': 'https://www.duesseldorf.de/auslaenderbehoerde',                          'ozet': 'Düsseldorf Yabancılar Dairesi; oturma izni, çalışma izni ve yabancı uyruklu diğer işlemler.',         'icon': 'bi-file-earmark-person-fill', 'sira': 1},
+    {'kategori': 'resmi',  'baslik': 'Ausländerbehörde Düsseldorf',               'url': 'https://www.duesseldorf.de/auslaenderamt',                          'ozet': 'Düsseldorf Yabancılar Dairesi; oturma izni, çalışma izni ve yabancı uyruklu diğer işlemler.',         'icon': 'bi-file-earmark-person-fill', 'sira': 1},
     {'kategori': 'resmi',  'baslik': 'Online Termin — Düsseldorf Belediyesi',     'url': 'https://termine.duesseldorf.de',                                         'ozet': 'Bürgeramt, Ausländerbehörde ve diğer belediye birimlerine online randevu.',                            'icon': 'bi-calendar-check-fill',      'sira': 2},
     {'kategori': 'is',     'baslik': 'Jobcenter Düsseldorf',                      'url': 'https://www.jobcenter-duesseldorf.de',                                   'ozet': 'Bürgergeld başvurusu, iş arama desteği ve sosyal yardım hizmetleri.',                                  'icon': 'bi-briefcase-fill',           'sira': 3},
     {'kategori': 'is',     'baslik': 'Agentur für Arbeit Düsseldorf',             'url': 'https://www.arbeitsagentur.de/vor-ort/duesseldorf',                      'ozet': 'İşsizlik sigortası, mesleki rehberlik ve iş ilanları.',                                                  'icon': 'bi-person-workspace',         'sira': 4},
@@ -52,7 +52,7 @@ def seed(apps, schema_editor):
             'population': 645000,
             'beschreibung': 'Düsseldorf, Kuzey Ren-Vestfalya eyaletinin başkenti ve Almanya\'nın uluslararası iş merkezlerinden biridir.',
             'termin_url':            'https://termine.duesseldorf.de',
-            'auslaenderbehorde_url': 'https://www.duesseldorf.de/auslaenderbehoerde',
+            'auslaenderbehorde_url': 'https://www.duesseldorf.de/auslaenderamt',
             'rss_duyuru_url':        '',
             'aktiv': True,
         }
@@ -61,7 +61,7 @@ def seed(apps, schema_editor):
     # Mevcut kayıt varsa URL'leri güncelle
     Stadt.objects.filter(slug='duesseldorf').update(
         termin_url='https://termine.duesseldorf.de',
-        auslaenderbehorde_url='https://www.duesseldorf.de/auslaenderbehoerde',
+        auslaenderbehorde_url='https://www.duesseldorf.de/auslaenderamt',
         aktiv=True,
     )
 
