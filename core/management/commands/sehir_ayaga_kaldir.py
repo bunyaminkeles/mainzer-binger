@@ -25,7 +25,7 @@ class Command(BaseCommand):
                 eyalet, _ = Eyalet.objects.get_or_create(slug=eyalet_slug, defaults={'ad': eyalet_slug.upper()})
 
                 # ADIM 1: Şehri Yarat veya Getir (Idempotent)
-                stadt, created = Stadt.objects.get_or_create(isim=stadt_name)
+                stadt, created = Stadt.objects.get_or_create(name=stadt_name)
                 if created:
                     stadt.aktiv = True
                     stadt.eyalet = eyalet
