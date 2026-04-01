@@ -37,7 +37,7 @@ def belgeler(request, eyalet_slug='rlp', stadt_slug=None):
         'belge_kategoriler': BELGE_KATEGORI,
         'aktif_kat':        aktif_kat,
         'stadt':            stadt,
-        'eyalet_slug':      eyalet_slug,
+        'eyalet_slug':      eyalet_slug if stadt else '',
     })
 
 
