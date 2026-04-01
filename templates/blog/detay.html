@@ -7,6 +7,30 @@
 {% block twitter_title %}{{ yazi.baslik }}{% endblock %}
 {% block twitter_description %}{% if yazi.ozet %}{{ yazi.ozet }}{% else %}{{ yazi.baslik }} — Almanyalı Rehber Blog{% endif %}{% endblock %}
 
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ yazi.baslik|escapejs }}",
+  "description": "{% if yazi.ozet %}{{ yazi.ozet|escapejs }}{% else %}{{ yazi.baslik|escapejs }}{% endif %}",
+  "datePublished": "{{ yazi.olusturulma|date:'c' }}",
+  "dateModified": "{{ yazi.olusturulma|date:'c' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ yazi.yazar.username|escapejs }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Almanyalı Rehber",
+    "url": "https://almanyalirehber.com"
+  },
+  "url": "https://almanyalirehber.com{{ request.path }}"{% if yazi.kapak_resmi %},
+  "image": "{{ yazi.kapak_resmi }}"{% endif %}
+}
+</script>
+{% endblock %}
+
 {% block extra_css %}
 <style>
   .blog-cover {

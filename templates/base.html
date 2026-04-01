@@ -35,6 +35,26 @@
     gtag('js', new Date());
     gtag('config', 'G-XRHY4VQMM4');
   </script>
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Almanyalı Rehber",
+    "url": "https://almanyalirehber.com",
+    "description": "Almanya'da yeni başlayanlar için Türkçe kaynak platformu.",
+    "inLanguage": "tr",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://almanyalirehber.com/arama/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  {% block schema %}{% endblock %}
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
