@@ -16,12 +16,12 @@ def belgeler(request, eyalet_slug='rlp', stadt_slug=None):
 
     aktif_kat = request.GET.get('kat', '')
 
-    # Şehir bağlamı varsa o şehir + federal; yoksa tümü
+    # Şehir bağlamı varsa o şehir + federal; yoksa sadece federal
     if stadt:
         from django.db.models import Q
         base_qs = Belge.objects.filter(yayinda=True).filter(Q(stadt=stadt) | Q(stadt__isnull=True))
     else:
-        base_qs = Belge.objects.filter(yayinda=True)
+        base_qs = Belge.objects.filter(yayinda=True, stadt__isnull=True)
 
     filtered_qs = base_qs.filter(kategori=aktif_kat) if aktif_kat else base_qs
 
