@@ -280,6 +280,122 @@ YAZILAR = [
 </div>
 '''.strip(),
     },
+    {
+        'baslik': 'Karfreitag Nedir? Almanya\'da Sessiz Cuma\'nın Anlamı ve Kuralları',
+        'slug': 'karfreitag-nedir-almanyada-sessiz-cuma',
+        'kapak_resmi': 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=1200&q=80',
+        'scope': 'eyalet',
+        'ozet': "Karfreitag (Kutsal Cuma), Almanya'nın en sessiz resmi tatilidir. Müzik yasağı, kapalı dükkanlar ve eyaletten eyalete değişen kurallarla birlikte bu günü nasıl geçirmelisiniz?",
+        'icerik': '''
+<p class="lead">Almanya'da yaşıyorsanız ya da Paskalya döneminde buradaysanız, Karfreitag'ı (Kutsal Cuma / Kara Cuma) mutlaka duymuşsunuzdur. Bu gün yalnızca bir resmi tatil değil; Almanya'nın en katı sessizlik kurallarının uygulandığı, alışılageldik hayatın durduğu özel bir gündür.</p>
+
+<h3>📅 Karfreitag Ne Zaman?</h3>
+<p>Karfreitag, Paskalya Pazarı'ndan (Ostersonntag) iki gün önce, Cuma günü kutlanır. Tarihi her yıl değişir; genellikle Mart sonu ile Nisan ortası arasında gelir.</p>
+
+<h3>✝️ Karfreitag Neden Bu Kadar Önemli?</h3>
+<p>Hristiyan inancına göre İsa'nın çarmıha gerildiği gündür. Bu nedenle Almanya'da Karfreitag, <strong>"Stiller Feiertag"</strong> (Sessiz Bayram) olarak tanımlanır. Eğlence yasaklanır, yas tutulur, toplumsal sessizliğe saygı gösterilmesi beklenir.</p>
+
+<h3>🚫 Karfreitag'da Neler Yasak?</h3>
+<p>Kurallar eyaletten eyalete farklılık gösterse de genel olarak şunlar geçerlidir:</p>
+<ul>
+<li><strong>Müzik yasağı:</strong> Diskotekler, barlar ve halka açık alanlarda dans müziği çalmak yasaktır. Canlı müzik etkinlikleri ve konserler büyük ölçüde iptal edilir.</li>
+<li><strong>Dans etkinlikleri yasağı:</strong> Çoğu eyalette gece kulüpleri Karfreitag'da kapalı olmak zorundadır.</li>
+<li><strong>Spor etkinlikleri kısıtlıdır:</strong> Futbol maçları ve büyük organizasyonlar genellikle bu güne planlanmaz.</li>
+<li><strong>Dükkanlar kapalı:</strong> Süpermarketler ve mağazalar tüm Almanya'da kapalıdır.</li>
+</ul>
+
+<div class="info-box">
+<strong>⚠️ Eyalete Göre Farklılıklar</strong><br>
+Bayern (Bavyera) ve Baden-Württemberg gibi muhafazakâr eyaletlerde kurallar çok daha katıdır. Berlin gibi laik eyaletlerde ise bazı istisnalar tanınabilir.
+</div>
+
+<h3>✅ Karfreitag'da Neler Yapılabilir?</h3>
+<ul>
+<li>Kilise ayinlerine katılabilirsiniz — pek çok kilisede özel Karfreitag törenleri düzenlenir.</li>
+<li>Doğa yürüyüşleri ve parklar serbesttir.</li>
+<li>Restoranlar genellikle açıktır (müzik olmadan).</li>
+<li>Toplu taşıma çalışır, ancak seferler azaltılmış olabilir.</li>
+</ul>
+
+<h3>🛒 Alışveriş Planı Yapın</h3>
+<p>Karfreitag'dan bir gün önce, Perşembe akşamı, tüm ihtiyaçlarınızı karşıladığınızdan emin olun. Süpermarketler, eczaneler ve çoğu hizmet noktası Cuma günü kapalı olacaktır.</p>
+
+<h3>🗓️ Paskalya Haftası Takvimi</h3>
+<ul>
+<li><strong>Gründonnerstag (Kutsal Perşembe):</strong> Son akşam yemeğini simgeler, bazı eyaletlerde yarı resmi tatil.</li>
+<li><strong>Karfreitag (Kara Cuma):</strong> Resmi sessiz tatil — yasaklar geçerli.</li>
+<li><strong>Karsamstag (Kutsal Cumartesi):</strong> Hazırlık günü, dükkanlar öğlene kadar açık olabilir.</li>
+<li><strong>Ostersonntag (Paskalya Pazarı):</strong> Kutlama günü.</li>
+<li><strong>Ostermontag (Paskalya Pazartesi):</strong> Resmi tatil, çoğu işyeri kapalı.</li>
+</ul>
+
+<div class="info-box mt-4">
+<strong>💡 Kısaca</strong><br>
+Karfreitag Almanya'nın en sessiz günüdür. Alışverişinizi önceden yapın, eğlence planı yapmayın ve sessizliğe saygı gösterin. Özellikle Bayern ve Baden-Württemberg'deyseniz kurallar çok daha katı uygulanır.
+</div>
+'''.strip(),
+    },
+    {
+        'baslik': 'WBS Nedir? Almanya\'da Sosyal Konut Hakkı (Wohnberechtigungsschein) Rehberi',
+        'slug': 'wbs-nedir-almanyada-sosyal-konut-hakki-rehberi',
+        'kapak_resmi': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80',
+        'scope': 'eyalet',
+        'ozet': "WBS (Wohnberechtigungsschein), Almanya'da düşük gelirli hanelerin sosyal konutlara başvurmasını sağlayan belgedir. Kim alabilir, nasıl başvurulur, hangi avantajlar sağlar?",
+        'icerik': '''
+<p class="lead">Almanya'da kira fiyatları her yıl artarken, sosyal konut sistemi düşük ve orta gelirli haneler için önemli bir güvence sunuyor. Bu sistemin anahtarı ise <strong>WBS — Wohnberechtigungsschein</strong> (Konut Hakkı Belgesi).</p>
+
+<h3>📄 WBS Nedir?</h3>
+<p>WBS, devlet destekli sosyal konutlara (Sozialwohnungen) başvurabilmek için gerekli resmi belgedir. Bu belgeye sahip olanlar, piyasa fiyatının çok altında kira ödeyen sübvansiyonlu dairelere başvurabilir.</p>
+
+<h3>👥 Kim WBS Alabilir?</h3>
+<p>WBS gelir sınırına göre verilir. Hanenizdeki kişi sayısına bağlı olarak belirli bir yıllık net gelir eşiğini aşmamanız gerekir. Eyalete göre farklılık gösterse de genel eşikler şöyle:</p>
+<ul>
+<li><strong>1 kişilik hane:</strong> ~12.000 € / yıl net gelir</li>
+<li><strong>2 kişilik hane:</strong> ~18.000 € / yıl</li>
+<li><strong>Her ek kişi için:</strong> ~4.100 € eklenir</li>
+<li><strong>Her çocuk için:</strong> ek muafiyet tanınır</li>
+</ul>
+
+<div class="info-box">
+<strong>⚠️ Eyalete Göre Eşikler Farklıdır</strong><br>
+Berlin, Hamburg ve Münih gibi büyük şehirlerde gelir eşikleri daha yüksek tutulmuştur. Başvurmadan önce bulunduğunuz eyaletin güncel rakamlarını kontrol edin.
+</div>
+
+<h3>📋 Başvuru İçin Gerekli Belgeler</h3>
+<ul>
+<li>Kimlik veya pasaport</li>
+<li>İkamet tescili (Anmeldebestätigung)</li>
+<li>Son 3 aylık maaş bordrosu veya gelir belgesi</li>
+<li>Hane halkı beyanı (kimlerle yaşadığınızı gösterir)</li>
+<li>Oturma izni / Niederlassungserlaubnis (yabancı uyrukluysanız)</li>
+</ul>
+
+<h3>🏢 Nereye Başvurulur?</h3>
+<p>Başvuru, ikamet ettiğiniz şehrin <strong>Wohnungsamt</strong>'ına (Konut Dairesi) ya da ilgili sosyal hizmetler birimine yapılır. Büyük şehirlerin çoğunda online başvuru da mümkündür.</p>
+
+<h3>⏳ Geçerlilik Süresi</h3>
+<p>WBS belgesi genellikle <strong>1 yıl geçerlidir</strong>. Bu süre içinde uygun bir sosyal konut bulamazsanız belgenizi yeniletmeniz gerekir.</p>
+
+<h3>🏠 WBS ile Konut Nasıl Bulunur?</h3>
+<ul>
+<li>Belediyenin konut listelerini takip edin.</li>
+<li>Konut kooperatifleri (Wohnungsbaugesellschaften) genellikle WBS sahiplerine öncelik tanır.</li>
+<li><strong>Özel ilanlar:</strong> Bazı ev sahipleri de WBS kabul eden dairelerini Immoscout24, Wohnungsboerse gibi platformlarda yayınlar — filtrelerden "WBS erforderlich" seçeneğini kullanabilirsiniz.</li>
+</ul>
+
+<h3>💡 WBS'nin Avantajları</h3>
+<ul>
+<li>Piyasa kirasının <strong>%30-50 altında</strong> kira ödeyebilirsiniz.</li>
+<li>Uzun vadeli kira güvencesi sunar.</li>
+<li>Aile ve çocuk sahiplerine ek puan verilir, öncelik tanınır.</li>
+</ul>
+
+<div class="info-box mt-4">
+<strong>💡 Kısaca</strong><br>
+WBS, Almanya'da düşük ve orta gelirli hanelerin uygun fiyatlı konuta erişmesini sağlayan önemli bir belgedir. Gelir sınırını karşılıyorsanız kesinlikle başvurun — özellikle büyük şehirlerde kira yükünü ciddi ölçüde azaltabilir.
+</div>
+'''.strip(),
+    },
 ]
 
 eklendi = guncellendi = 0
