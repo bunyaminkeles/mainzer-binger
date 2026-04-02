@@ -59,11 +59,6 @@
       <i class="bi bi-globe me-1"></i>Web Sitesi
     </a>
     {% endif %}
-    {% if yer.wikipedia_url %}
-    <a href="{{ yer.wikipedia_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark">
-      <i class="bi bi-wikipedia me-1"></i>Wikipedia
-    </a>
-    {% endif %}
   </div>
 
   {# Çalışma saatleri #}
@@ -99,9 +94,8 @@
   {% if yer.wikipedia_url %}
   <hr class="mt-5">
   <p class="small text-muted">
-    <i class="bi bi-info-circle me-1"></i>
-    Kaynak: <a href="{{ yer.wikipedia_url }}" target="_blank" rel="noopener">Wikipedia</a>
-    — <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+    <i class="bi bi-image me-1"></i>
+    Resim: <a href="{{ yer.wikipedia_url }}" target="_blank" rel="noopener">{{ yer.wikipedia_url }}</a>
   </p>
   {% endif %}
 </div>
