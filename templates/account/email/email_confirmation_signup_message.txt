@@ -1,11 +1,11 @@
 Merhaba {{ user.username }},
 
-RLP Rehber'e hoş geldiniz! Hesabınızı etkinleştirmek için aşağıdaki bağlantıya tıklayın:
+Almanyalı Rehber'e hoş geldiniz! Hesabınızı etkinleştirmek için aşağıdaki bağlantıya tıklayın:
 
 {{ activate_url }}
 
 Bu işlemi siz yapmadıysanız bu e-postayı görmezden gelebilirsiniz.
 
 —
-RLP Rehber Ekibi
+Almanyalı Rehber Ekibi
 {{ current_site.domain }}
