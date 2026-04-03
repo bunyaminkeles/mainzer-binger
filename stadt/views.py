@@ -5,6 +5,7 @@ from takvim.models import Etkinlik
 from django.utils import timezone
 from yerler.models import Yer, YerKategori
 from rehber.models import Kaynak
+from blog.models import BlogYazisi
 import feedparser
 import logging
 
@@ -114,6 +115,10 @@ def home(request, eyalet_slug='rlp', stadt_slug=None):
         except Exception as e:
             logger.error(f"Belediye RSS feed ({stadt.rss_duyuru_url}) parse edilemedi: {e}")
 
+    son_blog_yazilari = BlogYazisi.objects.filter(
+        scope='eyalet', eyalet__slug=eyalet_slug, yayinda=True
+    ).order_by('-olusturulma')[:3]
+
     return render(request, 'stadt/home.html', {
         'stadt':               stadt,
         'eyalet_slug':         eyalet_slug,
@@ -121,4 +126,5 @@ def home(request, eyalet_slug='rlp', stadt_slug=None):
         'belediye_haberleri':  belediye_haberleri,
         'kategoriler':         kategoriler,
         'tum_kategoriler':     [(k.slug, k.ad) for k in yer_kategorileri],
+        'son_blog_yazilari':   son_blog_yazilari,
     })

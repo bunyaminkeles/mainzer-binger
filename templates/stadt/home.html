@@ -37,6 +37,9 @@
 <!-- Hızlı Erişim Hap Linkleri -->
 <div class="container text-center mt-3 mb-3">
   <div class="d-inline-flex flex-wrap justify-content-center gap-2">
+    <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/blog/" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-medium">
+      <i class="bi bi-pencil-square me-1"></i>Blog
+    </a>
     <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-medium">
       <i class="bi bi-megaphone me-1"></i>Duyurular
     </a>
@@ -106,6 +109,33 @@
     </div>
     {% endif %}
   </div>{# /row Bölüm 2 #}
+
+  <!-- BÖLÜM 2b: Son Blog Yazıları -->
+  {% if son_blog_yazilari %}
+  <hr class="my-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0"><i class="bi bi-pencil-square me-2 text-primary"></i>Blog</h4>
+    <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/blog/" class="btn btn-sm btn-outline-primary">Tümü</a>
+  </div>
+  <div class="row g-3">
+    {% for y in son_blog_yazilari %}
+    <div class="col-md-4">
+      <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/blog/{{ y.slug }}/" class="text-decoration-none text-dark">
+        <div class="card h-100">
+          {% if y.kapak_resmi %}
+          <img src="{{ y.kapak_resmi }}" alt="{{ y.baslik }}" style="height:140px;object-fit:cover" class="card-img-top">
+          {% endif %}
+          <div class="card-body">
+            <h6 class="fw-bold mb-1">{{ y.baslik }}</h6>
+            <p class="small text-muted mb-0">{{ y.ozet|default:y.icerik|striptags|truncatechars:80 }}</p>
+          </div>
+          <div class="card-footer text-muted small">{{ y.olusturulma|date:"d.m.Y" }}</div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
 
   <!-- BÖLÜM 3: Önemli Yerler Dizini -->
   <hr class="my-4">
