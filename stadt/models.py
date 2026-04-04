@@ -12,6 +12,7 @@ class Eyalet(models.Model):
     slug = models.SlugField(unique=True, verbose_name='URL Slug')
     kod = models.CharField(max_length=4, unique=True, verbose_name='Kısaltma (BY, NW…)')
     baskent = models.CharField(max_length=100, blank=True, verbose_name='Başkent')
+    arma_url = models.URLField(blank=True, verbose_name='Arma/Bayrak URL')
     aktif = models.BooleanField(default=False, verbose_name='Aktif')
 
     class Meta:
