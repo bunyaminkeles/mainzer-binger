@@ -155,8 +155,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb small mb-0">
       <li class="breadcrumb-item"><a href="{% url 'core:anasayfa' %}">Ana Sayfa</a></li>
-      <li class="breadcrumb-item"><a href="/{{ eyalet_slug }}/">{{ stadt.eyalet.ad }}</a></li>
-      <li class="breadcrumb-item"><a href="/{{ eyalet_slug }}/{{ stadt.slug }}/">{{ stadt.name }}</a></li>
+      <li class="breadcrumb-item active">{{ stadt.name }}</li>
       {% block breadcrumb %}{% endblock %}
     </ol>
   </nav>
