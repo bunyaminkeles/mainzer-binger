@@ -5,9 +5,20 @@
 {% block content %}
 <!-- Hero -->
 <section class="hero">
-  <div class="container text-center">
-    <h1><i class="bi bi-map-fill me-2"></i>{{ eyalet.ad }}</h1>
-    <p class="mb-0">{{ eyalet.ad }} eyaletindeki Türk topluluğu için rehber, haberler ve forum.</p>
+  <div class="container">
+    <div class="row align-items-center g-3">
+      <div class="{% if eyalet.arma_url %}col-md-9{% else %}col-12 text-center{% endif %}">
+        <h1><i class="bi bi-map-fill me-2"></i>{{ eyalet.ad }}</h1>
+        <p class="mb-0">{{ eyalet.ad }} eyaletindeki Türk topluluğu için rehber, haberler ve forum.</p>
+      </div>
+      {% if eyalet.arma_url %}
+      <div class="col-md-3 text-center text-md-end">
+        <img src="{{ eyalet.arma_url }}" alt="{{ eyalet.ad }} arması"
+             referrerpolicy="no-referrer"
+             style="max-height: 120px; width: auto; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
+      </div>
+      {% endif %}
+    </div>
   </div>
 </section>
 
