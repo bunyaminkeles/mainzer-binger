@@ -59,7 +59,9 @@ def _dw_turkce_haberleri():
 
 def anasayfa(request):
     """Ana sayfa: son forum konuları, duyurular ve ilanlar widget'ları."""
-    sehirler = Stadt.objects.filter(aktiv=True).select_related('eyalet').order_by('eyalet__slug', 'name')
+    import random
+    tum_sehirler = list(Stadt.objects.filter(aktiv=True).select_related('eyalet'))
+    sehirler = random.sample(tum_sehirler, min(3, len(tum_sehirler)))
     son_konular = (
         Konu.objects
         .select_related('eyalet', 'stadt__eyalet', 'yazar')
