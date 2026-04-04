@@ -40,7 +40,7 @@
                 <div class="col-6 col-md-4">
                     <a href="/{{ s.eyalet.slug }}/{{ s.slug }}/"
                        class="sehir-kart d-block text-decoration-none rounded-3 overflow-hidden position-relative"
-                       style="height: 140px;">
+                       style="height: 200px;">
                         {% if s.kapak_resmi_url %}
                         <div class="sehir-kart-bg" style="background-image: url('{{ s.kapak_resmi_url }}');"></div>
                         {% else %}
@@ -646,7 +646,7 @@
 .sehir-kart-bg {
     position: absolute; inset: 0;
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     transition: transform 0.35s ease;
 }
 .sehir-kart-fallback {
