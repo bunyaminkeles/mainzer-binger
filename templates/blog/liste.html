@@ -37,7 +37,7 @@
   }
   .blog-card-img {
     width: 100%;
-    height: 200px;
+    height: 260px;
     object-fit: cover;
     display: block;
   }
@@ -115,7 +115,7 @@
   {% if yazilar %}
   <div class="row g-4">
     {% for y in yazilar %}
-    <div class="col-sm-6 col-lg-4">
+    <div class="col-12 col-sm-6 col-lg-4">
       <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/blog/{{ y.slug }}/{% else %}/{{ eyalet_slug }}/blog/{{ y.slug }}/{% endif %}" class="blog-card">
         {% if y.kapak_resmi %}
           <img src="{{ y.kapak_resmi }}" alt="{{ y.baslik }}" class="blog-card-img" loading="lazy">
@@ -124,7 +124,7 @@
         {% endif %}
         <div class="blog-card-body">
           <h5 class="blog-card-title">{{ y.baslik }}</h5>
-          <p class="blog-card-ozet">{{ y.ozet|default:y.icerik|striptags|truncatechars:130 }}</p>
+          <p class="blog-card-ozet">{{ y.ozet|default:y.icerik|striptags|truncatechars:180 }}</p>
           <div class="blog-card-meta">
             <a href="{% url 'mesajlar:baslat' y.yazar.username %}" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted" title="Mesaj gönder">
               <span class="author-avatar">{{ y.yazar.username|first|upper }}</span>
