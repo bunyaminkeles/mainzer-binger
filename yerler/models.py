@@ -39,7 +39,7 @@ class Yer(models.Model):
     stadt           = models.ForeignKey('stadt.Stadt', null=True, blank=True, on_delete=SET_NULL, verbose_name='Şehir')
     scope           = models.CharField(max_length=10, choices=SCOPE_SECENEKLERI, default='stadt', verbose_name='Kapsam')
     tur             = models.CharField(max_length=10, choices=TUR_SECENEKLERI, default='yer', verbose_name='Tür')
-    ad              = models.CharField(max_length=200)
+    ad              = models.CharField(max_length=200, verbose_name='Yer Adı')
     kategori        = models.CharField(max_length=30, blank=True)
     adres           = models.TextField()
     sehir           = models.CharField(max_length=100, default='Mainz', help_text='Eski alan')
