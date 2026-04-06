@@ -66,7 +66,7 @@ class Yer(models.Model):
         verbose_name_plural = 'Yerler'
 
     def __str__(self):
-        return f"{self.ad} ({self.get_kategori_display()})"
+        return f"{self.ad} ({self.kategori})" if self.kategori else self.ad
 
 
 class YerFoto(models.Model):
