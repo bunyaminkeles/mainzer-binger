@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.utils.html import format_html
+from django.utils.html import format_html, mark_safe
 from .models import GlobalSetting, SubscriptionPlan, BusinessCategory, LocalBusiness, BusinessAnalytics
 
 
@@ -71,12 +71,8 @@ class LocalBusinessAdmin(admin.ModelAdmin):
     @admin.display(description='Durum', ordering='end_date')
     def active_status_icon(self, obj):
         if obj.is_currently_active:
-            return format_html(
-                '<span style="color:#2e7d32;font-weight:bold;" title="Aktif">✔ Aktif</span>'
-            )
-        return format_html(
-            '<span style="color:#c62828;font-weight:bold;" title="Pasif">✘ Pasif</span>'
-        )
+            return mark_safe('<span style="color:#2e7d32;font-weight:bold;" title="Aktif">✔ Aktif</span>')
+        return mark_safe('<span style="color:#c62828;font-weight:bold;" title="Pasif">✘ Pasif</span>')
 
 
 @admin.register(BusinessAnalytics)

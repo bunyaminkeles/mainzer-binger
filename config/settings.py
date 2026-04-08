@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
 from decouple import config
 import dj_database_url
 
@@ -70,6 +71,175 @@ INSTALLED_APPS = [
 UNFOLD = {
     "SITE_TITLE": "Almanyalı Rehber | Komuta Merkezi",
     "SITE_HEADER": "Almanyalı Rehber",
+    "SIDEBAR": {
+        "navigation": [
+            {
+                "title": "💼 Ekosistem & Ticaret",
+                "separator": False,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "Yerel İşletmeler",
+                        "icon": "home_work",
+                        "link": reverse_lazy("admin:businesses_localbusiness_changelist"),
+                    },
+                    {
+                        "title": "İşletme Kategorileri",
+                        "icon": "category",
+                        "link": reverse_lazy("admin:businesses_businesscategory_changelist"),
+                    },
+                    {
+                        "title": "Abonelik Paketleri",
+                        "icon": "workspace_premium",
+                        "link": reverse_lazy("admin:businesses_subscriptionplan_changelist"),
+                    },
+                    {
+                        "title": "Analitik",
+                        "icon": "analytics",
+                        "link": reverse_lazy("admin:businesses_businessanalytics_changelist"),
+                    },
+                    {
+                        "title": "İlanlar",
+                        "icon": "receipt_long",
+                        "link": reverse_lazy("admin:ilan_ilan_changelist"),
+                    },
+                    {
+                        "title": "Reklam Paketleri",
+                        "icon": "sell",
+                        "link": reverse_lazy("admin:yerler_reklampaketi_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "📚 İçerik Yönetimi",
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "Şehirler",
+                        "icon": "location_city",
+                        "link": reverse_lazy("admin:stadt_stadt_changelist"),
+                    },
+                    {
+                        "title": "Eyaletler",
+                        "icon": "map",
+                        "link": reverse_lazy("admin:stadt_eyalet_changelist"),
+                    },
+                    {
+                        "title": "Yerler",
+                        "icon": "place",
+                        "link": reverse_lazy("admin:yerler_yer_changelist"),
+                    },
+                    {
+                        "title": "Yer Kategorileri",
+                        "icon": "folder_open",
+                        "link": reverse_lazy("admin:yerler_yerkategori_changelist"),
+                    },
+                    {
+                        "title": "Kaynaklar",
+                        "icon": "menu_book",
+                        "link": reverse_lazy("admin:rehber_kaynak_changelist"),
+                    },
+                    {
+                        "title": "Belgeler",
+                        "icon": "description",
+                        "link": reverse_lazy("admin:rehber_belge_changelist"),
+                    },
+                    {
+                        "title": "Blog Yazıları",
+                        "icon": "article",
+                        "link": reverse_lazy("admin:blog_blogyazisi_changelist"),
+                    },
+                    {
+                        "title": "Etkinlikler",
+                        "icon": "event",
+                        "link": reverse_lazy("admin:takvim_etkinlik_changelist"),
+                    },
+                    {
+                        "title": "Önemli Linkler",
+                        "icon": "link",
+                        "link": reverse_lazy("admin:linkler_onemlilink_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "👥 Topluluk & İletişim",
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "Forum Konuları",
+                        "icon": "forum",
+                        "link": reverse_lazy("admin:forum_konu_changelist"),
+                    },
+                    {
+                        "title": "Forum Kategorileri",
+                        "icon": "label",
+                        "link": reverse_lazy("admin:forum_forumkategori_changelist"),
+                    },
+                    {
+                        "title": "Duyurular",
+                        "icon": "campaign",
+                        "link": reverse_lazy("admin:duyurular_duyuru_changelist"),
+                    },
+                    {
+                        "title": "Konuşmalar",
+                        "icon": "chat",
+                        "link": reverse_lazy("admin:mesajlar_konusma_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "🛡️ Kullanıcılar",
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "Kullanıcılar",
+                        "icon": "person",
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                    },
+                    {
+                        "title": "Profiller",
+                        "icon": "manage_accounts",
+                        "link": reverse_lazy("admin:accounts_profil_changelist"),
+                    },
+                    {
+                        "title": "Gruplar",
+                        "icon": "groups",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                    },
+                    {
+                        "title": "Bülten Aboneleri",
+                        "icon": "mark_email_read",
+                        "link": reverse_lazy("admin:rehber_bultenabone_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "⚙️ Sistem",
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "Modül Ayarı",
+                        "icon": "toggle_on",
+                        "link": reverse_lazy("admin:businesses_globalsetting_changelist"),
+                    },
+                    {
+                        "title": "Öneriler & Geri Bildirim",
+                        "icon": "rate_review",
+                        "link": reverse_lazy("admin:core_oneri_changelist"),
+                    },
+                    {
+                        "title": "Site Ayarları",
+                        "icon": "dns",
+                        "link": reverse_lazy("admin:sites_site_changelist"),
+                    },
+                ],
+            },
+        ],
+    },
 }
 
 MIDDLEWARE = [
