@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lokal Uzmanlar — Almanyalı Rehber{% endblock %}
+{% block meta_description %}Almanya'daki onaylı Türkçe hizmet veren yerel uzmanlar ve çözüm ortakları.{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <!-- Hero başlık -->
+  <div class="text-center mb-5">
+    <p class="text-uppercase fw-semibold small mb-2" style="color:#2563EB;letter-spacing:.12em;">Güvenilir Ağ</p>
+    <h1 class="display-6 fw-bold mb-2">Şehrinizdeki Onaylı Çözüm Ortakları</h1>
+    <p class="text-muted mx-auto" style="max-width:520px;">
+      Aşağıdaki işletmeler tarafımızca incelenmiş, <span class="fw-semibold text-dark">onaylı</span> çözüm ortaklarıdır.
+    </p>
+    {% if toplam %}
+    <span class="badge rounded-pill px-3 py-2" style="background:#EFF6FF;color:#1D4ED8;font-size:.8rem;">
+      {{ toplam }} aktif uzman
+    </span>
+    {% endif %}
+  </div>
+
+  {% if kategoriler %}
+    {% for grup in kategoriler %}
+    <section class="mb-5">
+      <!-- Kategori başlığı -->
+      <div class="d-flex align-items-center gap-2 mb-3">
+        {% if grup.kategori and grup.kategori.icon %}
+          <i class="bi bi-{{ grup.kategori.icon }} fs-5" style="color:#2563EB;"></i>
+        {% else %}
+          <i class="bi bi-grid-3x3-gap fs-5" style="color:#2563EB;"></i>
+        {% endif %}
+        <h2 class="h6 fw-bold mb-0 text-uppercase" style="letter-spacing:.08em;">
+          {{ grup.kategori.name|default:"Diğer" }}
+        </h2>
+        <div class="flex-grow-1 border-bottom" style="border-color:#E2E8F0!important;"></div>
+      </div>
+
+      <!-- Kartlar -->
+      <div class="row g-3">
+        {% for isletme in grup.isletmeler %}
+        <div class="col-sm-6 col-lg-4">
+          {% include "businesses/includes/_business_card.html" %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+
+  {% else %}
+    <div class="text-center py-5 text-muted">
+      <i class="bi bi-shop display-4 d-block mb-3 opacity-25"></i>
+      <p>Henüz kayıtlı onaylı uzman bulunmuyor.</p>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

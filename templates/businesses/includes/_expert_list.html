@@ -1,0 +1,9 @@
+{% if isletmeler %}
+<div class="row g-3">
+  {% for isletme in isletmeler %}
+  <div class="col-sm-6">
+    {% include "businesses/includes/_business_card.html" %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

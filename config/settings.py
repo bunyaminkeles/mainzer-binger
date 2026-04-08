@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'linkler',
     'almanca',
     'mesajlar',
+    'businesses',
 ]
 
 MIDDLEWARE = [
@@ -92,6 +93,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'stadt.context_processors.alle_staedte',
                 'core.context_processors.ziyaret_sayisi',
+                'businesses.context_processors.business_module',
             ],
         },
     },

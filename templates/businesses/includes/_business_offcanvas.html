@@ -1,0 +1,185 @@
+<!-- ===== GLOBAL BUSINESS OFFCANVAS ===== -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="businessOffcanvas"
+     aria-labelledby="businessOffcanvasLabel"
+     style="width:min(420px,100vw);border-left:none;box-shadow:-4px 0 24px rgba(0,0,0,.1);">
+
+  <!-- Kapak görseli / gradient header -->
+  <div id="oc-cover" style="height:160px;background:linear-gradient(135deg,#1E3A5F,#7C3AED);position:relative;overflow:hidden;flex-shrink:0;">
+    <img id="oc-cover-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;">
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,.25);"></div>
+    <button type="button" class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas" aria-label="Kapat"
+            style="position:absolute;top:12px;right:14px;opacity:.85;"></button>
+    <!-- Logo sol alt -->
+    <div id="oc-logo-wrap"
+         style="position:absolute;bottom:-26px;left:20px;width:52px;height:52px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);overflow:hidden;display:flex;align-items:center;justify-content:center;">
+      <img id="oc-logo-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;">
+      <i id="oc-logo-icon" class="bi bi-building fs-4 text-secondary"></i>
+    </div>
+  </div>
+
+  <div class="offcanvas-body overflow-y-auto px-4" style="padding-top:2.2rem!important;padding-bottom:2rem;">
+
+    <!-- İsim + rozet -->
+    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+      <h5 id="businessOffcanvasLabel" class="fw-bold mb-0" style="font-size:1.15rem;"></h5>
+      <span id="oc-verified-badge" class="badge d-none"
+            style="background:#EFF6FF;color:#1D4ED8;font-size:.72rem;font-weight:600;">
+        <i class="bi bi-patch-check-fill me-1"></i>Onaylı İşletme
+      </span>
+    </div>
+
+    <!-- Kategori & Şehir -->
+    <div class="d-flex gap-2 flex-wrap mb-3">
+      <span id="oc-category" class="badge rounded-pill"
+            style="background:#F1F5F9;color:#475569;font-size:.72rem;"></span>
+      <span id="oc-city" class="badge rounded-pill"
+            style="background:#F1F5F9;color:#475569;font-size:.72rem;"></span>
+    </div>
+
+    <!-- Slogan -->
+    <p id="oc-slogan" class="fst-italic text-muted mb-3 small lh-sm"></p>
+
+    <!-- Açıklama -->
+    <div id="oc-description" class="mb-4 small lh-base text-dark"></div>
+
+    <hr style="border-color:#E2E8F0;">
+
+    <!-- İletişim butonları -->
+    <div class="d-grid gap-2">
+      <a id="oc-whatsapp" href="#" target="_blank" rel="noopener"
+         class="btn fw-semibold d-none"
+         style="background:#25D366;color:#fff;border-radius:10px;">
+        <i class="bi bi-whatsapp me-2"></i>WhatsApp ile Ulaş
+      </a>
+      <a id="oc-instagram" href="#" target="_blank" rel="noopener"
+         class="btn btn-outline-secondary fw-semibold d-none"
+         style="border-radius:10px;">
+        <i class="bi bi-instagram me-2"></i>Instagram
+      </a>
+      <a id="oc-website" href="#" target="_blank" rel="noopener"
+         class="btn btn-outline-secondary fw-semibold d-none"
+         style="border-radius:10px;">
+        <i class="bi bi-globe me-2"></i>Web Sitesi
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .business-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,.12) !important;
+    transform: translateY(-2px);
+  }
+</style>
+
+<script>
+(function () {
+  // CSRF token'ı cookie'den al (Django Way)
+  function getCsrfToken() {
+    const match = document.cookie.match(/csrftoken=([^;]+)/);
+    return match ? match[1] : '';
+  }
+
+  // Fire-and-forget analytics isteği
+  function trackAction(slug, action) {
+    fetch(`/lokal-uzmanlar/${slug}/track/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCsrfToken(),
+      },
+      body: JSON.stringify({ action }),
+    }).catch(() => {}); // Sessizce başarısız olabilir
+  }
+
+  const offcanvasEl = document.getElementById('businessOffcanvas');
+  if (!offcanvasEl) return;
+  const oc = bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
+  let currentSlug = null; // Aktif kart slug'ını tutar
+
+  // Event delegation — hem mevcut hem sonradan eklenen kartlar çalışır
+  document.addEventListener('click', function (e) {
+    const card = e.target.closest('.business-card');
+    if (!card) return;
+
+    const d = card.dataset;
+
+    // İsim
+    document.getElementById('businessOffcanvasLabel').textContent = d.bsName;
+
+    // Kapak görseli
+    const coverImg = document.getElementById('oc-cover-img');
+    if (d.bsCover) {
+      coverImg.src = d.bsCover;
+      coverImg.style.display = 'block';
+    } else {
+      coverImg.style.display = 'none';
+    }
+
+    // Logo
+    const logoImg  = document.getElementById('oc-logo-img');
+    const logoIcon = document.getElementById('oc-logo-icon');
+    if (d.bsLogo) {
+      logoImg.src = d.bsLogo;
+      logoImg.style.display = 'block';
+      logoIcon.style.display = 'none';
+    } else {
+      logoImg.style.display = 'none';
+      logoIcon.style.display = 'block';
+    }
+
+    // Onaylı rozet
+    const badge = document.getElementById('oc-verified-badge');
+    d.bsVerified === 'true' ? badge.classList.remove('d-none') : badge.classList.add('d-none');
+
+    // Kategori & Şehir
+    document.getElementById('oc-category').textContent = d.bsCategory || '';
+    const cityEl = document.getElementById('oc-city');
+    cityEl.innerHTML = d.bsCity ? `<i class="bi bi-geo-alt me-1"></i>${d.bsCity}` : '';
+
+    // Slogan & Açıklama
+    document.getElementById('oc-slogan').textContent = d.bsSlogan || '';
+    document.getElementById('oc-description').innerHTML = d.bsDescription || '';
+
+    // WhatsApp
+    const wa = document.getElementById('oc-whatsapp');
+    if (d.bsWhatsapp) {
+      const num = d.bsWhatsapp.replace(/\D/g, '');
+      wa.href = `https://wa.me/${num}`;
+      wa.classList.remove('d-none');
+    } else {
+      wa.classList.add('d-none');
+    }
+
+    // Instagram
+    const ig = document.getElementById('oc-instagram');
+    if (d.bsInstagram) {
+      ig.href = d.bsInstagram;
+      ig.classList.remove('d-none');
+    } else {
+      ig.classList.add('d-none');
+    }
+
+    // Web Sitesi
+    const ws = document.getElementById('oc-website');
+    if (d.bsWebsite) {
+      ws.href = d.bsWebsite;
+      ws.classList.remove('d-none');
+    } else {
+      ws.classList.add('d-none');
+    }
+
+    // Slug'ı sakla ve analytics: view (fire-and-forget)
+    currentSlug = d.bsSlug || null;
+    if (currentSlug) trackAction(currentSlug, 'view');
+
+    oc.show();
+  });
+
+  // WhatsApp tıklama takibi (fire-and-forget)
+  document.getElementById('oc-whatsapp').addEventListener('click', function () {
+    if (currentSlug) trackAction(currentSlug, 'whatsapp');
+  });
+})();
+</script>

@@ -57,6 +57,9 @@ urlpatterns = [
     # Ana sayfa (şehir seçici) ve statik sayfalar
     path('', include('core.urls')),
 
+    # Lokal Uzmanlar (İşletme rehberi)
+    path('lokal-uzmanlar/', include('businesses.urls')),
+
     # Blog yazısı kök URL'i (canonical, şehirden bağımsız)
     path('blog/<slug:slug>/', blog_detay_root, name='blog_detay_root'),
 

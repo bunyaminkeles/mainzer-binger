@@ -1,0 +1,52 @@
+{# Kullanım: isletme değişkeni dışarıdan sağlanmalı #}
+<div class="card h-100 border-0 shadow-sm business-card"
+     style="border-radius:14px;cursor:pointer;transition:box-shadow .2s,transform .2s;"
+     data-bs-slug="{{ isletme.slug }}"
+     data-bs-name="{{ isletme.name }}"
+     data-bs-slogan="{{ isletme.slogan }}"
+     data-bs-description="{{ isletme.description|linebreaksbr }}"
+     data-bs-city="{{ isletme.city.name|default:'' }}"
+     data-bs-category="{{ isletme.category.name|default:'' }}"
+     data-bs-whatsapp="{{ isletme.whatsapp_number }}"
+     data-bs-instagram="{{ isletme.instagram_url }}"
+     data-bs-website="{{ isletme.website_url }}"
+     data-bs-verified="{{ isletme.is_verified|yesno:'true,false' }}"
+     data-bs-logo="{% if isletme.logo %}{{ isletme.logo.url }}{% endif %}"
+     data-bs-cover="{% if isletme.cover_image %}{{ isletme.cover_image.url }}{% endif %}">
+
+  <!-- Kapak renk şeridi -->
+  <div style="height:6px;background:linear-gradient(90deg,#2563EB,#7C3AED);border-radius:14px 14px 0 0;"></div>
+
+  <div class="card-body d-flex align-items-start gap-3 p-3">
+    <!-- Logo veya default ikon -->
+    <div class="flex-shrink-0 d-flex align-items-center justify-content-center"
+         style="width:52px;height:52px;border-radius:12px;background:#F1F5F9;overflow:hidden;">
+      {% if isletme.logo %}
+        <img src="{{ isletme.logo.url }}" alt="{{ isletme.name }} logo"
+             style="width:100%;height:100%;object-fit:cover;">
+      {% else %}
+        <i class="bi bi-building fs-4" style="color:#94A3B8;"></i>
+      {% endif %}
+    </div>
+
+    <div class="min-w-0 flex-grow-1">
+      <div class="d-flex align-items-center gap-1 flex-wrap mb-1">
+        <span class="fw-semibold text-dark" style="font-size:.95rem;">{{ isletme.name }}</span>
+        {% if isletme.is_verified %}
+        <i class="bi bi-patch-check-fill" style="color:#2563EB;font-size:.9rem;" title="Onaylı İşletme"></i>
+        {% endif %}
+      </div>
+      {% if isletme.category %}
+      <span class="badge rounded-pill mb-1"
+            style="background:#EFF6FF;color:#1D4ED8;font-size:.7rem;font-weight:500;">
+        {{ isletme.category.name }}
+      </span>
+      {% endif %}
+      {% if isletme.slogan %}
+      <p class="text-muted mb-0 small lh-sm text-truncate" style="font-size:.8rem;">
+        {{ isletme.slogan }}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
