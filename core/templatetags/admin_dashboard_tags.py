@@ -11,6 +11,7 @@ from duyurular.models import Duyuru
 from takvim.models import Etkinlik
 from yerler.models import Yer
 from rehber.models import Kaynak
+from businesses.models import LocalBusiness
 
 register = template.Library()
 
@@ -78,6 +79,11 @@ def get_dashboard_stats():
     etkinlik_count = Etkinlik.objects.filter(tarih__gte=now.date()).count()
     yer_count = Yer.objects.filter(aktif=True).count()
     kaynak_count = Kaynak.objects.filter(yayinda=True).count()
+    aktif_isletme_count = LocalBusiness.objects.filter(
+        is_published=True, end_date__gte=now.date()
+    ).count()
+    toplam_isletme_count = LocalBusiness.objects.count()
+    verified_isletme_count = LocalBusiness.objects.filter(is_verified=True).count()
 
     # ── Platform sağlığı ─────────────────────────────
     score = min(100, int(
@@ -142,6 +148,9 @@ def get_dashboard_stats():
         'etkinlik_count': etkinlik_count,
         'yer_count': yer_count,
         'kaynak_count': kaynak_count,
+        'aktif_isletme_count': aktif_isletme_count,
+        'toplam_isletme_count': toplam_isletme_count,
+        'verified_isletme_count': verified_isletme_count,
 
         # Grafik (7 gün)
         'chart_labels_json': json.dumps(l7),
