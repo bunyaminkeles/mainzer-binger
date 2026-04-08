@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Profil(models.Model):
     kullanici     = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profil')
     biyografi     = models.TextField(blank=True)
-    sehir         = models.CharField(max_length=100, blank=True, default='Mainz')
+    sehir         = models.CharField(max_length=100, blank=True, default='')
     gelis_tarihi  = models.DateField(null=True, blank=True)
     olusturulma   = models.DateTimeField(auto_now_add=True)
     biyografi_gizli = models.BooleanField(default=False)

@@ -563,6 +563,19 @@
         {% endif %}
       {% endfor %}
 
+      <!-- Şehir — opsiyonel -->
+      <div class="auth-field">
+        <label for="id_sehir">
+          <i class="bi bi-geo-alt me-1 text-muted"></i>Şehriniz <span style="font-weight:400;color:#a0aec0;font-size:0.82rem;">— opsiyonel</span>
+        </label>
+        <div class="auth-field-input">
+          <i class="bi bi-geo-alt"></i>
+          <input type="text" name="sehir" id="id_sehir" maxlength="100"
+                 placeholder="Ör: Mainz, Frankfurt, Berlin..."
+                 autocomplete="address-level2">
+        </div>
+      </div>
+
       <!-- Forum Kuralları -->
       <div class="rules-box">
         <div class="rules-box-header" onclick="toggleRules()" id="rulesHeader">

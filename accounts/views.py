@@ -41,7 +41,7 @@ def profil(request):
     p, _ = Profil.objects.get_or_create(kullanici=request.user)
     if request.method == 'POST':
         p.biyografi       = request.POST.get('biyografi', '')
-        p.sehir           = request.POST.get('sehir', 'Mainz')
+        p.sehir           = request.POST.get('sehir', '')
         p.biyografi_gizli = 'biyografi_gizli' in request.POST
         p.sehir_gizli     = 'sehir_gizli' in request.POST
         p.save()
