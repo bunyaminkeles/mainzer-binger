@@ -3,6 +3,7 @@ from django.apps import AppConfig
 
 class AlmancaConfig(AppConfig):
     name = 'almanca'
+    verbose_name = 'Almanca'
 
     def ready(self):
         from django.contrib.auth.signals import user_logged_in

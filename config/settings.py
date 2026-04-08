@@ -27,6 +27,8 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 INSTALLED_APPS = [
+    'unfold',
+    'unfold.contrib.filters',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,6 +66,11 @@ INSTALLED_APPS = [
     'mesajlar',
     'businesses',
 ]
+
+UNFOLD = {
+    "SITE_TITLE": "Almanyalı Rehber | Komuta Merkezi",
+    "SITE_HEADER": "Almanyalı Rehber",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
