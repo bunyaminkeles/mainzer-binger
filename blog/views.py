@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponsePermanentRedirect
 from django.db.models import Q
 from .models import BlogYazisi
 
@@ -26,9 +27,13 @@ def liste(request, eyalet_slug='rlp', stadt_slug=None):
 
 
 def detay_root(request, slug):
-    """Kök URL'den erişilen blog yazısı — /blog/<slug>/"""
+    """Kök /blog/<slug>/ URL'ini canonical URL'e 301 yönlendirir (SEO duplicate önleme)."""
     yazi = get_object_or_404(BlogYazisi, slug=slug, yayinda=True)
-    return render(request, 'blog/detay.html', {'yazi': yazi, 'eyalet_slug': 'rlp'})
+    if yazi.scope == 'stadt' and yazi.stadt and yazi.stadt.eyalet:
+        canonical = f'/{yazi.stadt.eyalet.slug}/{yazi.stadt.slug}/blog/{slug}/'
+    else:
+        canonical = f'/rlp/blog/{slug}/'
+    return HttpResponsePermanentRedirect(canonical)
 
 
 def detay(request, slug, eyalet_slug='rlp', stadt_slug=None):
