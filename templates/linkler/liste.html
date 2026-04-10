@@ -2,6 +2,7 @@
 {% block title %}Önemli Linkler{% endblock %}
 {% block content %}
 <div class="container mt-4">
+  {% if stadt %}<a href="/{{ eyalet_slug }}/{{ stadt.slug }}/" class="d-inline-flex align-items-center gap-1 text-muted text-decoration-none mb-3" style="font-size:0.85rem;"><i class="bi bi-arrow-left"></i> {{ stadt.name }}</a>{% endif %}
   <h4 class="mb-4"><i class="bi bi-link-45deg me-2 text-primary"></i>Önemli Linkler & Kurumlar</h4>
   {% for k, grup in kategoriler.items %}
   <h6 class="text-uppercase text-muted small fw-bold mt-4 mb-2">{{ grup.ad }}</h6>

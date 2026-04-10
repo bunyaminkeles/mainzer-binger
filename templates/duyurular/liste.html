@@ -2,6 +2,7 @@
 {% block title %}Duyurular{% endblock %}
 {% block content %}
 <div class="container-fluid mt-4 px-3">
+  {% if stadt %}<a href="/{{ eyalet_slug }}/{{ stadt.slug }}/" class="d-inline-flex align-items-center gap-1 text-muted text-decoration-none mb-3" style="font-size:0.85rem;"><i class="bi bi-arrow-left"></i> {{ stadt.name }}</a>{% endif %}
   <div class="d-flex align-items-center justify-content-between mb-3">
     <h4 class="mb-0"><i class="bi bi-megaphone me-2 text-primary"></i>Duyurular</h4>
     {% if user.is_authenticated %}

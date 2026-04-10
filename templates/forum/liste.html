@@ -2,6 +2,7 @@
 {% block title %}Forum{% endblock %}
 {% block content %}
 <div class="container mt-4">
+  {% if stadt %}<a href="/{{ eyalet_slug }}/{{ stadt.slug }}/" class="d-inline-flex align-items-center gap-1 text-muted text-decoration-none mb-3" style="font-size:0.85rem;"><i class="bi bi-arrow-left"></i> {{ stadt.name }}</a>{% endif %}
   <h4 class="mb-4"><i class="bi bi-chat-dots me-2 text-primary"></i>Forum</h4>
   {% for item in kategoriler %}
   <div class="card mb-3">
