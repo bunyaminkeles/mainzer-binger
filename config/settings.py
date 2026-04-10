@@ -97,6 +97,11 @@ UNFOLD = {
                 "collapsible": False,
                 "items": [
                     {
+                        "title": "Dashboard",
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                    {
                         "title": "Siteye Git →",
                         "icon": "open_in_new",
                         "link": "https://almanyalirehber.com",
