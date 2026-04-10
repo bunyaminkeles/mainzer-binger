@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.html import strip_tags
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.cache import cache
@@ -228,7 +229,7 @@ def arama(request):
         es = _es(obj)
         prefix = f'/{es}/{obj.stadt.slug}' if obj.scope == 'stadt' and obj.stadt else f'/{es}'
         sonuclar.append({'tip': 'Blog', 'icon': 'bi-pencil-square',
-                         'baslik': obj.baslik, 'ozet': obj.ozet or obj.icerik[:120],
+                         'baslik': obj.baslik, 'ozet': obj.ozet or strip_tags(obj.icerik)[:120],
                          'url': f'{prefix}/blog/{obj.slug}/',
                          'stadt': obj.stadt.name if obj.stadt else 'Tüm Almanya'})
 
@@ -237,7 +238,7 @@ def arama(request):
         es = _es(obj)
         prefix = f'/{es}/{obj.stadt.slug}' if obj.scope == 'stadt' and obj.stadt else f'/{es}'
         sonuclar.append({'tip': 'Forum', 'icon': 'bi-chat-dots',
-                         'baslik': obj.baslik, 'ozet': obj.icerik[:120],
+                         'baslik': obj.baslik, 'ozet': strip_tags(obj.icerik)[:120],
                          'url': f'{prefix}/forum/konu/{obj.pk}/',
                          'stadt': obj.stadt.name if obj.stadt else 'Tüm Almanya'})
 
@@ -246,7 +247,7 @@ def arama(request):
         es = _es(obj)
         prefix = f'/{es}/{obj.stadt.slug}' if obj.scope == 'stadt' and obj.stadt else f'/{es}'
         sonuclar.append({'tip': 'Duyuru', 'icon': 'bi-megaphone',
-                         'baslik': obj.baslik, 'ozet': obj.icerik[:120],
+                         'baslik': obj.baslik, 'ozet': strip_tags(obj.icerik)[:120],
                          'url': f'{prefix}/duyurular/{obj.pk}/',
                          'stadt': obj.stadt.name if obj.stadt else 'Tüm Almanya'})
 

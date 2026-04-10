@@ -68,7 +68,7 @@
             </div>
             <div class="fw-semibold">{{ s.baslik }}</div>
             {% if s.ozet %}
-            <small class="text-muted">{{ s.ozet|truncatechars:140 }}</small>
+            <small class="text-muted">{{ s.ozet|striptags|truncatechars:140 }}</small>
             {% endif %}
           </div>
           <i class="bi bi-chevron-right text-muted mt-1 flex-shrink-0"></i>
