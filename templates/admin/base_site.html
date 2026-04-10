@@ -1,11 +1,7 @@
 {% extends "admin/base.html" %}
 
 {% block title %}Almanyalı Rehber Yönetim Paneli{% endblock %}
-{% block site_header %}
-<h1 id="site-name">
-    <a href="{% url 'admin:index' %}">🇩🇪 Almanyalı Rehber Admin</a>
-</h1>
-{% endblock %}
+{% block branding %}{% include "unfold/helpers/site_branding.html" %}{% endblock %}
 
 {% block extrastyle %}
 {{ block.super }}
