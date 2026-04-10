@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 UNFOLD = {
     "SITE_TITLE": "Almanyalı Rehber | Komuta Merkezi",
     "SITE_HEADER": "Almanyalı Rehber",
+    "SITE_SYMBOL": "home",
     "COLORS": {
         "primary": {
             "50":  "239 246 255",
