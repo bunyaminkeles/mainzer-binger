@@ -108,7 +108,10 @@
           {{ s.lesetext|safe }}
         </div>
         {% endif %}
-        {{ s.frage }}
+        {% if s.kontext %}
+        <div class="fst-italic text-muted mb-1" style="font-size:0.85rem;">{{ s.kontext }}</div>
+        {% endif %}
+        <div class="text-muted" style="font-size:0.8rem;">{{ s.frage }}</div>
       </div>
       <div class="kat-cevap">
         <span class="harf">{{ s.dogru_harf }}</span>{% for harf, metin in s.optionen.items %}{% if harf == s.dogru_harf %}{{ metin }}{% endif %}{% endfor %}
