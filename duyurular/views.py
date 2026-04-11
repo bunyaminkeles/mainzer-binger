@@ -45,15 +45,14 @@ def liste_almanya(request):
     bugun = timezone.localdate()
     temel = Duyuru.objects.filter(yayinda=True, yayin_bitis__gte=bugun)
 
-    konsolosluk = temel.filter(kaynak_tipi='konsolosluk').order_by('-olusturulma')[:20]
-    kullanici   = temel.filter(kaynak_tipi='kullanici').order_by('-olusturulma')[:20]
+    kullanici = temel.filter(kaynak_tipi='kullanici').order_by('-olusturulma')[:20]
 
     return render(request, 'duyurular/liste.html', {
-        'konsolosluk': konsolosluk,
-        'belediye':    [],
-        'kullanici':   kullanici,
-        'stadt':       None,
-        'eyalet_slug': None,
+        'konsolosluk':    [],
+        'belediye':       [],
+        'kullanici':      kullanici,
+        'stadt':          None,
+        'eyalet_slug':    None,
         'almanya_geneli': True,
     })
 
