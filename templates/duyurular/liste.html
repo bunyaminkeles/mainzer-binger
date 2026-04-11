@@ -23,7 +23,7 @@
         </div>
         <div class="card-body p-0 overflow-y-auto" style="max-height: calc(100vh - 200px);">
           {% for d in konsolosluk %}
-          <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/{{ d.pk }}/{% else %}/{{ eyalet_slug }}/duyurular/{{ d.pk }}/{% endif %}"
+          <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/{{ d.pk }}/{% elif eyalet_slug %}/{{ eyalet_slug }}/duyurular/{{ d.pk }}/{% elif d.scope == 'stadt' and d.stadt %}/{{ d.stadt.eyalet.slug|default:'rlp' }}/{{ d.stadt.slug }}/duyurular/{{ d.pk }}/{% elif d.eyalet %}/{{ d.eyalet.slug }}/duyurular/{{ d.pk }}/{% else %}/rlp/duyurular/{{ d.pk }}/{% endif %}"
              class="d-block text-decoration-none text-dark border-bottom p-3 duyuru-item">
             <div class="small fw-semibold lh-sm mb-1">{{ d.baslik|truncatechars:90 }}</div>
             <div class="d-flex align-items-center gap-2 text-muted" style="font-size:.75rem;">
@@ -49,7 +49,7 @@
         </div>
         <div class="card-body p-0 overflow-y-auto" style="max-height: calc(100vh - 200px);">
           {% for d in belediye %}
-          <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/{{ d.pk }}/{% else %}/{{ eyalet_slug }}/duyurular/{{ d.pk }}/{% endif %}"
+          <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/{{ d.pk }}/{% elif eyalet_slug %}/{{ eyalet_slug }}/duyurular/{{ d.pk }}/{% elif d.scope == 'stadt' and d.stadt %}/{{ d.stadt.eyalet.slug|default:'rlp' }}/{{ d.stadt.slug }}/duyurular/{{ d.pk }}/{% elif d.eyalet %}/{{ d.eyalet.slug }}/duyurular/{{ d.pk }}/{% else %}/rlp/duyurular/{{ d.pk }}/{% endif %}"
              class="d-block text-decoration-none text-dark border-bottom p-3 duyuru-item">
             <div class="small fw-semibold lh-sm mb-1">{{ d.baslik|truncatechars:90 }}</div>
             <div class="d-flex align-items-center gap-2 text-muted" style="font-size:.75rem;">
@@ -74,7 +74,7 @@
         </div>
         <div class="card-body p-0 overflow-y-auto" style="max-height: calc(100vh - 200px);">
           {% for d in kullanici %}
-          <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/{{ d.pk }}/{% else %}/{{ eyalet_slug }}/duyurular/{{ d.pk }}/{% endif %}"
+          <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/duyurular/{{ d.pk }}/{% elif eyalet_slug %}/{{ eyalet_slug }}/duyurular/{{ d.pk }}/{% elif d.scope == 'stadt' and d.stadt %}/{{ d.stadt.eyalet.slug|default:'rlp' }}/{{ d.stadt.slug }}/duyurular/{{ d.pk }}/{% elif d.eyalet %}/{{ d.eyalet.slug }}/duyurular/{{ d.pk }}/{% else %}/rlp/duyurular/{{ d.pk }}/{% endif %}"
              class="d-block text-decoration-none text-dark border-bottom p-3 duyuru-item">
             <div class="small fw-semibold lh-sm mb-1">{{ d.baslik|truncatechars:90 }}</div>
             <div class="d-flex align-items-center gap-2 text-muted" style="font-size:.75rem;">
