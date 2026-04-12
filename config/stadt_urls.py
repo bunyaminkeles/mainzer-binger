@@ -1,6 +1,13 @@
 from django.urls import path, include
+from django.http import HttpResponsePermanentRedirect
 from django.views.generic import RedirectView
 from stadt import views as stadt_views
+from yerler import views as yerler_views
+
+
+def _yerler_liste_redirect(request, eyalet_slug, stadt_slug):
+    return HttpResponsePermanentRedirect(f'/{eyalet_slug}/{stadt_slug}/#onemli-yerler')
+
 
 urlpatterns = [
     path('', stadt_views.home, name='stadt_home'),
@@ -10,9 +17,11 @@ urlpatterns = [
     path('forum/', include('forum.urls')),
     path('blog/', include('blog.urls')),
     path('ilan/', include('ilan.urls')),
-    path('yerler/', include('yerler.urls')),
+    # yerler listesi artık ana sayfaya (#onemli-yerler) yönlendiriliyor
+    path('yerler/', _yerler_liste_redirect),
+    path('yerler/<int:pk>/', yerler_views.detay, name='yer_detay'),
     path('isletmeler/', include('yerler.isletme_urls')),
-    # linkler app kaldırıldı — eski URL'ler yerler'e yönlendiriliyor
-    path('linkler/', RedirectView.as_view(url='../yerler/', permanent=True)),
-    path('linkler/git/<int:pk>/', RedirectView.as_view(url='../../yerler/', permanent=True)),
+    # linkler app kaldırıldı — eski URL'ler ana sayfaya yönlendiriliyor
+    path('linkler/', RedirectView.as_view(url='../#onemli-yerler', permanent=True)),
+    path('linkler/git/<int:pk>/', RedirectView.as_view(url='../../#onemli-yerler', permanent=True)),
 ]

@@ -77,6 +77,11 @@ class StadtAdmin(admin.ModelAdmin):
                     yer.save()
                     durum = 'aktif' if yer.aktif else 'pasif'
                     messages.success(request, f'"{yer.ad}" {durum} yapıldı.')
+                elif action == 'fix_scope':
+                    yer.scope = 'stadt'
+                    yer.aktif = True
+                    yer.save()
+                    messages.success(request, f'"{yer.ad}" scope düzeltildi ve aktif yapıldı.')
                 elif action == 'delete_yer':
                     ad = yer.ad
                     yer.delete()
