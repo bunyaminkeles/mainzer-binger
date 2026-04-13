@@ -1,0 +1,23 @@
+[
+{
+  "model": "rehber.kaynak",
+  "pk": 165,
+  "fields": {
+    "eyalet": 11,
+    "stadt": 31,
+    "scope": "stadt",
+    "baslik": "WBS Başvurusu — Wohnberechtigungsschein Beantragen",
+    "slug": null,
+    "tip": "belge",
+    "url": "https://www.bad-kreuznach.de/buergerservice/buergerservice/leistungen/RLP:entry:72316:ANLR-VLR/wohnberechtigungsschein-beantragen/#LLGBESCHREIBUNG",
+    "kategori": "resmi",
+    "icerik": "",
+    "ozet": "Sosyal konut hakkı belgesi (WBS) başvurusu — Bad Kreuznach Belediyesi resmi portalı üzerinden online yapılabilir.",
+    "icon": "bi-info-circle",
+    "randevu_url": "",
+    "sira": 11,
+    "yayinda": true,
+    "guncelleme": "2026-04-13T20:22:07.558Z"
+  }
+}
+]
