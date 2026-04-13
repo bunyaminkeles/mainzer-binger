@@ -23,10 +23,10 @@
          style="width:52px;height:52px;border-radius:12px;background:#F1F5F9;overflow:hidden;">
       {% if isletme.logo %}
         <img src="{{ isletme.logo.url }}" alt="{{ isletme.name }} logo"
-             style="width:100%;height:100%;object-fit:cover;">
+             style="width:100%;height:100%;object-fit:contain;padding:4px;">
       {% elif isletme.logo_url %}
         <img src="{{ isletme.logo_url }}" alt="{{ isletme.name }} logo"
-             style="width:100%;height:100%;object-fit:cover;">
+             style="width:100%;height:100%;object-fit:contain;padding:4px;">
       {% else %}
         <i class="bi bi-building fs-4" style="color:#94A3B8;"></i>
       {% endif %}
