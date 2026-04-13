@@ -4,13 +4,15 @@
      style="width:min(420px,100vw);border-left:none;box-shadow:-4px 0 24px rgba(0,0,0,.1);">
 
   <!-- Kapak görseli / gradient header -->
-  <div id="oc-cover" style="height:160px;background:linear-gradient(135deg,#1E3A5F,#7C3AED);position:relative;overflow:hidden;flex-shrink:0;">
-    <img id="oc-cover-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;">
-    <div style="position:absolute;inset:0;background:rgba(0,0,0,.25);"></div>
-    <button type="button" class="btn-close btn-close-white"
-            data-bs-dismiss="offcanvas" aria-label="Kapat"
-            style="position:absolute;top:12px;right:14px;opacity:.85;"></button>
-    <!-- Logo sol alt -->
+  <div style="position:relative;flex-shrink:0;">
+    <div id="oc-cover" style="height:160px;background:linear-gradient(135deg,#1E3A5F,#7C3AED);overflow:hidden;">
+      <img id="oc-cover-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;">
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,.25);"></div>
+      <button type="button" class="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas" aria-label="Kapat"
+              style="position:absolute;top:12px;right:14px;opacity:.85;"></button>
+    </div>
+    <!-- Logo sol alt — cover dışında, kırpılmaz -->
     <div id="oc-logo-wrap"
          style="position:absolute;bottom:-26px;left:20px;width:52px;height:52px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);overflow:hidden;display:flex;align-items:center;justify-content:center;">
       <img id="oc-logo-img" src="" alt="" style="width:100%;height:100%;object-fit:contain;padding:4px;display:none;">
