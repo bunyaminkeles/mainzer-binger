@@ -11,8 +11,8 @@
      data-bs-instagram="{{ isletme.instagram_url }}"
      data-bs-website="{{ isletme.website_url }}"
      data-bs-verified="{{ isletme.is_verified|yesno:'true,false' }}"
-     data-bs-logo="{% if isletme.logo %}{{ isletme.logo.url }}{% endif %}"
-     data-bs-cover="{% if isletme.cover_image %}{{ isletme.cover_image.url }}{% endif %}">
+     data-bs-logo="{% if isletme.logo %}{{ isletme.logo.url }}{% elif isletme.logo_url %}{{ isletme.logo_url }}{% endif %}"
+     data-bs-cover="{% if isletme.cover_image %}{{ isletme.cover_image.url }}{% elif isletme.cover_image_url %}{{ isletme.cover_image_url }}{% endif %}">
 
   <!-- Kapak renk şeridi -->
   <div style="height:6px;background:linear-gradient(90deg,#2563EB,#7C3AED);border-radius:14px 14px 0 0;"></div>
@@ -23,6 +23,9 @@
          style="width:52px;height:52px;border-radius:12px;background:#F1F5F9;overflow:hidden;">
       {% if isletme.logo %}
         <img src="{{ isletme.logo.url }}" alt="{{ isletme.name }} logo"
+             style="width:100%;height:100%;object-fit:cover;">
+      {% elif isletme.logo_url %}
+        <img src="{{ isletme.logo_url }}" alt="{{ isletme.name }} logo"
              style="width:100%;height:100%;object-fit:cover;">
       {% else %}
         <i class="bi bi-building fs-4" style="color:#94A3B8;"></i>

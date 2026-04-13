@@ -58,7 +58,7 @@ class LocalBusinessAdmin(ModelAdmin):
             'fields': ('slogan', 'description'),
         }),
         ('Medya', {
-            'fields': ('logo', 'cover_image'),
+            'fields': ('logo', 'logo_url', 'cover_image', 'cover_image_url'),
         }),
         ('İletişim', {
             'fields': ('whatsapp_number', 'instagram_url', 'website_url'),

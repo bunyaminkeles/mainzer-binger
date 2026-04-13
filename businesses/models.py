@@ -87,8 +87,10 @@ class LocalBusiness(models.Model):
     description = models.TextField(blank=True, verbose_name='Açıklama')
 
     # — Medya —
-    logo = models.ImageField(upload_to='businesses/logos/', blank=True, null=True, verbose_name='Logo')
-    cover_image = models.ImageField(upload_to='businesses/covers/', blank=True, null=True, verbose_name='Kapak Görseli')
+    logo = models.ImageField(upload_to='businesses/logos/', blank=True, null=True, verbose_name='Logo (dosya)')
+    logo_url = models.URLField(blank=True, verbose_name='Logo URL', help_text='Dosya yerine harici link kullanmak için')
+    cover_image = models.ImageField(upload_to='businesses/covers/', blank=True, null=True, verbose_name='Kapak Görseli (dosya)')
+    cover_image_url = models.URLField(blank=True, verbose_name='Kapak Görseli URL', help_text='Dosya yerine harici link kullanmak için')
 
     # — İletişim —
     whatsapp_number = models.CharField(max_length=30, blank=True, verbose_name='WhatsApp Numarası', help_text='+49 ile başlamalı')
