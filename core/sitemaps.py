@@ -4,6 +4,7 @@ from django.urls import reverse
 from blog.models import BlogYazisi
 from rehber.models import Kaynak
 from stadt.models import Stadt
+from yerler.models import Yer
 from almanca.engine import konu_listesi
 
 
@@ -87,6 +88,23 @@ class RehberSitemap(Sitemap):
         return '/rlp/rehber/{}/'.format(obj.slug)
 
 
+class YerDetaySitemap(Sitemap):
+    changefreq = 'monthly'
+    priority = 0.6
+
+    def items(self):
+        return (
+            Yer.objects.filter(aktif=True, tur='yer')
+            .exclude(icerik='')
+            .select_related('stadt__eyalet')
+        )
+
+    def location(self, obj):
+        eyalet_slug = obj.stadt.eyalet.slug if obj.stadt and obj.stadt.eyalet else 'rlp'
+        stadt_slug = obj.stadt.slug if obj.stadt else 'mainz'
+        return f'/{eyalet_slug}/{stadt_slug}/yerler/{obj.pk}/'
+
+
 SITEMAPS = {
     'statik':     StatikSitemap,
     'staedte':    StadtSitemap,
@@ -94,4 +112,5 @@ SITEMAPS = {
     'blog':       BlogSitemap,
     'stadt-blog': StadtBlogSitemap,
     'rehber':     RehberSitemap,
+    'yer-detay':  YerDetaySitemap,
 }
