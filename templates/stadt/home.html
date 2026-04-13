@@ -265,9 +265,10 @@
           {% if grup.yerler %}
           <div class="row g-3 mb-3">
             {% for yer in grup.yerler %}
+            {% with detay_url=eyalet_slug|add:"/"|add:stadt.slug|add:"/yerler/"|add:yer.pk|stringformat:"d"|add:"/" %}
             <div class="col-md-4 col-sm-6">
               <div class="card h-100 yer-kart" style="cursor:pointer;"
-                   {% if yer.website or yer.maps_url %}onclick="window.open('{{ yer.website|default:yer.maps_url }}','_blank','noopener')"{% endif %}>
+                   onclick="location.href='/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/'">
                 {% if yer.kapak_resmi %}
                 <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
                      class="card-img-top" style="height:160px;object-fit:cover;"
@@ -275,7 +276,8 @@
                 {% endif %}
                 <div class="card-body d-flex flex-column">
                   <h6 class="card-title mb-1">
-                    <span class="text-dark">{{ yer.ad }}</span>
+                    <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/"
+                       class="text-dark text-decoration-none stretched-link">{{ yer.ad }}</a>
                   </h6>
                   {% if yer.aciklama %}
                   <p class="small text-muted mb-2 flex-grow-1" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{{ yer.aciklama }}</p>
@@ -283,7 +285,7 @@
                   <p class="small text-muted mb-2 flex-grow-1"><i class="bi bi-geo-alt me-1"></i>{{ yer.adres }}</p>
                   {% endif %}
                   {% if yer.maps_url or yer.website %}
-                  <div class="d-flex gap-2 mt-auto flex-wrap">
+                  <div class="d-flex gap-2 mt-auto flex-wrap" style="position:relative;z-index:1;">
                     {% if yer.maps_url %}<a href="{{ yer.maps_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation()"><i class="bi bi-map me-1"></i>Harita</a>{% endif %}
                     {% if yer.website %}<a href="{{ yer.website }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation()"><i class="bi bi-globe me-1"></i>Web</a>{% endif %}
                   </div>
@@ -291,6 +293,7 @@
                 </div>
               </div>
             </div>
+            {% endwith %}
             {% endfor %}
           </div>
           {% endif %}
@@ -332,7 +335,7 @@
             {% for yer in grup.yerler %}
             <div class="col-md-4 col-sm-6">
               <div class="card h-100 yer-kart" style="cursor:pointer;"
-                   {% if yer.website or yer.maps_url %}onclick="window.open('{{ yer.website|default:yer.maps_url }}','_blank','noopener')"{% endif %}>
+                   onclick="location.href='/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/'">
                 {% if yer.kapak_resmi %}
                 <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
                      class="card-img-top" style="height:160px;object-fit:cover;"
@@ -340,7 +343,8 @@
                 {% endif %}
                 <div class="card-body d-flex flex-column">
                   <h6 class="card-title mb-1">
-                    <span class="text-dark">{{ yer.ad }}</span>
+                    <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/"
+                       class="text-dark text-decoration-none stretched-link">{{ yer.ad }}</a>
                   </h6>
                   {% if yer.aciklama %}
                   <p class="small text-muted mb-2 flex-grow-1" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{{ yer.aciklama }}</p>
@@ -348,7 +352,7 @@
                   <p class="small text-muted mb-2 flex-grow-1"><i class="bi bi-geo-alt me-1"></i>{{ yer.adres }}</p>
                   {% endif %}
                   {% if yer.maps_url or yer.website %}
-                  <div class="d-flex gap-2 mt-auto flex-wrap">
+                  <div class="d-flex gap-2 mt-auto flex-wrap" style="position:relative;z-index:1;">
                     {% if yer.maps_url %}<a href="{{ yer.maps_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation()"><i class="bi bi-map me-1"></i>Harita</a>{% endif %}
                     {% if yer.website %}<a href="{{ yer.website }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation()"><i class="bi bi-globe me-1"></i>Web</a>{% endif %}
                   </div>

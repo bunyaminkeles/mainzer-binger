@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}{{ yer.ad }} — {{ stadt.name }}{% endblock %}
+{% block meta_description %}{% if yer.aciklama %}{{ yer.aciklama|truncatechars:155 }}{% else %}{{ yer.ad }}, {{ stadt.name }} — Almanyalı Rehber'de turistik ve kültürel yer bilgisi.{% endif %}{% endblock %}
+{% block og_title %}{{ yer.ad }} — {{ stadt.name }}{% endblock %}
+{% block og_description %}{% if yer.aciklama %}{{ yer.aciklama|truncatechars:155 }}{% endif %}{% endblock %}
+{% block og_image %}{% if yer.kapak_resmi %}<meta property="og:image" content="{{ yer.kapak_resmi }}">{% endif %}{% endblock %}
+{% block canonical %}<link rel="canonical" href="https://almanyalirehber.com/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/">{% endblock %}
 {% block breadcrumb %}
+  {% if stadt %}<li class="breadcrumb-item"><a href="/{{ eyalet_slug }}/{{ stadt.slug }}/">{{ stadt.name }}</a></li>{% endif %}
   <li class="breadcrumb-item active">{{ yer.ad }}</li>
 {% endblock %}
 
