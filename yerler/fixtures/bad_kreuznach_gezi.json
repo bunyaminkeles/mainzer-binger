@@ -208,7 +208,7 @@
   "fields": {
     "eyalet": 11,
     "stadt": 31,
-    "scope": "eyalet",
+    "scope": "stadt",
     "tur": "yer",
     "ad": "Bad Kreuznach Şehir Rehberi",
     "kategori": "gezi",
