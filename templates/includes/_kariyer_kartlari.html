@@ -33,8 +33,9 @@
                 </a>
             </div>
             {% endif %}
+            {% if not eyalet_slug or eyalet_slug == 'rlp' %}
             <div class="col">
-                <a href="https://www.ihk.de/rheinhessen/bim-rheinhessen" target="_blank" rel="noopener" class="d-block h-100 text-decoration-none card-hover rounded-3 p-4" style="border: 1px solid #e5e7eb; background: #fff;">
+                <a href="https://www.ihk.de/rheinhessen/ministartseiten/bim-rheinhessen" target="_blank" rel="noopener" class="d-block h-100 text-decoration-none card-hover rounded-3 p-4" style="border: 1px solid #e5e7eb; background: #fff;">
                     <div class="d-flex align-items-center gap-3 mb-2">
                         <i class="bi bi-buildings" style="color: #059669; font-size: 1rem;"></i>
                         <p class="fw-semibold mb-0" style="font-size: 0.875rem; color: #111827;">IHK Rheinhessen</p>
@@ -42,6 +43,7 @@
                     <p class="mb-0" style="font-size: 0.8rem; color: #9ca3af;">Rheinhessen Sanayi ve Ticaret Odası'nın çıraklık ve iş yerleştirme portalı. Bölgedeki işletmelerle doğrudan bağlantı kurulmasını sağlar.</p>
                 </a>
             </div>
+            {% endif %}
             <div class="col">
                 <a href="https://machdeinhandwerk.de/vermittlung-von-ausbildung-und-praktika/" target="_blank" rel="noopener" class="d-block h-100 text-decoration-none card-hover rounded-3 p-4" style="border: 1px solid #e5e7eb; background: #fff;">
                     <div class="d-flex align-items-center gap-3 mb-2">
