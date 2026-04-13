@@ -130,7 +130,7 @@ def home(request, eyalet_slug='rlp', stadt_slug=None):
 
     kategoriler = {}
     for k in yer_kategorileri:
-        yerler = base_yer_qs.filter(kategori=k.slug)
+        yerler = base_yer_qs.filter(kategori=k.slug).order_by('sira', 'ad')
         if yerler.exists():
             kategoriler[k.slug] = {'ad': k.ad, 'yerler': yerler}
 

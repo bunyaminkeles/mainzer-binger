@@ -52,6 +52,7 @@ class Yer(models.Model):
     icerik          = models.TextField(blank=True, verbose_name='Blog İçeriği (HTML)')
     wikipedia_url   = models.URLField(blank=True, verbose_name='Wikipedia Kaynak URL')
     aktif           = models.BooleanField(default=True)
+    sira            = models.PositiveSmallIntegerField(default=0, verbose_name='Sıra', help_text='Küçük sayı önce gösterilir')
 
     # Ücretli paket alanları (işletmeler için)
     paket           = models.CharField(max_length=10, choices=PAKET_SECENEKLERI, default='ucretsiz', verbose_name='Paket')
@@ -61,7 +62,7 @@ class Yer(models.Model):
     whatsapp        = models.CharField(max_length=20, blank=True, verbose_name='WhatsApp')
 
     class Meta:
-        ordering = ['kategori', 'ad']
+        ordering = ['kategori', 'sira', 'ad']
         verbose_name = 'Yer'
         verbose_name_plural = 'Yerler'
 
