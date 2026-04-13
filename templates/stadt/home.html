@@ -267,8 +267,7 @@
             {% for yer in grup.yerler %}
             {% with detay_url=eyalet_slug|add:"/"|add:stadt.slug|add:"/yerler/"|add:yer.pk|stringformat:"d"|add:"/" %}
             <div class="col-md-4 col-sm-6">
-              <div class="card yer-kart" style="cursor:pointer;"
-                   onclick="location.href='{% if yer.website %}{{ yer.website }}{% elif yer.icerik %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% elif yer.maps_url %}{{ yer.maps_url }}{% else %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% endif %}'">
+              <div class="card yer-kart" style="cursor:pointer;">
                 {% if yer.kapak_resmi %}
                 <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
                      class="card-img-top" style="height:160px;object-fit:cover;" onerror="this.style.display='none'"
@@ -335,8 +334,7 @@
           <div class="row g-3 mb-3 align-items-start">
             {% for yer in grup.yerler %}
             <div class="col-md-4 col-sm-6">
-              <div class="card yer-kart" style="cursor:pointer;"
-                   onclick="location.href='{% if yer.website %}{{ yer.website }}{% elif yer.icerik %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% elif yer.maps_url %}{{ yer.maps_url }}{% else %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% endif %}'">
+              <div class="card yer-kart" style="cursor:pointer;">
                 {% if yer.kapak_resmi %}
                 <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
                      class="card-img-top" style="height:160px;object-fit:cover;" onerror="this.style.display='none'"
