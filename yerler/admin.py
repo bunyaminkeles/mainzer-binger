@@ -1,6 +1,20 @@
+from django import forms
 from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Yer, YerFoto, ReklamPaketi, YerKategori
+
+
+class YerAdminForm(forms.ModelForm):
+    icerik = forms.CharField(
+        widget=CKEditor5Widget(config_name='default'),
+        required=False,
+        label='Blog İçeriği (HTML)',
+    )
+
+    class Meta:
+        model = Yer
+        fields = '__all__'
 
 
 # ── Toplu işlem aksiyonları ──────────────────────────────────────────────────
@@ -25,6 +39,7 @@ class YerFotoInline(TabularInline):
 
 @admin.register(Yer)
 class YerAdmin(ModelAdmin):
+    form = YerAdminForm
     compressed_fields = True
     warn_unsaved_changes = True
     list_display  = ['yer_adi', 'tur', 'kategori_adi', 'eyalet', 'stadt', 'aktif_flag', 'paket', 'paket_bitis']
@@ -36,7 +51,7 @@ class YerAdmin(ModelAdmin):
     inlines       = [YerFotoInline]
     fieldsets = (
         ('Temel Bilgiler', {
-            'fields': ('ad', 'tur', 'kategori', 'stadt', 'eyalet', 'scope', 'aktif', 'adres', 'kapak_foto', 'kapak_resmi')
+            'fields': ('ad', 'tur', 'kategori', 'stadt', 'eyalet', 'scope', 'aktif', 'sira', 'adres', 'kapak_foto', 'kapak_resmi')
         }),
         ('İletişim', {
             'fields': ('telefon', 'website', 'maps_url', 'instagram_url', 'whatsapp', 'calisma_saati')
@@ -47,7 +62,6 @@ class YerAdmin(ModelAdmin):
         }),
         ('İçerik', {
             'fields': ('aciklama', 'icerik', 'wikipedia_url'),
-            'classes': ('collapse',),
         }),
     )
 

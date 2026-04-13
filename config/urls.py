@@ -50,6 +50,7 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('guzpm0nmoodr8tjb1bxn06wo4bk14o.html',  TemplateView.as_view(template_name='guzpm0nmoodr8tjb1bxn06wo4bk14o.html',  content_type='text/html')),
 
     path('admin/', admin.site.urls),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('accounts/', include('allauth.urls')),
     path('', include('accounts.urls')),
     path('mesajlar/', include('mesajlar.urls')),
