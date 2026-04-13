@@ -220,7 +220,7 @@ function karar_showTab(tool) {
 
   function render(id) {
     area.innerHTML = '';
-    setTimeout(() => { area.innerHTML = typeof id === 'string' ? buildOutcome(id) : buildStep(id); }, 0);
+    setTimeout(() => { area.innerHTML = typeof id === 'number' ? buildStep(id) : buildOutcome(id); }, 0);
   }
   function buildStep(id) {
     const s = STEPS[id];
@@ -261,7 +261,7 @@ function karar_showTab(tool) {
       </div>
     </div>`;
   }
-  window.anabin_answer = n => { history.push(current); current = n; render(current); };
+  window.anabin_answer = n => { history.push(current); current = isNaN(n) ? n : +n; render(current); };
   window.anabin_back   = () => { current = history.pop(); render(current); };
   window.anabin_reset  = () => { current = 1; history = []; render(current); };
   render(1);

@@ -214,13 +214,14 @@
                 <tr>
                     <th>Ad</th>
                     <th>Adres</th>
-                    <th>Durum</th>
+                    <th>Sayfada</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
             <tbody>
                 {% for yer in item.yerler %}
-                <tr>
+                {% with gorunur=yer.aktif and yer.scope == 'stadt' %}
+                <tr{% if not gorunur %} style="opacity:.65;"{% endif %}>
                     <td style="font-weight:500;">
                         <a href="/admin/yerler/yer/{{ yer.pk }}/change/" style="color:#e2e8f0; text-decoration:none;">
                             {{ yer.ad }}
@@ -230,10 +231,12 @@
                         {{ yer.adres|default:"—" }}
                     </td>
                     <td>
-                        {% if yer.aktif %}
-                        <span class="badge-aktif">Aktif</span>
+                        {% if yer.aktif and yer.scope == 'stadt' %}
+                        <span class="badge-aktif">✓ Görünür</span>
+                        {% elif not yer.aktif %}
+                        <span class="badge-pasif">✗ Pasif</span>
                         {% else %}
-                        <span class="badge-pasif">Pasif</span>
+                        <span class="badge-pasif" title="scope='{{ yer.scope }}' — şehre özel değil">⚠ Kapsam</span>
                         {% endif %}
                     </td>
                     <td>
@@ -249,6 +252,16 @@
                                     {% if yer.aktif %}Pasif Yap{% else %}Aktif Yap{% endif %}
                                 </button>
                             </form>
+                            <!-- Scope/Aktif düzelt (sadece sorunlularda) -->
+                            {% if not yer.aktif or yer.scope != 'stadt' %}
+                            <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="fix_scope">
+                                <input type="hidden" name="yer_id" value="{{ yer.pk }}">
+                                <input type="hidden" name="tab" value="{{ item.kategori.slug }}">
+                                <button type="submit" class="btn-edit" style="background:#16a34a;color:#fff;">Düzelt &amp; Aktif Et</button>
+                            </form>
+                            {% endif %}
                             <!-- Düzenle -->
                             <a href="/admin/yerler/yer/{{ yer.pk }}/change/" class="btn-edit">Düzenle</a>
                             <!-- Sil -->
@@ -263,6 +276,7 @@
                         </div>
                     </td>
                 </tr>
+                {% endwith %}
                 {% endfor %}
             </tbody>
         </table>

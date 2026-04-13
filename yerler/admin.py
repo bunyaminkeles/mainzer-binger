@@ -36,7 +36,7 @@ class YerAdmin(ModelAdmin):
     inlines       = [YerFotoInline]
     fieldsets = (
         ('Temel Bilgiler', {
-            'fields': ('ad', 'tur', 'kategori', 'stadt', 'scope', 'aktif', 'adres', 'kapak_foto', 'kapak_resmi')
+            'fields': ('ad', 'tur', 'kategori', 'stadt', 'eyalet', 'scope', 'aktif', 'adres', 'kapak_foto', 'kapak_resmi')
         }),
         ('İletişim', {
             'fields': ('telefon', 'website', 'maps_url', 'instagram_url', 'whatsapp', 'calisma_saati')
