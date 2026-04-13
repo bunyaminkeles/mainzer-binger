@@ -6,6 +6,7 @@ from django.utils import timezone
 from yerler.models import Yer, YerKategori
 from rehber.models import Kaynak
 from blog.models import BlogYazisi
+from businesses.models import LocalBusiness
 import feedparser
 import logging
 import requests
@@ -175,6 +176,13 @@ def home(request, eyalet_slug='rlp', stadt_slug=None):
     if stadt.lat and stadt.lng:
         hava = _hava_durumu(stadt.lat, stadt.lng, f'hava_{stadt.slug}')
 
+    yerel_isletmeler = list(
+        LocalBusiness.objects
+        .filter(city=stadt, is_published=True, end_date__gte=timezone.localdate())
+        .select_related('category')
+        .order_by('category__name', 'name')
+    )
+
     return render(request, 'stadt/home.html', {
         'stadt':               stadt,
         'eyalet_slug':         eyalet_slug,
@@ -184,4 +192,5 @@ def home(request, eyalet_slug='rlp', stadt_slug=None):
         'hava':                hava,
         'tum_kategoriler':     [(k.slug, k.ad) for k in yer_kategorileri],
         'son_blog_yazilari':   son_blog_yazilari,
+        'yerel_isletmeler':    yerel_isletmeler,
     })
