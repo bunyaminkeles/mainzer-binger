@@ -1,0 +1,23 @@
+[
+{
+  "model": "rehber.kaynak",
+  "pk": 164,
+  "fields": {
+    "eyalet": 11,
+    "stadt": 31,
+    "scope": "stadt",
+    "baslik": "KdU — Konut Giderleri Bearbeitungshinweise 2024",
+    "slug": null,
+    "tip": "belge",
+    "url": "https://www.kreis-badkreuznach.de/fileadmin/media/downloads/02_Aemter/Amt_4_Soziales/KdU-Bearbeitungshinweise2024.pdf",
+    "kategori": "resmi",
+    "icerik": "",
+    "ozet": "Bad Kreuznach ilçesi için 2024 yılı KdU (kira karşılama) işlem kılavuzu (PDF)",
+    "icon": "bi-info-circle",
+    "randevu_url": "",
+    "sira": 10,
+    "yayinda": true,
+    "guncelleme": "2026-04-13T20:21:28.277Z"
+  }
+}
+]
