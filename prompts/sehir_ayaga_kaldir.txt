@@ -173,7 +173,7 @@ def unseed(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('yerler', '<bir önceki yerler migrasyonu>'),  # Şu an son: 0036_seed_westerburg_yerler → bir sonraki: 0037
+        ('yerler', '<bir önceki yerler migrasyonu>'),  # Şu an son: 0041_mainz_gutenberg_icerik → bir sonraki: 0042
         ('stadt',  '<sehir_slug>_aktiv'),
     ]
     operations = [ migrations.RunPython(seed, unseed) ]
