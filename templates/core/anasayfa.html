@@ -35,9 +35,9 @@
         <div class="container">
             <h2 class="fw-bold mb-1" style="font-size: 1.1rem; color: #111827;">Şehrinizi Seçin</h2>
             <p class="mb-4" style="font-size: 0.875rem; color: #4b5563;">Şehrinize ait ilanlar, duyurular ve önemli yerler için yukarıdaki arama kutusunu kullanın ya da doğrudan şehrinizi seçin.</p>
-            <div class="row g-3">
+            <div class="sehir-kart-grid">
                 {% for s in sehirler %}
-                <div class="col-6 col-md-3">
+                <div>
                     <a href="/{{ s.eyalet.slug }}/{{ s.slug }}/"
                        class="sehir-kart d-block text-decoration-none rounded-3 overflow-hidden position-relative"
                        style="height: 200px;">
@@ -62,10 +62,10 @@
     <!-- "TAŞ" (STONE) BLOCK: Sabit Kurallar -->
     <section class="py-4">
         <div class="container">
-            <div class="row justify-content-center g-3">
+            <div class="tas-grid">
 
                 <!-- Kart 1: Ev & Kira -->
-                <div class="col-md-4 col-lg-3">
+                <div>
                     <button type="button"
                         class="d-block w-100 text-start text-decoration-none tas-card rounded-3 p-4 position-relative"
                         style="border: 1px solid #e5e7eb; background: #fff; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.07);"
@@ -80,7 +80,7 @@
                 </div>
 
                 <!-- Kart 2: Resmi Belgeler -->
-                <div class="col-md-4 col-lg-3">
+                <div>
                     <button type="button"
                         class="d-block w-100 text-start text-decoration-none tas-card rounded-3 p-4 position-relative"
                         style="border: 1px solid #e5e7eb; background: #fff; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.07);"
@@ -95,7 +95,7 @@
                 </div>
 
                 <!-- Kart 3: Almanca Pratik -->
-                <div class="col-md-4 col-lg-3">
+                <div>
                     <button type="button"
                         class="d-block w-100 text-start text-decoration-none tas-card rounded-3 p-4 position-relative"
                         style="border: 1px solid #e5e7eb; background: #fff; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.07);"
@@ -352,10 +352,10 @@
     <!-- CANLI AKIŞ: İlanlar | Forum | Duyurular -->
     <section class="py-5">
         <div class="container">
-            <div class="row g-4">
+            <div class="feed-grid">
 
                 <!-- Sol: Güncel İlanlar -->
-                <div class="col-lg-4 d-flex flex-column anasayfa-feed-col">
+                <div class="anasayfa-feed-col">
                     <h5 class="fw-bold mb-3" style="font-size: 0.9375rem; color: #111827;">
                         <i class="bi bi-tags me-2" style="color: #059669;"></i>Güncel İlanlar
                     </h5>
@@ -385,7 +385,7 @@
                 </div>
 
                 <!-- Orta: Topluluktan Son Sorular -->
-                <div class="col-lg-4 d-flex flex-column anasayfa-feed-col">
+                <div class="anasayfa-feed-col">
                     <h5 class="fw-bold mb-3" style="font-size: 0.9375rem; color: #111827;">
                         <i class="bi bi-chat-text me-2" style="color: #6366f1;"></i>Topluluktan Son Sorular
                     </h5>
@@ -414,7 +414,7 @@
                 </div>
 
                 <!-- Sağ: Duyurular -->
-                <div class="col-lg-4 d-flex flex-column anasayfa-feed-col">
+                <div class="anasayfa-feed-col">
                     <h5 class="fw-bold mb-3" style="font-size: 0.9375rem; color: #111827;">
                         <i class="bi bi-megaphone me-2" style="color: #f59e0b;"></i>Duyurular
                     </h5>
@@ -482,10 +482,10 @@
     <section class="py-5" style="background: #f9fafb; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
         <div class="container-fluid px-md-5">
             <h2 class="text-center mb-5 fw-bold" style="letter-spacing: -0.02em; font-size: 1.35rem; color: #111827;">Topluluğun Nabzı</h2>
-            <div class="row g-4 g-lg-5">
+            <div class="feed-grid">
 
                 <!-- ── Kolon 1: Rehber Makaleler ── -->
-                <div class="col-lg-4 anasayfa-feed-col">
+                <div class="anasayfa-feed-col">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <p class="fw-bold mb-0" style="font-size: 0.9375rem; color: #111827;">
                             <i class="bi bi-pencil-square me-2" style="color: #3b82f6; font-size: 0.875rem;"></i>Rehber Makaleler
@@ -513,7 +513,7 @@
                 </div>
 
                 <!-- ── Kolon 2: Haberler ── -->
-                <div class="col-lg-4 anasayfa-feed-col">
+                <div class="anasayfa-feed-col">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <p class="fw-bold mb-0" style="font-size: 0.9375rem; color: #111827;">
                             <i class="bi bi-newspaper me-2" style="color: #dc2626; font-size: 0.875rem;"></i>Haberler

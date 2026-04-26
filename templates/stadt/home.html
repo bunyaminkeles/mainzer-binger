@@ -317,10 +317,9 @@
         {% if grup.rehber_alt %}
 
           {% if grup.yerler %}
-          <div class="row g-3 mb-3 align-items-start">
+          <div class="yer-grid mb-3">
             {% for yer in grup.yerler %}
             {% with detay_url=eyalet_slug|add:"/"|add:stadt.slug|add:"/yerler/"|add:yer.pk|stringformat:"d"|add:"/" %}
-            <div class="col-md-4 col-sm-6">
               <div class="card yer-kart" style="cursor:pointer;">
                 {% if yer.kapak_resmi %}
                 <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
@@ -346,7 +345,6 @@
                   {% endif %}
                 </div>
               </div>
-            </div>
             {% endwith %}
             {% endfor %}
           </div>
@@ -385,9 +383,8 @@
 
         {% else %}
 
-          <div class="row g-3 mb-3 align-items-start">
+          <div class="yer-grid mb-3">
             {% for yer in grup.yerler %}
-            <div class="col-md-4 col-sm-6">
               <div class="card yer-kart" style="cursor:pointer;">
                 {% if yer.kapak_resmi %}
                 <img src="{{ yer.kapak_resmi }}" alt="{{ yer.ad }}"
@@ -413,7 +410,6 @@
                   {% endif %}
                 </div>
               </div>
-            </div>
             {% endfor %}
           </div>
 
@@ -508,11 +504,9 @@
 {% if yerel_isletmeler %}
 <div class="container mt-4 mb-2">
   <h4 class="mb-3"><i class="bi bi-shop me-2 text-primary"></i>{{ stadt.name }}'da Yerel İşletmeler</h4>
-  <div class="row g-3">
+  <div class="yer-grid">
     {% for isletme in yerel_isletmeler %}
-    <div class="col-sm-6 col-md-4">
       {% include "businesses/includes/_business_card.html" %}
-    </div>
     {% endfor %}
   </div>
   {% include "businesses/includes/_business_offcanvas.html" %}

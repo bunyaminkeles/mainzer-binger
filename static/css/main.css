@@ -280,3 +280,49 @@ footer a:hover {
 .text-primary { color: var(--primary) !important; }
 .text-accent  { color: var(--accent)  !important; }
 .bg-primary   { background-color: var(--primary) !important; }
+
+/* === Bootstrap Grid → CSS Grid geçişi === */
+.yer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .yer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 992px) {
+  .feed-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.tas-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .tas-grid {
+    grid-template-columns: repeat(3, minmax(0, 280px));
+    justify-content: center;
+  }
+}
+
+.sehir-kart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .sehir-kart-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.anasayfa-feed-col {
+  display: flex;
+  flex-direction: column;
+}
