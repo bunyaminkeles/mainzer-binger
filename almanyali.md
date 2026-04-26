@@ -31,12 +31,12 @@
 | E-posta | SMTP (mail.analizus.com:465, SSL) + `django-anymail` |
 | Statik Dosyalar | `whitenoise` (CompressedManifestStaticFilesStorage) |
 | Medya Dosyaları | Local FileSystem (prod: isteğe bağlı AWS S3) |
-| Zamanlayıcı | `django-crontab` + Render cron service |
+| Zamanlayıcı | `django-crontab` (systemd crontab) + cron-job.org HTTP tetikleyici |
 | RSS Parse | `feedparser` + `requests` + `beautifulsoup4` |
 | Hava Durumu | Open-Meteo API (ücretsiz, API key yok) |
 | Döviz/Altın | Fetch API ile canlı veri (front-end ticker) |
-| Container | Docker (python:3.12-slim) |
-| Hosting | Render.com (Docker web service + cron service + PostgreSQL) |
+| Container | Docker (python:3.12-slim) — lokal build için; prod'da kullanılmıyor |
+| Hosting | Hetzner VPS — Python venv + Gunicorn (systemctl) + Nginx + PostgreSQL |
 | Dosya Depolama | AWS S3 `eu-central-1` (opsiyonel, env var ile aktif) |
 | Analytics | Google Analytics 4 (G-XRHY4VQMM4) + Yandex Metrika (108351450) |
 | SEO | `django.contrib.sitemaps` + robots.txt + Schema.org JSON-LD |
@@ -591,12 +591,21 @@ Bootstrap utility veya inline style olarak kullanılır:
 .tas-card            → Hover ile elevation (transform + shadow)
 .hero                → Gradient header panel
 .anasayfa-panel      → Beyaz rounded panel with shadow
-.anasayfa-feed-col   → Feed bölümü card
+.anasayfa-feed-col   → Feed bölümü flex kolon
 .rehber-mega         → Rehber mega-dropdown (min-width: 480px)
 .rehber-mega-item    → Mega dropdown link
 .rehber-kategori     → İkon + başlık kategori kartı
 .sehir-ara-input     → Navbar içi şehir arama input
 .card-hover          → Hover'da elevation efekti (çeşitli yerlerde)
+
+/* Bootstrap Grid → CSS Grid geçişiyle eklenenler */
+.yer-grid            → Yer/işletme kartları: 2 kolon mob → 3 kolon desk (align-items:start)
+.feed-grid           → Anasayfa feed: 1 kolon mob → 3 kolon desk
+.tas-grid            → Taş kartlar: 1 kolon mob → 3 kolon desk (ortalanmış, max 280px)
+.sehir-kart-grid     → Şehir kartları: 2 kolon mob → 4 kolon desk
+.belge-grid          → Belge kartları: 2 kolon mob → 3 kolon desk (align-items:stretch, eşit yükseklik)
+.duyuru-grid         → Duyurular paneli: flexbox, full viewport height; her çocuk flex:1
+.footer-row          → Footer iki kolon: flexbox, space-between, flex-wrap
 ```
 
 ### Font
@@ -626,17 +635,18 @@ Bootstrap tamamen atılmıyor — hedef, framework bağımlılığını azaltmak
 - `main.css` içindeki `:root` değişkenleri zaten yerinde.
 - Bootstrap'in renklerini CSS var'larla override etmeye devam et.
 
-**Aşama 2 — Grid Replacement**
-- `row`/`col-*` yerine CSS Grid (`display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`)
-- Flex utility'leri (`d-flex gap-3`) zaten kolay taşınır — native `display:flex; gap:` ile aynı.
+**Aşama 2 — Grid Replacement ✅ TAMAMLANDI**
+- `row`/`col-*` yerine CSS Grid; `.yer-grid`, `.feed-grid`, `.tas-grid`, `.sehir-kart-grid` eklendi.
+- `anasayfa.html`, `stadt/home.html` (yer kartları) temizlendi.
 
-**Aşama 3 — Component Replacement**
-- `.card` → custom `.card` (zaten `main.css`'de var)
-- `.navbar` → custom CSS
-- `.btn` → custom button tokens
+**Aşama 3 — Component Replacement ✅ TAMAMLANDI**
+- Footer (`row align-items-center` → `.footer-row`), stad hero (`row g-3` → flexbox),
+  belgeler (`row g-3` → `.belge-grid`), duyurular (`row g-3` + koşullu col → `.duyuru-grid`) temizlendi.
+- `.card` zaten `main.css`'de override'lı — Bootstrap class'ı bırakılabilir.
+- `.navbar` ve `.btn` tokenları: Bootstrap class'ları kalıyor (Aşama 4 öncesi dokunma).
 - **Bootstrap Modal/Offcanvas: Kolay değiştirilmez — en son bırak.**
 
-**Aşama 4 — Bootstrap JS Silme**
+**Aşama 4 — Bootstrap JS Silme (BEKLEMEDE)**
 - Dropdown, collapse, modal JS bağımlılıkları kaldırılınca `bootstrap.bundle.min.js` kesilebilir.
 - Önce `data-bs-toggle` attribute'larını Vanilla JS ile replace et.
 
@@ -710,9 +720,6 @@ Bootstrap tamamen atılmıyor — hedef, framework bağımlılığını azaltmak
 ('0 3 * * *', 'django.core.management.call_command', ['icerik_temizle'])
     # Her gece 03:00 — süresi dolan ilan/duyuruları kapat, eski forum konularını sil
 ```
-
-### Render.com Cron Service
-Render'da ayrıca `mainzer-binger-rss` cron service 01:00 UTC'de `python manage.py rss_cek` çalıştırır.
 
 ### cron-job.org Tetikleyici
 `CRON_SECRET` env değişkeni ile dışarıdan HTTP tetiklemesi de desteklenir.
@@ -955,4 +962,4 @@ ckeditor5/        → CKEditor 5 yüklemeleri
 
 ---
 
-*Son güncelleme: Nisan 2026 — §3 Render.com → Hetzner VPS geçişi yansıtıldı*
+*Son güncelleme: Nisan 2026 — §2 Hetzner hosting düzeltildi; §9 yeni CSS Grid sınıfları eklendi; §10 Aşama 2-3 tamamlandı olarak işaretlendi; §12 Render cron servisi kaldırıldı*
