@@ -45,9 +45,9 @@
 
   <!-- Belgeler -->
   {% if aktif_kat %}
-  <div class="row g-3">
+  <div class="belge-grid">
     {% for b in belgeler %}
-    <div class="col-md-6 col-lg-4">
+    <div>
       <div class="belge-kart p-4 h-100 d-flex flex-column">
         <div class="d-flex align-items-start gap-3 mb-2">
           {% if b.dosya_uzantisi == 'pdf' %}
@@ -80,9 +80,9 @@
     <h6 class="text-uppercase fw-bold text-muted mt-4 mb-3" style="font-size:.72rem; letter-spacing:.07em;">
       <i class="bi bi-bookmark-fill me-1 text-primary"></i>{{ kat_ad }}
     </h6>
-    <div class="row g-3 mb-2">
+    <div class="belge-grid mb-2">
       {% for b in items %}
-      <div class="col-md-6 col-lg-4">
+      <div>
         <div class="belge-kart p-4 h-100 d-flex flex-column">
           <div class="d-flex align-items-start gap-3 mb-2">
             {% if b.dosya_uzantisi == 'pdf' %}

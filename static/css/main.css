@@ -326,3 +326,35 @@ footer a:hover {
   display: flex;
   flex-direction: column;
 }
+
+/* Footer iki kolon */
+.footer-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+/* Belge kartları (eşit yükseklik için align-items:stretch) */
+.belge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .belge-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Duyurular üç kolon paneli */
+.duyuru-grid {
+  display: flex;
+  gap: 0.75rem;
+  height: calc(100vh - 140px);
+}
+.duyuru-grid > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
