@@ -654,18 +654,6 @@
 
 </div>{# /container #}
 
-<!-- Yerel İşletmeler -->
-{% if yerel_isletmeler %}
-<div class="container mt-4 mb-2">
-  <h4 class="mb-3"><i class="bi bi-shop me-2 text-primary"></i>{{ stadt.name }}'da Yerel İşletmeler</h4>
-  <div class="yer-grid">
-    {% for isletme in yerel_isletmeler %}
-      {% include "businesses/includes/_business_card.html" %}
-    {% endfor %}
-  </div>
-  {% include "businesses/includes/_business_offcanvas.html" %}
-</div>
-{% endif %}
 
 <!-- Hızlı Karar Araçları -->
 {% include "includes/_karar_araclari.html" with collapsed=True %}
