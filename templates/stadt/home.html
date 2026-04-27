@@ -62,11 +62,6 @@
 <style>
   html { scroll-behavior: smooth; }
   .rehber-alt-baslik { font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6c757d; margin-top: 1.25rem; margin-bottom: .5rem; }
-  /* Yatay kategori pill nav */
-  .kat-pill-nav { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-  .kat-pill-nav::-webkit-scrollbar { display: none; }
-  .kat-pill { white-space: nowrap; }
-  .kat-pill.active { background-color: #032A4A !important; color: #fff !important; border-color: #032A4A !important; }
   /* Yer kartı hover */
   .yer-kart {
     cursor: pointer;
@@ -96,16 +91,39 @@
   }
   .wizard-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  @media (min-width: 576px) {
-    .wizard-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
   @media (min-width: 992px) {
-    .wizard-grid { grid-template-columns: repeat(4, 1fr); }
+    .wizard-grid { grid-template-columns: repeat(5, 1fr); }
+  }
+  .wizard-kart {
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1.25rem 1rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: box-shadow .2s, transform .2s, border-color .2s;
+  }
+  .wizard-kart:hover {
+    box-shadow: 0 8px 24px rgba(44,95,138,0.13);
+    transform: translateY(-3px);
+    border-color: var(--primary);
+    color: var(--text);
+  }
+  .wizard-kart.active {
+    border-color: var(--primary);
+    background: #EFF6FF;
+    box-shadow: 0 4px 16px rgba(44,95,138,0.15);
+    color: var(--primary);
+  }
+  .wizard-kart .wiz-icon {
+    font-size: 1.75rem;
+    margin-bottom: .6rem;
+    display: block;
   }
 </style>
 
@@ -381,67 +399,74 @@
   </div>
 </div>
 
-<!-- İlk Adım Sihirbazı -->
-<div class="container my-4">
-  <div class="anasayfa-panel" style="padding: 1.5rem;">
-    <h5 class="text-center mb-4 fw-bold">Size nasıl yardımcı olabiliriz?</h5>
+<!-- Niyet Seçici / Wizard -->
+<section style="background:#f0f7ff; border-top:1px solid #dbeafe; border-bottom:1px solid #dbeafe; padding:2.5rem 0; margin-top:1rem;">
+  <div class="container">
+    <p class="text-center fw-semibold mb-1" style="color:var(--primary); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase;">{{ stadt.name }}'da Rehberiniz</p>
+    <h2 class="text-center fw-bold mb-4" style="font-size:1.35rem;">Nereye yönlendirelim?</h2>
     <div class="wizard-grid">
-      <!-- Kart 1: Bürokrasi -->
-      <a href="/{{ eyalet_slug }}/blog/anmeldung-rehberi/" class="rehber-kategori h-100">
-        <i class="bi bi-file-earmark-text icon text-primary"></i>
-        <h6 class="fw-bold" style="font-size: 0.9rem;">Bürokrasi & İlk Adımlar</h6>
-        <p class="small text-muted mb-0">Anmeldung, oturum izni, vergi numarası...</p>
+      <a href="#kategori-resmi_kurum" class="wizard-kart">
+        <span class="wiz-icon">🏛️</span>
+        <span class="fw-bold mb-1" style="font-size:.95rem;">Bürokrasi & İlk Adımlar</span>
+        <span class="text-muted" style="font-size:.82rem;">Anmeldung, oturum izni, vergi numarası...</span>
       </a>
-      <!-- Kart 2: Ev & Yaşam -->
-      <a href="/{{ eyalet_slug }}/blog/wohnberechtigungsschein-wbs-nedir-nasil-alinir/" class="rehber-kategori h-100">
-        <i class="bi bi-house-door icon text-accent"></i>
-        <h6 class="fw-bold" style="font-size: 0.9rem;">Ev & Yaşam</h6>
-        <p class="small text-muted mb-0">Kiralık ev bulma, WBS, faturalar...</p>
+      <a href="#kategori-saglik" class="wizard-kart">
+        <span class="wiz-icon">🏥</span>
+        <span class="fw-bold mb-1" style="font-size:.95rem;">Sağlık</span>
+        <span class="text-muted" style="font-size:.82rem;">Doktor, hastane, eczane bulma...</span>
       </a>
-      <!-- Kart 3: İş & Kariyer -->
-      <a href="/{{ eyalet_slug }}/blog/almanyada-diploma-denkligi-zab-rehberi/" class="rehber-kategori h-100">
-        <i class="bi bi-briefcase icon" style="color: #d97706;"></i>
-        <h6 class="fw-bold" style="font-size: 0.9rem;">İş & Kariyer</h6>
-        <p class="small text-muted mb-0">İş arama, diploma denkliği, CV...</p>
+      <a href="#kategori-egitim" class="wizard-kart">
+        <span class="wiz-icon">🎓</span>
+        <span class="fw-bold mb-1" style="font-size:.95rem;">Eğitim</span>
+        <span class="text-muted" style="font-size:.82rem;">Okul, kreş, dil kursu, üniversite...</span>
       </a>
-      <!-- Kart 4: Sağlık & Aile -->
-      <a href="/{{ eyalet_slug }}/blog/almanya-saglik-sigortasi-rehberi/" class="rehber-kategori h-100">
-        <i class="bi bi-heart-pulse icon" style="color: #dc2626;"></i>
-        <h6 class="fw-bold" style="font-size: 0.9rem;">Sağlık & Aile</h6>
-        <p class="small text-muted mb-0">Doktor bulma, sigorta, okul/kreş...</p>
+      <a href="#kategori-gezi" class="wizard-kart">
+        <span class="wiz-icon">🗺️</span>
+        <span class="fw-bold mb-1" style="font-size:.95rem;">Gezi & Kültür</span>
+        <span class="text-muted" style="font-size:.82rem;">Müze, park, tarihi mekanlar...</span>
+      </a>
+      <a href="#kategori-ibadet" class="wizard-kart">
+        <span class="wiz-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" width="36" height="28" fill="currentColor" style="color:var(--primary);">
+            <!-- Sol minare -->
+            <rect x="4" y="14" width="5" height="28" rx="1"/>
+            <ellipse cx="6.5" cy="13" rx="3" ry="4"/>
+            <rect x="5" y="8" width="3" height="3" rx="1"/>
+            <rect x="5.5" y="5" width="2" height="4" rx="1"/>
+            <!-- Sağ minare -->
+            <rect x="55" y="14" width="5" height="28" rx="1"/>
+            <ellipse cx="57.5" cy="13" rx="3" ry="4"/>
+            <rect x="56" y="8" width="3" height="3" rx="1"/>
+            <rect x="56.5" y="5" width="2" height="4" rx="1"/>
+            <!-- Ana kubbe -->
+            <ellipse cx="32" cy="18" rx="13" ry="11"/>
+            <rect x="19" y="18" width="26" height="24" rx="1"/>
+            <!-- Yan kubbeler -->
+            <ellipse cx="16" cy="26" rx="7" ry="6"/>
+            <rect x="9" y="26" width="14" height="16" rx="1"/>
+            <ellipse cx="48" cy="26" rx="7" ry="6"/>
+            <rect x="41" y="26" width="14" height="16" rx="1"/>
+            <!-- Kapı -->
+            <rect x="28" y="34" width="8" height="8" rx="3"/>
+            <!-- Zemin -->
+            <rect x="0" y="42" width="64" height="3" rx="1.5"/>
+          </svg>
+        </span>
+        <span class="fw-bold mb-1" style="font-size:.95rem;">Cami & İbadet</span>
+        <span class="text-muted" style="font-size:.82rem;">Cami, İslam merkezi, Kur'an kursu...</span>
       </a>
     </div>
   </div>
-</div>
+</section>
 
-<!-- BÖLÜM 3: Önemli Yerler Dizini -->
+<!-- BÖLÜM 3: Önemli Yerler -->
 <div id="onemli-yerler" class="container mt-3">
-  <h4 class="mb-3"><i class="bi bi-geo-alt me-2 text-primary"></i>{{ stadt.name }}'da Önemli Yerler</h4>
-
-  <!-- Yatay Kategori Pill Navigasyonu -->
-  <div class="kat-pill-nav mb-4" id="kat-pill-nav">
-    <div class="d-flex gap-2 flex-nowrap py-1">
-      {% for k, v in tum_kategoriler %}
-      <a href="#kategori-{{ k }}"
-         class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-medium kat-pill"
-         data-kat="{{ k }}">
-        {{ v }}
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-
   <div class="row">
     <div class="col-12">
 
       {% for k, grup in kategoriler.items %}
 
-      <div class="mobil-kat-section" data-kat="{{ k }}" style="display:none">
-
-        <!-- Mobil: geri butonu -->
-        <button class="btn btn-sm btn-link text-muted p-0 mt-3 mb-1 d-lg-none mobil-geri" type="button" aria-label="Geri">
-          <i class="bi bi-chevron-left"></i> Geri
-        </button>
+      <div id="kategori-{{ k }}" class="mobil-kat-section" data-kat="{{ k }}" style="display:none">
 
         {% if grup.rehber_alt %}
 
@@ -766,52 +791,33 @@
 {% endif %}
 
 <script>
-  const sections  = document.querySelectorAll('.mobil-kat-section');
-  const pills     = document.querySelectorAll('.kat-pill');
-  const isMobile  = () => window.innerWidth < 992;
-
-  function setActivePill(kat) {
-    pills.forEach(p => p.classList.toggle('active', p.dataset.kat === kat));
-  }
-
-  function showSection(kat) {
-    sections.forEach(s => s.style.display = s.dataset.kat === kat ? '' : 'none');
-    setActivePill(kat);
-  }
-
-  // ── Başlangıç: hash varsa o kategoriyi, yoksa ilkini göster ──
-  const hashKat = window.location.hash.replace('#kategori-', '');
-  const hashMatch = hashKat && [...sections].find(s => s.dataset.kat === hashKat);
-  if (hashMatch) {
-    showSection(hashKat);
-    setTimeout(() => document.getElementById('kat-pill-nav').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-  } else {
-    const first = sections[0];
-    if (first) showSection(first.dataset.kat);
-  }
-
-  // ── Pill tıklama ──────────────────────────────────────────────
-  pills.forEach(pill => {
-    pill.addEventListener('click', e => {
-      e.preventDefault();
-      showSection(pill.dataset.kat);
-      document.getElementById('kat-pill-nav').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
-  });
-
-  // ── Geri butonları (section içi) ─────────────────────────────
-  document.querySelectorAll('.mobil-geri').forEach(btn => {
-    btn.addEventListener('click', () => {
-      sections.forEach(s => s.style.display = 'none');
-      pills.forEach(p => p.classList.remove('active'));
-      document.getElementById('kat-pill-nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
   // ── Arama kutusunu sayfa yüklenince temizle (back/forward cache'i engelle) ──
   const searchInput = document.getElementById('sehir-search-input');
   if (searchInput) searchInput.value = '';
   window.addEventListener('pageshow', () => { if (searchInput) searchInput.value = ''; });
+
+  // ── Wizard kart tıklama → kategori göster + scroll ───────────
+  const sections = document.querySelectorAll('.mobil-kat-section');
+
+  function showSection(kat) {
+    sections.forEach(s => s.style.display = s.dataset.kat === kat ? '' : 'none');
+  }
+
+  const wizardKartlar = document.querySelectorAll('.wizard-kart[href]');
+
+  wizardKartlar.forEach(kart => {
+    kart.addEventListener('click', e => {
+      e.preventDefault();
+      const isActive = kart.classList.contains('active');
+      sections.forEach(s => s.style.display = 'none');
+      wizardKartlar.forEach(k => k.classList.remove('active'));
+      if (!isActive) {
+        const kat = kart.getAttribute('href').replace('#kategori-', '');
+        sections.forEach(s => { if (s.dataset.kat === kat) s.style.display = ''; });
+        kart.classList.add('active');
+      }
+    });
+  });
 </script>
 
 {% endblock %}
