@@ -11,9 +11,6 @@ from blog.views import detay_root as blog_detay_root
 from duyurular import views as duyurular_views
 from core.views import llms_txt
 
-register_converter(EyaletConverter, 'eyalet')
-
-
 def legacy_stadt_redirect(request, old_slug, subpath=''):
     """Eski /<stadt_slug>/... URL'lerini /<eyalet_slug>/<stadt_slug>/... formatına yönlendirir (301)."""
     from stadt.models import Stadt

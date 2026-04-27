@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Profil
+from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
+from .models import Profil # noqa
 from ilan.models import Ilan
-from django.utils import timezone
 from takvim.models import Etkinlik
 from duyurular.models import Duyuru
 from forum.models import Konu
@@ -67,3 +70,30 @@ def kullanici_profil(request, kullanici_adi):
         'hedef': hedef,
         'profil': profil,
     })
+
+
+@login_required
+@require_POST
+def toggle_task_completion(request):
+    """
+    Kullanıcının profilindeki görev tamamlama durumunu günceller.
+    """
+    try:
+        data = json.loads(request.body)
+        task_slug = data.get('task_slug')
+        is_completed = data.get('is_completed')
+
+        if not task_slug or is_completed is None:
+            return JsonResponse({'success': False, 'message': 'Eksik veri.'}, status=400)
+
+        profile = request.user.profil
+        if is_completed and task_slug not in profile.completed_tasks:
+            profile.completed_tasks.append(task_slug)
+        elif not is_completed and task_slug in profile.completed_tasks:
+            profile.completed_tasks.remove(task_slug)
+        profile.save()
+        return JsonResponse({'success': True, 'completed_tasks': profile.completed_tasks})
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'Geçersiz JSON.'}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)

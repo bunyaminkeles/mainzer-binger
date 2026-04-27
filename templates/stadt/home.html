@@ -83,12 +83,16 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 10px;
+    transition: transform 0.4s ease-out;
   }
   .hero-photo-col {
-    max-height: 300px;
+    /* max-height: 300px; */
     overflow: hidden;
     border-radius: 10px;
+    display: block;
+  }
+  .hero-photo-col:hover .hero-photo-img {
+    transform: scale(1.05);
   }
 </style>
 
@@ -106,8 +110,9 @@
     <!-- MOBİL LAYOUT (d-md-none) -->
     <div class="d-md-none">
       {% if stadt.kapak_resmi_url %}
-      <img src="{{ stadt.kapak_resmi_url }}" alt="{{ stadt.name }}" referrerpolicy="no-referrer"
-           style="width:100%; height:160px; object-fit:cover; border-radius:10px; display:block; margin-bottom:0.75rem;">
+      <div class="hero-photo-col" style="height: 160px; margin-bottom: 0.75rem;">
+        <img src="{{ stadt.kapak_resmi_url }}" alt="{{ stadt.name }}" referrerpolicy="no-referrer" class="hero-photo-img">
+      </div>
       {% endif %}
 
       {% if hava %}
@@ -144,9 +149,9 @@
     <!-- MASAÜSTÜ LAYOUT (d-none d-md-flex) -->
     <div class="d-none d-md-flex align-items-center gap-3">
       {% if stadt.kapak_resmi_url %}
-      <div style="flex: 0 0 25%;">
+      <div class="hero-photo-col" style="flex: 0 0 25%; height: 160px;">
         <img src="{{ stadt.kapak_resmi_url }}" alt="{{ stadt.name }}" referrerpolicy="no-referrer"
-             style="width:100%; height:160px; object-fit:cover; border-radius:10px; display:block;">
+             class="hero-photo-img">
       </div>
       {% endif %}
       <div class="flex-grow-1">
@@ -202,11 +207,14 @@
 
 <!-- İlk 100 Gün Offcanvas -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="ilk100Offcanvas" style="max-width:400px;">
-  <div class="offcanvas-header border-bottom" style="background:#fffbeb;">
-    <h5 class="offcanvas-title fw-bold">
-      <i class="bi bi-stars me-2" style="color:#f59e0b;"></i>{{ stadt.name }}'da İlk 100 Gün
-    </h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  <div class="offcanvas-header border-bottom align-items-start" style="background:#fffbeb;">
+    <div>
+      <h5 class="offcanvas-title fw-bold mb-1">
+        <i class="bi bi-stars me-2" style="color:#f59e0b;"></i>{{ stadt.name }}'da İlk 100 Gün
+      </h5>
+      <p class="small text-muted mb-0">Yeni hayatınıza başlarken adımlarınızı buradan takip edin.</p>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Kapat"></button>
   </div>
   <div class="offcanvas-body p-0">
 
@@ -214,7 +222,7 @@
     <div class="p-4 border-bottom">
       <div class="d-flex align-items-start gap-3">
         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">1</div>
+             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;" id="task-anmeldung-status">{% if request.user.is_authenticated and 'anmeldung' in request.user.profil.completed_tasks %}<i class="bi bi-check-lg"></i>{% else %}1{% endif %}</div>
         <div>
           <div class="fw-semibold mb-1">İkametgah Kaydı (Anmeldung)</div>
           <p class="small text-muted mb-2">Taşındıktan sonra 14 gün içinde yapılması zorunlu. Tüm işlemlerin temeli.</p>
@@ -222,20 +230,30 @@
             <i class="bi bi-info-circle me-1"></i>Nasıl Yapılır?
           </a>
         </div>
+        <div class="form-check form-switch ms-auto">
+          <input class="form-check-input task-checkbox" type="checkbox" role="switch" id="task-anmeldung" data-task-slug="anmeldung"
+                 {% if request.user.is_authenticated and 'anmeldung' in request.user.profil.completed_tasks %}checked{% endif %}>
+          <label class="form-check-label visually-hidden" for="task-anmeldung">Görevi tamamla</label>
+        </div>
       </div>
     </div>
 
     <!-- Adım 2 -->
     <div class="p-4 border-bottom">
       <div class="d-flex align-items-start gap-3">
-        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">2</div>
+        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 task-status-circle" id="task-banka_hesabi-status"
+             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">{% if request.user.is_authenticated and 'banka_hesabi' in request.user.profil.completed_tasks %}<i class="bi bi-check-lg"></i>{% else %}2{% endif %}</div>
         <div>
-          <div class="fw-semibold mb-1">Yabancılar Dairesi (ABH) Randevusu</div>
-          <p class="small text-muted mb-2">Oturma izni ve diğer işlemler için randevu almak için.</p>
-          <a href="{{ stadt.auslaenderbehorde_url|default:'#' }}"{% if stadt.auslaenderbehorde_url %} target="_blank" rel="noopener"{% endif %} class="btn btn-sm btn-primary">
-            <i class="bi bi-calendar-check me-1"></i>Randevu Al
+          <div class="fw-semibold mb-1">Banka Hesabı Açma</div>
+          <p class="small text-muted mb-2">Maaş, kira ve diğer ödemeler için Almanya'da bir banka hesabı açmalısın.</p>
+          <a href="/{{ eyalet_slug }}/blog/almanya-banka-hesabi-acma/" class="btn btn-sm btn-primary">
+            <i class="bi bi-info-circle me-1"></i>Nasıl Yapılır?
           </a>
+        </div>
+        <div class="form-check form-switch ms-auto">
+          <input class="form-check-input task-checkbox" type="checkbox" role="switch" id="task-banka_hesabi" data-task-slug="banka_hesabi"
+                 {% if request.user.is_authenticated and 'banka_hesabi' in request.user.profil.completed_tasks %}checked{% endif %}>
+          <label class="form-check-label visually-hidden" for="task-banka_hesabi">Görevi tamamla</label>
         </div>
       </div>
     </div>
@@ -243,14 +261,59 @@
     <!-- Adım 3 -->
     <div class="p-4 border-bottom">
       <div class="d-flex align-items-start gap-3">
-        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">3</div>
+        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 task-status-circle" id="task-steuer_id-status"
+             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">{% if request.user.is_authenticated and 'steuer_id' in request.user.profil.completed_tasks %}<i class="bi bi-check-lg"></i>{% else %}3{% endif %}</div>
         <div>
-          <div class="fw-semibold mb-1">Elektrik &amp; İnternet Bağlatma</div>
-          <p class="small text-muted mb-2">Ev sözleşmeleri için IBAN ve Anmeldung belgesi gerekir. Sağlayıcı karşılaştırması için Check24 kullanabilirsiniz.</p>
-          <a href="https://www.check24.de" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-box-arrow-up-right me-1"></i>Check24
+          <div class="fw-semibold mb-1">Vergi Kimlik Numarası (Steuer-ID)</div>
+          <p class="small text-muted mb-2">İşverenine vermen gereken ve postayla gelen önemli bir numara.</p>
+          <a href="/{{ eyalet_slug }}/blog/almanya-steuer-id-nedir/" class="btn btn-sm btn-primary">
+            <i class="bi bi-info-circle me-1"></i>Nasıl Yapılır?
           </a>
+        </div>
+        <div class="form-check form-switch ms-auto">
+          <input class="form-check-input task-checkbox" type="checkbox" role="switch" id="task-steuer_id" data-task-slug="steuer_id"
+                 {% if request.user.is_authenticated and 'steuer_id' in request.user.profil.completed_tasks %}checked{% endif %}>
+          <label class="form-check-label visually-hidden" for="task-steuer_id">Görevi tamamla</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adım 4 -->
+    <div class="p-4 border-bottom">
+      <div class="d-flex align-items-start gap-3">
+        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 task-status-circle" id="task-krankenversicherung-status"
+             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">{% if request.user.is_authenticated and 'krankenversicherung' in request.user.profil.completed_tasks %}<i class="bi bi-check-lg"></i>{% else %}4{% endif %}</div>
+        <div>
+          <div class="fw-semibold mb-1">Sağlık Sigortası (Krankenversicherung)</div>
+          <p class="small text-muted mb-2">Almanya'da yasal zorunluluk. İşverenine bildirmelisin.</p>
+          <a href="/{{ eyalet_slug }}/blog/almanya-saglik-sigortasi-rehberi/" class="btn btn-sm btn-primary">
+            <i class="bi bi-info-circle me-1"></i>Nasıl Yapılır?
+          </a>
+        </div>
+        <div class="form-check form-switch ms-auto">
+          <input class="form-check-input task-checkbox" type="checkbox" role="switch" id="task-krankenversicherung" data-task-slug="krankenversicherung"
+                 {% if request.user.is_authenticated and 'krankenversicherung' in request.user.profil.completed_tasks %}checked{% endif %}>
+          <label class="form-check-label visually-hidden" for="task-krankenversicherung">Görevi tamamla</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adım 5 -->
+    <div class="p-4 border-bottom">
+      <div class="d-flex align-items-start gap-3">
+        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 task-status-circle" id="task-abh_termin-status"
+             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">{% if request.user.is_authenticated and 'abh_termin' in request.user.profil.completed_tasks %}<i class="bi bi-check-lg"></i>{% else %}5{% endif %}</div>
+        <div>
+          <div class="fw-semibold mb-1">Yabancılar Dairesi (ABH) Randevusu</div>
+          <p class="small text-muted mb-2">Oturma izni ve diğer işlemler için randevu almak için.</p>
+          <a href="{{ stadt.auslaenderbehorde_url|default:'#' }}"{% if stadt.auslaenderbehorde_url %} target="_blank" rel="noopener"{% endif %} class="btn btn-sm btn-primary">
+            <i class="bi bi-calendar-check me-1"></i>Randevu Al
+          </a>
+        </div>
+        <div class="form-check form-switch ms-auto">
+          <input class="form-check-input task-checkbox" type="checkbox" role="switch" id="task-abh_termin" data-task-slug="abh_termin"
+                 {% if request.user.is_authenticated and 'abh_termin' in request.user.profil.completed_tasks %}checked{% endif %}>
+          <label class="form-check-label visually-hidden" for="task-abh_termin">Görevi tamamla</label>
         </div>
       </div>
     </div>
@@ -565,6 +628,76 @@
   setTimeout(dongu, 1200);
 })();
 </script>
+
+{% if request.user.is_authenticated %}
+<script>
+// ── İlk 100 Gün Offcanvas Görev Yönetimi ────────────────────────────
+(function () {
+  const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+  const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+  // Görev durumunu güncelleyen fonksiyon
+  function updateTaskStatusUI(taskSlug, isCompleted) {
+    const statusCircle = document.getElementById(`task-${taskSlug}-status`);
+    if (statusCircle) {
+      if (isCompleted) {
+        statusCircle.innerHTML = '<i class="bi bi-check-lg"></i>';
+        statusCircle.style.backgroundColor = 'var(--accent)'; // Yeşil
+        statusCircle.style.color = '#fff';
+      } else {
+        // Görev numarasına geri dön
+        const taskNumber = Array.from(taskCheckboxes).findIndex(cb => cb.dataset.taskSlug === taskSlug) + 1;
+        statusCircle.innerHTML = taskNumber.toString();
+        statusCircle.style.backgroundColor = '#dbeafe'; // Mavi
+        statusCircle.style.color = '#1d4ed8';
+      }
+    }
+  }
+
+  // Sayfa yüklendiğinde mevcut görev durumlarını ayarla
+  taskCheckboxes.forEach(checkbox => {
+    updateTaskStatusUI(checkbox.dataset.taskSlug, checkbox.checked);
+  });
+
+  taskCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', async (event) => {
+      const taskSlug = event.target.dataset.taskSlug;
+      const isCompleted = event.target.checked;
+
+      // Optimistic UI update
+      updateTaskStatusUI(taskSlug, isCompleted);
+
+      try {
+        const response = await fetch('{% url "accounts:toggle_task_completion" %}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+          body: JSON.stringify({ task_slug: taskSlug, is_completed: isCompleted }),
+        });
+
+        if (!response.ok) {
+          // Eğer backend hatası olursa, UI'ı eski haline getir
+          event.target.checked = !isCompleted;
+          updateTaskStatusUI(taskSlug, !isCompleted);
+          const errorData = await response.json();
+          console.error('Görev güncelleme hatası:', errorData.message);
+          alert('Görev güncellenirken bir hata oluştu: ' + errorData.message);
+        }
+        // Başarılı olursa bir şey yapmaya gerek yok, UI zaten güncellendi
+      } catch (error) {
+        // Ağ hatası veya diğer hatalar
+        event.target.checked = !isCompleted;
+        updateTaskStatusUI(taskSlug, !isCompleted);
+        console.error('Fetch hatası:', error);
+        alert('Sunucuya bağlanırken bir hata oluştu.');
+      }
+    });
+  });
+})();
+</script>
+{% endif %}
 
 <script>
   const sections  = document.querySelectorAll('.mobil-kat-section');
