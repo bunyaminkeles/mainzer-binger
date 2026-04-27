@@ -69,7 +69,9 @@
       {% if isletmeler %}
       <div class="yer-grid">
         {% for isletme in isletmeler %}
+        <div style="min-width:0;">
           {% include "businesses/includes/_business_card.html" %}
+        </div>
         {% endfor %}
       </div>
       {% else %}
