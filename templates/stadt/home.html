@@ -94,6 +94,19 @@
   .hero-photo-col:hover .hero-photo-img {
     transform: scale(1.05);
   }
+  .wizard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 576px) {
+    .wizard-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 992px) {
+    .wizard-grid { grid-template-columns: repeat(4, 1fr); }
+  }
 </style>
 
 <!-- BÖLÜM 1: Hero -->
@@ -318,6 +331,26 @@
       </div>
     </div>
 
+    <!-- Adım 6 -->
+    <div class="p-4 border-bottom">
+      <div class="d-flex align-items-start gap-3">
+        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 task-status-circle" id="task-rundfunkbeitrag-status"
+             style="width:36px;height:36px;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:0.85rem;">{% if request.user.is_authenticated and 'rundfunkbeitrag' in request.user.profil.completed_tasks %}<i class="bi bi-check-lg"></i>{% else %}6{% endif %}</div>
+        <div>
+          <div class="fw-semibold mb-1">Rundfunkbeitrag (GEZ) Kaydı</div>
+          <p class="small text-muted mb-2">Anmeldung sonrası adresinize gelen mektupla TV/Radyo vergisi kaydınızı yapmalısınız.</p>
+          <a href="/{{ eyalet_slug }}/blog/rundfunkbeitrag-gez-nedir/" class="btn btn-sm btn-primary">
+            <i class="bi bi-info-circle me-1"></i>Nasıl Yapılır?
+          </a>
+        </div>
+        <div class="form-check form-switch ms-auto">
+          <input class="form-check-input task-checkbox" type="checkbox" role="switch" id="task-rundfunkbeitrag" data-task-slug="rundfunkbeitrag"
+                 {% if request.user.is_authenticated and 'rundfunkbeitrag' in request.user.profil.completed_tasks %}checked{% endif %}>
+          <label class="form-check-label visually-hidden" for="task-rundfunkbeitrag">Görevi tamamla</label>
+        </div>
+      </div>
+    </div>
+
     <!-- Daha fazlası -->
     <div class="p-4 text-center">
       <p class="small text-muted mb-2">Daha fazla adım yakında eklenecek.</p>
@@ -345,6 +378,39 @@
           style="background:#032A4A; color:#fff; padding:0.55rem 1.5rem; font-size:0.95rem;">Ara</button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- İlk Adım Sihirbazı -->
+<div class="container my-4">
+  <div class="anasayfa-panel" style="padding: 1.5rem;">
+    <h5 class="text-center mb-4 fw-bold">Size nasıl yardımcı olabiliriz?</h5>
+    <div class="wizard-grid">
+      <!-- Kart 1: Bürokrasi -->
+      <a href="/{{ eyalet_slug }}/blog/anmeldung-rehberi/" class="rehber-kategori h-100">
+        <i class="bi bi-file-earmark-text icon text-primary"></i>
+        <h6 class="fw-bold" style="font-size: 0.9rem;">Bürokrasi & İlk Adımlar</h6>
+        <p class="small text-muted mb-0">Anmeldung, oturum izni, vergi numarası...</p>
+      </a>
+      <!-- Kart 2: Ev & Yaşam -->
+      <a href="/{{ eyalet_slug }}/blog/wohnberechtigungsschein-wbs-nedir-nasil-alinir/" class="rehber-kategori h-100">
+        <i class="bi bi-house-door icon text-accent"></i>
+        <h6 class="fw-bold" style="font-size: 0.9rem;">Ev & Yaşam</h6>
+        <p class="small text-muted mb-0">Kiralık ev bulma, WBS, faturalar...</p>
+      </a>
+      <!-- Kart 3: İş & Kariyer -->
+      <a href="/{{ eyalet_slug }}/blog/almanyada-diploma-denkligi-zab-rehberi/" class="rehber-kategori h-100">
+        <i class="bi bi-briefcase icon" style="color: #d97706;"></i>
+        <h6 class="fw-bold" style="font-size: 0.9rem;">İş & Kariyer</h6>
+        <p class="small text-muted mb-0">İş arama, diploma denkliği, CV...</p>
+      </a>
+      <!-- Kart 4: Sağlık & Aile -->
+      <a href="/{{ eyalet_slug }}/blog/almanya-saglik-sigortasi-rehberi/" class="rehber-kategori h-100">
+        <i class="bi bi-heart-pulse icon" style="color: #dc2626;"></i>
+        <h6 class="fw-bold" style="font-size: 0.9rem;">Sağlık & Aile</h6>
+        <p class="small text-muted mb-0">Doktor bulma, sigorta, okul/kreş...</p>
+      </a>
+    </div>
   </div>
 </div>
 
