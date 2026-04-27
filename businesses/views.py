@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.db.models import F
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from .models import LocalBusiness, BusinessAnalytics
+from .models import LocalBusiness, BusinessAnalytics, BusinessCategory
 
 
 def business_list(request):
@@ -57,3 +57,58 @@ def track_business_click(request, slug):
         BusinessAnalytics.objects.filter(pk=record.pk).update(whatsapp_clicks=F('whatsapp_clicks') + 1)
 
     return JsonResponse({'status': 'ok'})
+
+
+def category_list(request, kategori_slug):
+    kategori = get_object_or_404(BusinessCategory, slug=kategori_slug)
+    today = timezone.localdate()
+
+    isletmeler = list(
+        LocalBusiness.objects
+        .filter(category=kategori, is_published=True, end_date__gte=today)
+        .select_related('city', 'category', 'subscription_plan')
+        .order_by('name')
+    )
+
+    tum_kategoriler = BusinessCategory.objects.all().order_by('name')
+
+    # Schema.org — ItemList + LocalBusiness
+    liste_elemanlari = []
+    for idx, isletme in enumerate(isletmeler, 1):
+        item = {
+            "@type": "ListItem",
+            "position": idx,
+            "item": {
+                "@type": "LocalBusiness",
+                "name": isletme.name,
+            },
+        }
+        if isletme.description or isletme.slogan:
+            item["item"]["description"] = isletme.description or isletme.slogan
+        if isletme.city:
+            item["item"]["address"] = {
+                "@type": "PostalAddress",
+                "addressLocality": isletme.city.name,
+                "addressCountry": "DE",
+            }
+        if isletme.whatsapp_number:
+            item["item"]["telephone"] = isletme.whatsapp_number
+        if isletme.website_url:
+            item["item"]["url"] = isletme.website_url
+        liste_elemanlari.append(item)
+
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": f"{kategori.name} — Lokal Uzmanlar",
+        "description": f"Almanya'da Türkçe hizmet veren {kategori.name.lower()} uzmanları",
+        "numberOfItems": len(liste_elemanlari),
+        "itemListElement": liste_elemanlari,
+    }
+
+    return render(request, 'businesses/category_list.html', {
+        'kategori': kategori,
+        'isletmeler': isletmeler,
+        'tum_kategoriler': tum_kategoriler,
+        'schema_json': json.dumps(schema, ensure_ascii=False),
+    })

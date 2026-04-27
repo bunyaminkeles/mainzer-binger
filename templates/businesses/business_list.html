@@ -27,14 +27,26 @@
       <!-- Kategori başlığı -->
       <div class="d-flex align-items-center gap-2 mb-3">
         {% if grup.kategori and grup.kategori.icon %}
-          <i class="bi bi-{{ grup.kategori.icon }} fs-5" style="color:#2563EB;"></i>
+          <i class="bi bi-{{ grup.kategori.icon }} fs-5" style="color:var(--primary);"></i>
         {% else %}
-          <i class="bi bi-grid-3x3-gap fs-5" style="color:#2563EB;"></i>
+          <i class="bi bi-grid-3x3-gap fs-5" style="color:var(--primary);"></i>
         {% endif %}
-        <h2 class="h6 fw-bold mb-0 text-uppercase" style="letter-spacing:.08em;">
-          {{ grup.kategori.name|default:"Diğer" }}
-        </h2>
+        {% if grup.kategori %}
+        <a href="{% url 'businesses:category_list' kategori_slug=grup.kategori.slug %}"
+           class="h6 fw-bold mb-0 text-uppercase text-decoration-none"
+           style="letter-spacing:.08em;color:var(--text);">
+          {{ grup.kategori.name }}
+        </a>
+        {% else %}
+        <span class="h6 fw-bold mb-0 text-uppercase" style="letter-spacing:.08em;">Diğer</span>
+        {% endif %}
         <div class="flex-grow-1 border-bottom" style="border-color:#E2E8F0!important;"></div>
+        {% if grup.kategori %}
+        <a href="{% url 'businesses:category_list' kategori_slug=grup.kategori.slug %}"
+           class="small text-decoration-none" style="color:var(--primary);white-space:nowrap;">
+          Tümünü gör <i class="bi bi-arrow-right"></i>
+        </a>
+        {% endif %}
       </div>
 
       <!-- Kartlar -->
