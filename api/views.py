@@ -4,7 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.conf import settings
 from django.core.management import call_command
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from datetime import timedelta
 from rehber.models import BultenAbone
+from businesses.models import GlobalSetting, LocalBusiness, BusinessAnalytics
 
 
 @csrf_exempt
@@ -201,3 +205,44 @@ def seed_calistir(request):
         'timestamp': timezone.now().isoformat(),
         'ciktilar': ciktilar,
     })
+
+
+@login_required
+def business_analytics_api(request):
+    """
+    Giriş yapmış kullanıcının sahip olduğu işletmenin son 30 günlük
+    analitik verilerini JSON olarak döner.
+    """
+    settings = GlobalSetting.load()
+    if not settings.is_business_module_active:
+        return JsonResponse({'status': 'error', 'message': 'Bu modül aktif değil.'}, status=404)
+
+    try:
+        business = LocalBusiness.objects.get(owner=request.user, is_published=True)
+    except LocalBusiness.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Hesabınıza atanmış bir işletme bulunamadı.'}, status=404)
+    except LocalBusiness.MultipleObjectsReturned:
+        business = LocalBusiness.objects.filter(owner=request.user, is_published=True).first()
+
+    thirty_days_ago = timezone.now().date() - timedelta(days=30)
+
+    data = BusinessAnalytics.objects.filter(
+        business=business,
+        date__gte=thirty_days_ago
+    ).aggregate(
+        total_views=Sum('views'),
+        total_whatsapp_clicks=Sum('whatsapp_clicks')
+    )
+
+    response_data = {
+        'status': 'success',
+        'business_id': business.id,
+        'business_name': business.name,
+        'period_days': 30,
+        'analytics': {
+            'views': data.get('total_views') or 0,
+            'whatsapp_clicks': data.get('total_whatsapp_clicks') or 0,
+        }
+    }
+
+    return JsonResponse(response_data)

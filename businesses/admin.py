@@ -38,6 +38,7 @@ class LocalBusinessAdmin(ModelAdmin):
     warn_unsaved_changes = True
     list_display = (
         'name',
+        'owner',
         'city',
         'category',
         'subscription_plan',
@@ -46,7 +47,7 @@ class LocalBusinessAdmin(ModelAdmin):
         'is_verified',
     )
     list_filter = ('city', 'subscription_plan', 'is_published', 'is_verified', 'category')
-    search_fields = ('name', 'slug', 'whatsapp_number')
+    search_fields = ('name', 'slug', 'whatsapp_number', 'owner__username')
     prepopulated_fields = {'slug': ('name',)}
     readonly_fields = ('created_at', 'updated_at')
 
@@ -62,6 +63,9 @@ class LocalBusinessAdmin(ModelAdmin):
         }),
         ('İletişim', {
             'fields': ('whatsapp_number', 'instagram_url', 'website_url'),
+        }),
+        ('Sahip', {
+            'fields': ('owner',),
         }),
         ('Abonelik & Yönetim', {
             'fields': (

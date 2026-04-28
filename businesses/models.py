@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 
 class GlobalSetting(models.Model):
@@ -61,6 +62,15 @@ class BusinessCategory(models.Model):
 
 class LocalBusiness(models.Model):
     """Ana işletme modeli — tüm rehber kartlarının kaynağı."""
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='owned_businesses',
+        verbose_name="İşletme Sahibi"
+    )
 
     # — Kimlik —
     name = models.CharField(max_length=200, verbose_name='İşletme Adı')
@@ -140,7 +150,7 @@ class BusinessAnalytics(models.Model):
         related_name='analytics',
         verbose_name='İşletme',
     )
-    date = models.DateField(auto_now_add=True, verbose_name='Tarih')
+    date = models.DateField(verbose_name='Tarih')
     views = models.PositiveIntegerField(default=0, verbose_name='Görüntülenme')
     whatsapp_clicks = models.PositiveIntegerField(default=0, verbose_name='WhatsApp Tıklaması')
 

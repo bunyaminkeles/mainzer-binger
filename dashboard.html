@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - Almanyalı Rehber{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">İşletme Analitik Paneli</h1>
+
+    {% if business %}
+        <div class="alert alert-info" role="alert">
+            <strong>{{ business.name }}</strong> profili için son 30 günlük verileri görüntülüyorsunuz.
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card widget-card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-eye-fill fs-3 me-3" style="color: var(--primary);"></i>
+                            <div>
+                                <h5 class="card-title mb-0">Profil Görüntülenme</h5>
+                                <p class="card-text text-muted">Son 30 gün</p>
+                            </div>
+                        </div>
+                        <p class="display-4 fw-bold mt-auto mb-0">{{ analytics.total_views }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card widget-card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-whatsapp fs-3 me-3" style="color: var(--accent);"></i>
+                            <div>
+                                <h5 class="card-title mb-0">WhatsApp Tıklamaları</h5>
+                                <p class="card-text text-muted">Son 30 gün</p>
+                            </div>
+                        </div>
+                        <p class="display-4 fw-bold mt-auto mb-0">{{ analytics.total_whatsapp_clicks }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <h5 class="card-title">İşletme Bulunamadı</h5>
+                <p class="card-text text-muted">Hesabınıza atanmış aktif bir işletme profili bulunmamaktadır.</p>
+                <p class="text-muted small">Eğer bir işletme sahibiyseniz ve profilinizin hesabınıza bağlanmasını istiyorsanız, lütfen bizimle iletişime geçin.</p>
+                <a href="mailto:info@analizus.com" class="btn btn-primary mt-2">İletişime Geç</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

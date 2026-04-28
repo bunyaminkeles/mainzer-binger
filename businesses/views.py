@@ -1,10 +1,13 @@
 import json
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.db.models import F
+from django.http import JsonResponse, Http404
+from django.db.models import F, Sum
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from .models import LocalBusiness, BusinessAnalytics, BusinessCategory
+from django.contrib.auth.decorators import login_required
+from datetime import timedelta
+
+from .models import LocalBusiness, BusinessAnalytics, BusinessCategory, GlobalSetting
 from stadt.models import Stadt
 
 
@@ -201,4 +204,42 @@ def stadt_category_list(request, eyalet_slug, stadt_slug, kategori_slug):
         'stadt': stadt,
         'eyalet_slug': eyalet_slug,
         'schema_json': json.dumps(schema, ensure_ascii=False),
+    })
+
+
+@login_required
+def business_dashboard(request):
+    if not GlobalSetting.load().is_business_module_active:
+        raise Http404
+
+    # Giriş yapmış kullanıcının sahip olduğu işletmeyi bul
+    try:
+        business = LocalBusiness.objects.get(owner=request.user, is_published=True)
+    except LocalBusiness.DoesNotExist:
+        business = None
+    except LocalBusiness.MultipleObjectsReturned:
+        # Bir kullanıcının birden fazla işletmesi varsa ilkini al
+        business = LocalBusiness.objects.filter(owner=request.user, is_published=True).first()
+
+    analytics_data = {'total_views': 0, 'total_whatsapp_clicks': 0}
+    gunluk_json = '[]'
+
+    if business:
+        thirty_days_ago = timezone.now().date() - timedelta(days=30)
+        qs = BusinessAnalytics.objects.filter(business=business, date__gte=thirty_days_ago)
+
+        totals = qs.aggregate(total_views=Sum('views'), total_whatsapp_clicks=Sum('whatsapp_clicks'))
+        analytics_data['total_views'] = totals['total_views'] or 0
+        analytics_data['total_whatsapp_clicks'] = totals['total_whatsapp_clicks'] or 0
+
+        gunluk_data = [
+            {'tarih': str(a['date']), 'goruntulenme': a['views'], 'wp': a['whatsapp_clicks']}
+            for a in qs.order_by('date').values('date', 'views', 'whatsapp_clicks')
+        ]
+        gunluk_json = json.dumps(gunluk_data[-14:], ensure_ascii=False)
+
+    return render(request, 'businesses/dashboard.html', {
+        'business': business,
+        'analytics': analytics_data,
+        'gunluk_json': gunluk_json,
     })

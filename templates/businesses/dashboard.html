@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% block title %}İşletme Paneli{% if business %} — {{ business.name }}{% endif %}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .biz-hero {
+    background: linear-gradient(135deg, var(--primary) 0%, #1a3d5c 60%, var(--accent) 100%);
+    color: #fff;
+    padding: 2rem 0 3rem;
+    margin-bottom: -1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .biz-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1.5rem;
+    background: var(--bg);
+    border-radius: 14px 14px 0 0;
+  }
+  .biz-hero .deco {
+    position: absolute; right: -60px; top: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.07);
+    pointer-events: none;
+  }
+  .biz-logo-circle {
+    width: 56px; height: 56px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: #fff; font-weight: 700; flex-shrink: 0;
+  }
+
+  /* Grafik */
+  .bar-chart-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 140px;
+    padding-top: 1rem;
+  }
+  .bar-group {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    flex: 1; min-width: 0;
+  }
+  .bar-group .bars {
+    display: flex; align-items: flex-end; gap: 2px; width: 100%; height: 110px;
+  }
+  .bar-group .bar {
+    flex: 1; border-radius: 4px 4px 0 0; min-height: 2px;
+    transition: opacity 0.2s;
+  }
+  .bar-group .bar:hover { opacity: 0.8; }
+  .bar-group .bar.views { background: var(--primary); }
+  .bar-group .bar.wp    { background: var(--accent); }
+  .bar-group .bar-label {
+    font-size: 0.62rem; color: var(--text-muted);
+    text-align: center; margin-top: 4px; white-space: nowrap; overflow: hidden;
+  }
+  .chart-legend { display: flex; gap: 1rem; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem; }
+  .chart-legend span { display: flex; align-items: center; gap: 5px; }
+  .chart-legend .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+  /* Boş durum */
+  .empty-biz {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; text-align: center; padding: 3rem 2rem;
+    max-width: 480px; margin: 4rem auto;
+  }
+  .empty-biz i { font-size: 2.5rem; color: var(--text-muted); display: block; margin-bottom: 1rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if not business %}
+<div class="container py-4">
+  <div class="empty-biz">
+    <i class="bi bi-shop-window"></i>
+    <h5 class="fw-bold mb-2">İşletme bulunamadı</h5>
+    <p class="text-muted mb-3" style="font-size:0.9rem;">
+      Hesabınıza bağlı aktif bir işletme yok veya işletmeniz henüz yayına alınmamış.
+      Yöneticinizle iletişime geçin.
+    </p>
+    <a href="/lokal-uzmanlar/" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-arrow-left me-1"></i>Lokal Uzmanlar
+    </a>
+  </div>
+</div>
+{% else %}
+
+<!-- Hero -->
+<div class="biz-hero">
+  <div class="deco"></div>
+  <div class="container">
+    <div class="d-flex align-items-center gap-3">
+      <div class="biz-logo-circle">
+        {% if business.category and business.category.icon %}
+          <i class="bi {{ business.category.icon }}"></i>
+        {% else %}
+          {{ business.name|first|upper }}
+        {% endif %}
+      </div>
+      <div>
+        <div style="font-size:1.4rem;font-weight:700;">{{ business.name }}</div>
+        <div style="font-size:0.85rem;opacity:0.8;">
+          {% if business.category %}<i class="bi bi-tag me-1"></i>{{ business.category.name }} &ensp;•&ensp;{% endif %}
+          {% if business.city %}<i class="bi bi-geo-alt me-1"></i>{{ business.city.name }}{% endif %}
+          {% if business.is_currently_active %}
+            &ensp;<span class="badge" style="background:rgba(255,255,255,0.2);font-size:0.72rem;">Aktif</span>
+          {% else %}
+            &ensp;<span class="badge" style="background:rgba(220,38,38,0.6);font-size:0.72rem;">Pasif</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5" style="margin-top:2rem;">
+
+  <!-- Metrik Kartları -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="widget-card h-100">
+        <div class="widget-icon"><i class="bi bi-eye-fill"></i></div>
+        <div class="widget-title mt-2">Görüntülenme</div>
+        <div class="widget-value">{{ analytics.total_views }}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">son 30 gün</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="widget-card h-100" style="border-left-color:var(--primary);">
+        <div class="widget-icon" style="color:var(--primary);"><i class="bi bi-whatsapp"></i></div>
+        <div class="widget-title mt-2">WhatsApp Tıklama</div>
+        <div class="widget-value">{{ analytics.total_whatsapp_clicks }}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">son 30 gün</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="widget-card h-100" style="border-left-color:#805AD5;">
+        <div class="widget-icon" style="color:#805AD5;"><i class="bi bi-box-seam"></i></div>
+        <div class="widget-title mt-2">Abonelik Paketi</div>
+        <div class="widget-value" style="font-size:1.1rem;">
+          {{ business.subscription_plan.name|default:"—" }}
+        </div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">
+          {% if business.end_date %}{{ business.end_date|date:"d.m.Y" }}'e kadar{% else %}—{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      {% if business.end_date %}
+        {% with kalan=business.end_date|timeuntil %}
+        <div class="widget-card h-100" style="border-left-color:{% if business.is_currently_active %}#059669{% else %}#dc2626{% endif %};">
+          <div class="widget-icon" style="color:{% if business.is_currently_active %}#059669{% else %}#dc2626{% endif %};"><i class="bi bi-calendar-check"></i></div>
+          <div class="widget-title mt-2">Bitiş Tarihi</div>
+          <div class="widget-value" style="font-size:1.1rem;">{{ business.end_date|date:"d.m.Y" }}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">{{ kalan }} kaldı</div>
+        </div>
+        {% endwith %}
+      {% else %}
+        <div class="widget-card h-100" style="border-left-color:#6b7280;">
+          <div class="widget-icon" style="color:#6b7280;"><i class="bi bi-calendar-x"></i></div>
+          <div class="widget-title mt-2">Bitiş Tarihi</div>
+          <div class="widget-value" style="font-size:1.1rem;">—</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">Tarih belirlenmemiş</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Grafik Bölümü -->
+  <div class="anasayfa-panel mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h6 class="fw-bold mb-0" style="color:var(--primary);">
+        <i class="bi bi-bar-chart-fill me-2"></i>Son 14 Gün — Günlük Aktivite
+      </h6>
+      <span class="badge rounded-pill" style="background:var(--accent);font-size:0.72rem;">30 günlük veri</span>
+    </div>
+    <div class="bar-chart-wrap" id="barChart"></div>
+    <div class="chart-legend">
+      <span><span class="dot" style="background:var(--primary);"></span>Görüntülenme</span>
+      <span><span class="dot" style="background:var(--accent);"></span>WhatsApp Tıklaması</span>
+    </div>
+  </div>
+
+  <!-- İşletme Bilgileri -->
+  <div class="anasayfa-panel">
+    <h6 class="fw-bold mb-3" style="color:var(--primary);">
+      <i class="bi bi-shop me-2"></i>İşletme Bilgileri
+    </h6>
+    <div class="row g-3" style="font-size:0.9rem;">
+      {% if business.whatsapp_number %}
+      <div class="col-sm-6">
+        <span class="text-muted">WhatsApp:</span>
+        <a href="https://wa.me/{{ business.whatsapp_number|cut:'+' }}" target="_blank" rel="noopener" class="ms-1">
+          {{ business.whatsapp_number }}
+        </a>
+      </div>
+      {% endif %}
+      {% if business.instagram_url %}
+      <div class="col-sm-6">
+        <span class="text-muted">Instagram:</span>
+        <a href="{{ business.instagram_url }}" target="_blank" rel="noopener" class="ms-1">Profil</a>
+      </div>
+      {% endif %}
+      {% if business.website_url %}
+      <div class="col-sm-6">
+        <span class="text-muted">Web Sitesi:</span>
+        <a href="{{ business.website_url }}" target="_blank" rel="noopener" class="ms-1">{{ business.website_url }}</a>
+      </div>
+      {% endif %}
+      {% if business.slogan %}
+      <div class="col-12">
+        <span class="text-muted">Slogan:</span>
+        <span class="ms-1">{{ business.slogan }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<script id="grafik-veri" type="application/json">{{ gunluk_json }}</script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  const raw = document.getElementById('grafik-veri');
+  if (!raw) return;
+  let data;
+  try { data = JSON.parse(raw.textContent); } catch { return; }
+  if (!data.length) {
+    document.getElementById('barChart').innerHTML =
+      '<p class="text-muted small m-auto">Henüz yeterli veri yok.</p>';
+    return;
+  }
+
+  const maxVal = Math.max(1, ...data.map(d => Math.max(d.goruntulenme, d.wp)));
+  const wrap = document.getElementById('barChart');
+  wrap.innerHTML = '';
+
+  data.forEach(d => {
+    const pctV = Math.round((d.goruntulenme / maxVal) * 100);
+    const pctW = Math.round((d.wp / maxVal) * 100);
+    const label = d.tarih.slice(5).replace('-', '.');  // "MM.DD"
+
+    const grp = document.createElement('div');
+    grp.className = 'bar-group';
+    grp.title = `${d.tarih}: ${d.goruntulenme} görüntülenme, ${d.wp} WhatsApp`;
+    grp.innerHTML = `
+      <div class="bars">
+        <div class="bar views" style="height:${pctV}%;"></div>
+        <div class="bar wp"    style="height:${pctW}%;"></div>
+      </div>
+      <div class="bar-label">${label}</div>`;
+    wrap.appendChild(grp);
+  });
+})();
+</script>
+{% endif %}
+{% endblock %}
