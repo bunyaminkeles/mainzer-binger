@@ -373,15 +373,3 @@ def iletisim(request):
             )
             gonderildi = True
     return render(request, 'core/iletisim.html', {'gonderildi': gonderildi})
-
-
-@login_required
-def dashboard(request):
-    son_duyurular = Duyuru.objects.filter(yayinda=True).order_by('-olusturulma')[:5]
-    yaklasan = Etkinlik.objects.filter(tarih__gte=timezone.now().date()).order_by('tarih')[:5]
-    benim_ilanim = Ilan.objects.filter(sahip=request.user).order_by('-olusturulma')[:5]
-    return render(request, 'core/dashboard.html', {
-        'son_duyurular': son_duyurular,
-        'yaklasan': yaklasan,
-        'benim_ilanim': benim_ilanim,
-    })

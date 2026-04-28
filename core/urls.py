@@ -11,7 +11,6 @@ urlpatterns = [
     path('arama/', views.arama, name='arama'),
     path('rehber/belgeler/', rehber_views.belgeler, name='belgeler_federal'),
     path('iletisim/', views.iletisim, name='iletisim'),
-    path('dashboard/', views.dashboard, name='dashboard'),
 
     # Global forum — tüm şehir ve eyaletleri kapsar
     path('forum/', forum_views.genel_liste, name='forum_genel'),

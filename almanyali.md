@@ -962,4 +962,63 @@ ckeditor5/        → CKEditor 5 yüklemeleri
 
 ---
 
-*Son güncelleme: Nisan 2026 — §2 Hetzner hosting düzeltildi; §9 yeni CSS Grid sınıfları eklendi; §10 Aşama 2-3 tamamlandı olarak işaretlendi; §12 Render cron servisi kaldırıldı*
+## 23. KULLANICI DASHBOARDU
+
+### Genel Bilgi
+- **URL:** `/dashboard/` (name: `core:dashboard`)
+- **View:** `core/views.py:379` — `@login_required`
+- **Template:** `templates/core/dashboard.html`
+
+### Sayfa Düzeni
+```
+[Hero Banner]           — gradient arka plan, kullanıcı adı + avatar (ilk harf), şehir, üyelik tarihi
+[İstatistik Kartları]   — 4 kart: Duyurular | Etkinlik | İlanlarım | Forum Konularım
+[Hızlı Erişim Grid]     — 8 ikon link (4x2): Kaynaklar, Duyurular, Takvim, Forum, Blog, İlanlar, Yerler, Yerler (⚠️ Yerler iki kez var — bug)
+[Ana İçerik — 2 kolon]
+  Sol (col-lg-8):       — Son Duyurular | Son Forum Konuları | Yaklaşan Etkinlikler
+  Sağ (col-lg-4):       — Profil Özeti | İlanlarım | Son Blog Yazıları
+```
+
+### View Context Değişkenleri (`accounts/views.py`)
+
+| Değişken | Kaynak | Açıklama |
+|---|---|---|
+| `profil` | `Profil.objects.get_or_create(kullanici=request.user)` | Kullanıcı profil nesnesi |
+| `stadt` | İlk aktif şehir (`Stadt.objects.filter(aktiv=True).first()`) | Navigasyon linkleri için |
+| `eyalet_slug` | `stadt.eyalet.slug` (yoksa `'rlp'`) | Şehir URL prefixleri için |
+| `duyuru_sayisi` | `Duyuru.objects.filter(yayinda=True).count()` | Stat kart sayacı |
+| `etkinlik_sayisi` | `Etkinlik.objects.filter(tarih__gte=bugun).count()` | Stat kart sayacı |
+| `ilan_sayisi` | `Ilan.objects.filter(sahip=user, aktif=True).count()` | Stat kart sayacı |
+| `son_duyurular` | Sliced QS — son 5 yayındaki duyuru | Sol kolon liste |
+| `yaklasan` | Sliced QS — yaklaşan 5 etkinlik | Sol kolon liste |
+| `benim_ilanim` | Sliced QS — kullanıcının son 5 ilanı | Sağ kolon liste |
+| `son_konular` | Sliced QS — son 5 forum konusu | Sol kolon liste |
+| `son_bloglar` | Sliced QS — son 3 blog yazısı | Sağ kolon liste |
+| `benim_konularim` | `Konu.objects.filter(yazar=user).count()` | Stat kart sayacı |
+
+### Routing Notu
+`/dashboard/` URL'i `accounts.urls` → `accounts:dashboard` view'una gider.
+`core:dashboard` kaldırıldı (eski ölü kod). E-posta şablonlarında `accounts:dashboard` kullanılır.
+
+### CSS Özel Sınıfları (dashboard'a özgü)
+```
+.dashboard-hero       → gradient hero (--primary → --accent)
+.hero-avatar          → kullanıcı adı baş harfi dairesi
+.stat-card            → istatistik kartı (hover elevation)
+.stat-icon.blue/teal/orange/purple/red → ikon arka plan varyantları
+.quick-nav-grid       → 4 kolonlu hızlı erişim ızgarası
+.quick-nav-item       → tek hızlı erişim butonu
+.content-card         → içerik listesi kartı (header + satırlar)
+.list-item-link       → tıklanabilir liste satırı
+.list-item-plain      → tıklanamaz liste satırı
+.date-badge           → etkinlik tarih rozeti (gün + ay)
+.blog-mini            → blog yazısı mini satırı
+.forum-row-icon       → forum ikon kutusu (mor)
+.profile-box          → sağ kolon profil özet kutusu
+.empty-state          → boş durum mesajı
+.ilan-badge           → ilan durum rozeti (yeşil=yayında, sarı=inceleme)
+```
+
+---
+
+*Son güncelleme: Nisan 2026 — §2 Hetzner hosting düzeltildi; §9 yeni CSS Grid sınıfları eklendi; §10 Aşama 2-3 tamamlandı olarak işaretlendi; §12 Render cron servisi kaldırıldı; §23 Dashboard bölümü eklendi*

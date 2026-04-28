@@ -20,17 +20,25 @@ def dashboard(request):
     # Kullanıcının şehrini bul, yoksa ilk aktif şehri kullan
     stadt = Stadt.objects.select_related('eyalet').filter(aktiv=True).first()
 
-    son_duyurular  = Duyuru.objects.filter(yayinda=True).order_by('-olusturulma')[:5]
-    yaklasan       = Etkinlik.objects.filter(tarih__gte=timezone.now().date()).order_by('tarih')[:5]
-    benim_ilanim   = Ilan.objects.filter(sahip=request.user).order_by('-olusturulma')[:5]
-    son_konular    = Konu.objects.select_related('yazar', 'kategori').order_by('-guncelleme')[:5]
-    son_bloglar    = BlogYazisi.objects.filter(yayinda=True).order_by('-olusturulma')[:3]
+    bugun = timezone.now().date()
+    duyuru_sayisi   = Duyuru.objects.filter(yayinda=True).count()
+    etkinlik_sayisi = Etkinlik.objects.filter(tarih__gte=bugun).count()
+    ilan_sayisi     = Ilan.objects.filter(sahip=request.user, aktif=True).count()
+
+    son_duyurular   = Duyuru.objects.filter(yayinda=True).order_by('-olusturulma')[:5]
+    yaklasan        = Etkinlik.objects.filter(tarih__gte=bugun).order_by('tarih')[:5]
+    benim_ilanim    = Ilan.objects.filter(sahip=request.user).order_by('-olusturulma')[:5]
+    son_konular     = Konu.objects.select_related('yazar', 'kategori').order_by('-guncelleme')[:5]
+    son_bloglar     = BlogYazisi.objects.filter(yayinda=True).order_by('-olusturulma')[:3]
     benim_konularim = Konu.objects.filter(yazar=request.user).count()
-    eyalet_slug = stadt.eyalet.slug if stadt and stadt.eyalet else 'rlp'
+    eyalet_slug     = stadt.eyalet.slug if stadt and stadt.eyalet else 'rlp'
     return render(request, 'core/dashboard.html', {
         'profil': profil,
         'stadt': stadt,
         'eyalet_slug': eyalet_slug,
+        'duyuru_sayisi': duyuru_sayisi,
+        'etkinlik_sayisi': etkinlik_sayisi,
+        'ilan_sayisi': ilan_sayisi,
         'son_duyurular': son_duyurular,
         'yaklasan': yaklasan,
         'benim_ilanim': benim_ilanim,
