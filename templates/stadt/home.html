@@ -400,7 +400,7 @@
 </div>
 
 <!-- Niyet Seçici / Wizard -->
-<section style="background:#f0f7ff; border-top:1px solid #dbeafe; border-bottom:1px solid #dbeafe; padding:2.5rem 0; margin-top:1rem;">
+<section id="wizard-bolum" style="background:#f0f7ff; border-top:1px solid #dbeafe; border-bottom:1px solid #dbeafe; padding:2.5rem 0; margin-top:1rem; position:sticky; top:0; z-index:100;">
   <div class="container">
     <p class="text-center fw-semibold mb-1" style="color:var(--primary); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase;">{{ stadt.name }}'da Rehberiniz</p>
     <h2 class="text-center fw-bold mb-4" style="font-size:1.35rem;">Nereye yönlendirelim?</h2>
@@ -804,7 +804,11 @@
         let hedef = null;
         sections.forEach(s => { if (s.dataset.kat === kat) { s.style.display = ''; hedef = s; } });
         kart.classList.add('active');
-        if (hedef) hedef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (hedef) {
+          const wizardY = document.getElementById('wizard-bolum').offsetHeight;
+          const top = hedef.getBoundingClientRect().top + window.scrollY - wizardY;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
       }
     });
   });
