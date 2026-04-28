@@ -36,9 +36,9 @@
 
 {# Kapak resmi — yüklenen fotoğraf önce, yoksa URL #}
 {% if yer.kapak_foto or yer.kapak_resmi %}
-<div class="yer-kapak mb-0">
+<div class="yer-kapak mb-0" style="height:380px;overflow:hidden;">
   <img src="{% if yer.kapak_foto %}{{ yer.kapak_foto.url }}{% else %}{{ yer.kapak_resmi }}{% endif %}"
-       alt="{{ yer.ad }}" style="width:100%;height:auto;display:block;">
+       alt="{{ yer.ad }}" style="width:100%;height:100%;object-fit:cover;display:block;">
 </div>
 {% endif %}
 
