@@ -241,7 +241,10 @@ mainzer-binger/               # Proje kökü
 /accounts/                             → allauth (login, signup, logout...)
 /mesajlar/                             → kullanıcı DM sistemi
 /api/                                  → API endpointleri
-/lokal-uzmanlar/                       → businesses app
+/lokal-uzmanlar/                       → businesses app (liste)
+/lokal-uzmanlar/dashboard/             → işletme sahibi analitik kokpiti (@login_required)
+/lokal-uzmanlar/<kategori_slug>/       → kategoriye göre filtreli liste
+/api/businesses/analytics/             → JSON analitik endpoint (@login_required)
 /blog/<slug>/                          → blog yazısı canonical URL
 /almanya/duyurular/                    → Almanya geneli duyurular
 
@@ -500,6 +503,7 @@ is_business_module_active  # BooleanField — Lokal Uzmanlar modülünü açar/k
 
 **LocalBusiness**
 ```python
+owner         # FK → User (null=True) — işletme sahibi kullanıcı hesabı
 name, slug
 city          # FK → Stadt
 category      # FK → BusinessCategory
@@ -517,6 +521,7 @@ created_at, updated_at
 ```
 
 **BusinessAnalytics** → `business, date, views, whatsapp_clicks` (unique_together: business+date)
+- `date`: otomatik doldurulmaz; `get_or_create` çağrısında `date=timezone.localdate()` açıkça geçilmeli
 
 ### `core` app
 
@@ -1000,6 +1005,9 @@ ckeditor5/        → CKEditor 5 yüklemeleri
 `/dashboard/` URL'i `accounts.urls` → `accounts:dashboard` view'una gider.
 `core:dashboard` kaldırıldı (eski ölü kod). E-posta şablonlarında `accounts:dashboard` kullanılır.
 
+### Hızlı Erişim Grid
+8 ikon link (4×2): Kaynaklar, Duyurular, Takvim, Forum, Blog, İlanlar, Yerler, **Mesajlar**
+
 ### CSS Özel Sınıfları (dashboard'a özgü)
 ```
 .dashboard-hero       → gradient hero (--primary → --accent)
@@ -1021,4 +1029,58 @@ ckeditor5/        → CKEditor 5 yüklemeleri
 
 ---
 
-*Son güncelleme: Nisan 2026 — §2 Hetzner hosting düzeltildi; §9 yeni CSS Grid sınıfları eklendi; §10 Aşama 2-3 tamamlandı olarak işaretlendi; §12 Render cron servisi kaldırıldı; §23 Dashboard bölümü eklendi*
+## 24. LOKal UZMANLAR ANALİTİK KOKPİTİ
+
+### URL ve Dosyalar
+- **URL:** `/lokal-uzmanlar/dashboard/` (name: `businesses:dashboard`)
+- **View:** `businesses/views.py` → `business_dashboard` — `@login_required`
+- **Template:** `templates/businesses/dashboard.html`
+- **API:** `/api/businesses/analytics/` — `api/views.py` → `business_analytics_api` — `@login_required`
+
+### Erişim Koşulları
+1. Kullanıcı giriş yapmış olmalı
+2. `GlobalSetting.is_business_module_active = True` olmalı (yoksa 404)
+3. `LocalBusiness.owner = request.user` ve `is_published=True` eşleşmesi olmalı (yoksa boş durum gösterilir)
+
+### View Context (`business_dashboard`)
+| Değişken | Kaynak | Açıklama |
+|---|---|---|
+| `business` | `LocalBusiness.objects.get(owner=user, is_published=True)` | İşletme nesnesi (None olabilir) |
+| `analytics` | `{'total_views': int, 'total_whatsapp_clicks': int}` | Son 30 gün aggregate |
+| `gunluk_json` | JSON string | Son 14 günün günlük görüntülenme + WhatsApp verisi (grafik için) |
+
+### Sayfa Düzeni
+```
+[Biz Hero]          — gradient, işletme adı + kategori ikonu + aktiflik badge
+[4 Widget Kartı]    — Görüntülenme | WhatsApp Tıklama | Abonelik Paketi | Bitiş Tarihi
+[Bar Grafik]        — Son 14 gün, Vanilla JS ile render (kütüphane yok)
+[İşletme Bilgileri] — WhatsApp, Instagram, web sitesi, slogan
+[Boş Durum]        — owner eşleşmesi yoksa bilgi mesajı
+```
+
+### Grafik Mimarisi
+`<script id="grafik-veri" type="application/json">` tag'ine JSON gömülür.
+Vanilla JS `JSON.parse` ile okur, max değere göre normalize eder, `div.bar` elemanlarını `height: X%` inline style ile oluşturur.
+Tüm renkler `var(--primary)` ve `var(--accent)` CSS token kullanır.
+
+### AI Üretim Uyarısı
+Gemini ile üretilen kod proje köküne orphan dosyalar bıraktı (`models.py`, `views.py`, `urls.py`, `dashboard.html`, `0002_*.py`).
+`git add -A` yerine dosya adı bazlı staging yapılmalı; AI üretim sonrası `git status` ile kök dizin kontrol edilmeli.
+
+### API Yanıt Yapısı
+```json
+{
+  "status": "success",
+  "business_id": 1,
+  "business_name": "...",
+  "period_days": 30,
+  "analytics": {
+    "views": 142,
+    "whatsapp_clicks": 37
+  }
+}
+```
+
+---
+
+*Son güncelleme: Nisan 2026 — §2 Hetzner hosting düzeltildi; §5 analitik URL'ler eklendi; §6 LocalBusiness owner alanı eklendi; §9 yeni CSS Grid sınıfları eklendi; §10 Aşama 2-3 tamamlandı olarak işaretlendi; §12 Render cron servisi kaldırıldı; §23 Dashboard bölümü eklendi; §24 Lokal Uzmanlar Analitik Kokpit eklendi*
