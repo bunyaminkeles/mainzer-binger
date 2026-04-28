@@ -580,8 +580,7 @@
                 {% endif %}
                 <div class="card-body d-flex flex-column">
                   <h6 class="card-title mb-1">
-                    <a href="{% if yer.website %}{{ yer.website }}{% elif yer.icerik %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% elif yer.maps_url %}{{ yer.maps_url }}{% else %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% endif %}"
-                       {% if yer.website or yer.maps_url %}target="_blank" rel="noopener"{% endif %}
+                    <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/"
                        class="text-dark text-decoration-none stretched-link">{{ yer.ad }}</a>
                   </h6>
                   {% if yer.aciklama %}
@@ -645,8 +644,7 @@
                 {% endif %}
                 <div class="card-body d-flex flex-column">
                   <h6 class="card-title mb-1">
-                    <a href="{% if yer.website %}{{ yer.website }}{% elif yer.icerik %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% elif yer.maps_url %}{{ yer.maps_url }}{% else %}/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/{% endif %}"
-                       {% if yer.website or yer.maps_url %}target="_blank" rel="noopener"{% endif %}
+                    <a href="/{{ eyalet_slug }}/{{ stadt.slug }}/yerler/{{ yer.pk }}/"
                        class="text-dark text-decoration-none stretched-link">{{ yer.ad }}</a>
                   </h6>
                   {% if yer.aciklama %}
