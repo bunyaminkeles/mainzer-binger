@@ -53,7 +53,7 @@ class YerAdmin(ModelAdmin):
     form = YerAdminForm
     compressed_fields = True
     warn_unsaved_changes = True
-    list_display  = ['yer_adi', 'tur', 'kategori_adi', 'eyalet', 'stadt', 'aktif_flag', 'paket', 'paket_bitis']
+    list_display  = ['yer_adi', 'tur', 'kategori_adi', 'eyalet', 'stadt', 'aktif_flag']
     list_display_links = ['yer_adi']
     list_filter   = ['tur', 'paket', 'aktif', 'kategori', 'eyalet', 'stadt', 'scope']
     list_editable = []
