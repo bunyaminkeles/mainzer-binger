@@ -97,16 +97,21 @@
   {% if fotolar %}
   <div class="row g-2 mb-4">
     {% for foto in fotolar %}
-    {% with src=foto.foto.url|default:foto.url %}
-    {% if src %}
+    {% if foto.foto %}{% with src=foto.foto.url %}
     <div class="col-4 col-md-3">
       <a href="{{ src }}" target="_blank">
         <img src="{{ src }}" alt="{{ yer.ad }} fotoğraf {{ forloop.counter }}"
              class="img-fluid rounded" style="height:120px;width:100%;object-fit:cover">
       </a>
     </div>
+    {% endwith %}{% elif foto.url %}
+    <div class="col-4 col-md-3">
+      <a href="{{ foto.url }}" target="_blank">
+        <img src="{{ foto.url }}" alt="{{ yer.ad }} fotoğraf {{ forloop.counter }}"
+             class="img-fluid rounded" style="height:120px;width:100%;object-fit:cover">
+      </a>
+    </div>
     {% endif %}
-    {% endwith %}
     {% endfor %}
   </div>
   {% endif %}
