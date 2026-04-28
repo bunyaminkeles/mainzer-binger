@@ -801,8 +801,10 @@
       wizardKartlar.forEach(k => k.classList.remove('active'));
       if (!isActive) {
         const kat = kart.getAttribute('href').replace('#kategori-', '');
-        sections.forEach(s => { if (s.dataset.kat === kat) s.style.display = ''; });
+        let hedef = null;
+        sections.forEach(s => { if (s.dataset.kat === kat) { s.style.display = ''; hedef = s; } });
         kart.classList.add('active');
+        if (hedef) hedef.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
