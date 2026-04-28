@@ -138,6 +138,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{% url 'accounts:dashboard' %}"><i class="bi bi-house me-1"></i>Ana Sayfam</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:profil' %}"><i class="bi bi-person-gear me-1"></i>Profilim</a></li>
               <li><a class="dropdown-item" href="{% url 'mesajlar:gelen_kutusu' %}">
                 <i class="bi bi-chat-dots me-1"></i>Mesajlar
                 {% if okunmamis %}<span class="badge bg-danger ms-1" style="font-size:.65rem">{{ okunmamis }}</span>{% endif %}
