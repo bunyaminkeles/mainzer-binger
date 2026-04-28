@@ -20,83 +20,95 @@
   }
   .blog-card {
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: transform 0.18s, box-shadow 0.18s;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-decoration: none;
     color: inherit;
+    height: 130px;
   }
   .blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.10);
     color: inherit;
   }
   .blog-card-img {
-    width: 100%;
-    height: 260px;
+    width: 160px;
+    min-width: 160px;
+    height: 100%;
     object-fit: cover;
-    object-position: top;
+    object-position: center;
     display: block;
   }
   .blog-card-placeholder {
-    width: 100%;
-    height: 200px;
+    width: 160px;
+    min-width: 160px;
+    height: 100%;
     background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 2rem;
     color: #a0aec0;
   }
   .blog-card-body {
-    padding: 1.25rem;
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    flex: 1;
   }
   .blog-card-title {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
+    margin-bottom: 0.3rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .blog-card:hover .blog-card-title { color: var(--primary); }
   .blog-card-ozet {
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 1rem;
+    line-height: 1.5;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.4rem;
   }
   .blog-card-meta {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.78rem;
+    gap: 0.4rem;
+    font-size: 0.73rem;
     color: #a0aec0;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--border);
   }
   .blog-card-meta .author-avatar {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background: var(--primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 700;
+    flex-shrink: 0;
   }
-  .blog-read-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--primary);
+  @media (max-width: 480px) {
+    .blog-card { height: 110px; }
+    .blog-card-img, .blog-card-placeholder { width: 110px; min-width: 110px; }
   }
 </style>
 {% endblock %}
@@ -115,9 +127,9 @@
 
 <div class="container pb-5" style="margin-top: 2.5rem;">
   {% if yazilar %}
-  <div class="row g-4">
+  <div class="row g-2">
     {% for y in yazilar %}
-    <div class="col-12 col-sm-6 col-lg-4">
+    <div class="col-12 col-lg-6">
       <a href="{% if stadt %}/{{ eyalet_slug }}/{{ stadt.slug }}/blog/{{ y.slug }}/{% else %}/{{ eyalet_slug }}/blog/{{ y.slug }}/{% endif %}" class="blog-card">
         {% if y.kapak_resmi %}
           <img src="{{ y.kapak_resmi }}" alt="{{ y.baslik }}" class="blog-card-img" loading="lazy">
@@ -125,19 +137,19 @@
           <div class="blog-card-placeholder"><i class="bi bi-pencil-square"></i></div>
         {% endif %}
         <div class="blog-card-body">
-          <h5 class="blog-card-title">{{ y.baslik }}</h5>
-          <p class="blog-card-ozet">{{ y.ozet|default:y.icerik|striptags|truncatechars:180 }}</p>
+          <div>
+            <h5 class="blog-card-title">{{ y.baslik }}</h5>
+            <p class="blog-card-ozet">{{ y.ozet|default:y.icerik|striptags|truncatechars:120 }}</p>
+          </div>
           <div class="blog-card-meta">
-            <a href="{% url 'mesajlar:baslat' y.yazar.username %}" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted" title="Mesaj gönder">
-              <span class="author-avatar">{{ y.yazar.username|first|upper }}</span>
-              <span>{{ y.yazar.username }}</span>
-            </a>
+            <span class="author-avatar">{{ y.yazar.username|first|upper }}</span>
+            <span>{{ y.yazar.username }}</span>
             {% if y.scope == 'genel' %}
-              <span class="ms-1 badge" style="background:#e8f4fd;color:#2b6cb0;font-weight:500;font-size:0.72rem;">🇩🇪 Almanya</span>
+              <span class="badge" style="background:#e8f4fd;color:#2b6cb0;font-weight:500;font-size:0.68rem;">🇩🇪 Almanya</span>
             {% elif y.scope == 'eyalet' and y.eyalet %}
-              <span class="ms-1 badge" style="background:#f0fdf4;color:#276749;font-weight:500;font-size:0.72rem;">{{ y.eyalet.name }}</span>
+              <span class="badge" style="background:#f0fdf4;color:#276749;font-weight:500;font-size:0.68rem;">{{ y.eyalet.name }}</span>
             {% elif y.scope == 'stadt' and y.stadt %}
-              <span class="ms-1 badge" style="background:#fefce8;color:#92400e;font-weight:500;font-size:0.72rem;">{{ y.stadt.name }}</span>
+              <span class="badge" style="background:#fefce8;color:#92400e;font-weight:500;font-size:0.68rem;">{{ y.stadt.name }}</span>
             {% endif %}
             <span class="ms-auto">{{ y.olusturulma|date:"d.m.Y" }}</span>
           </div>
