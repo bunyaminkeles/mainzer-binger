@@ -72,6 +72,7 @@ def get_dashboard_stats():
 
     # ── Onay bekleyenler ────────────────────────────
     pending_ilanlar = Ilan.objects.filter(aktif=True, onaylandi=False).order_by('-olusturulma')
+    pending_duyurular = Duyuru.objects.filter(yayinda=False, kaynak_tipi='kullanici').order_by('-olusturulma')
 
     # ── Son kayıtlar ────────────────────────────────
     recent_users = all_users.order_by('-date_joined')[:12]
@@ -166,6 +167,8 @@ def get_dashboard_stats():
         # Onay
         'pending_ilanlar': pending_ilanlar,
         'pending_ilanlar_count': pending_ilanlar.count(),
+        'pending_duyurular': pending_duyurular,
+        'pending_duyurular_count': pending_duyurular.count(),
 
         # Son kullanıcılar
         'recent_users': recent_users,
