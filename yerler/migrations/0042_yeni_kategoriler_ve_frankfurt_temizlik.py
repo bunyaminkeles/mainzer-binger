@@ -1,26 +1,16 @@
 from django.db import migrations
 
 def ileri(apps, schema_editor):
-    YerKategori = apps.get_model('yerler', 'YerKategori')
     Yer = apps.get_model('yerler', 'Yer')
 
-    yeni = [
-        ('muze',       'Müze',           'yer', 10),
-        ('tarihi_yer', 'Tarihi Yer',     'yer', 11),
-        ('dini_yapi',  'Dini Yapı',      'yer', 12),
-        ('doga',       'Doğa & Park',    'yer', 13),
-        ('lezzet',     'Lezzet & Pazar', 'yer', 14),
-        ('kultur',     'Kültür & Sanat', 'yer', 15),
-    ]
-    for slug, ad, tur, sira in yeni:
-        YerKategori.objects.get_or_create(slug=slug, defaults={'ad': ad, 'tur': tur, 'sira': sira})
-
-    # Duplikat temizle
+    # Duplikat eski kayıtları sil
     for pk in [284, 282]:
         Yer.objects.filter(pk=pk).delete()
 
-    # Städel Museum kategori düzelt
-    Yer.objects.filter(pk=283).update(kategori='muze')
+    # JSON'dan eklenen tüm Frankfurt gezi yerlerini gezi kategorisine al
+    gezi_pkler = [283, 358, 359, 360, 361, 362, 363, 364, 365,
+                  366, 367, 368, 369, 370, 371, 372, 373, 374, 375]
+    Yer.objects.filter(pk__in=gezi_pkler).update(kategori='gezi')
 
 def geri(apps, schema_editor):
     pass
